@@ -1,0 +1,65 @@
+function! Perldoc(pod)
+    let pod = a:pod
+    if !strlen(pod)
+        setlocal iskeyword=a-z,A-Z,48-57,_,:
+        let pod = expand('<cword>')
+        setlocal iskeyword<
+    endif
+
+    set shellredir:>
+    let perldoc = system('pod2vim ' . shellescape(pod))
+    set shellredir&
+
+	" need argument
+    if !strlen(perldoc)
+        echohl ErrorMsg
+        echo 'No documentation found for: ' . pod
+        echohl None
+        return
+    endif
+
+	" need to set g:Perldoc_path to store cache
+    if !strlen(g:Perldoc_path)
+        echohl ErrorMsg
+        echo 'Please supply value for g:Perldoc_path first'
+        echohl None
+        return
+    endif
+
+    " perldoc for e.g. IO::File (with double colon)
+    let pod_name_with_hyphes = substitute(pod, '::', '-', 'g')
+    let file_path = g:Perldoc_path . pod_name_with_hyphes
+    let file_path = fnameescape(file_path)
+    let file_as_list = split(perldoc, '\n')
+
+    " write to cache file
+    try
+        call writefile(file_as_list, file_path)
+    catch
+        echohl ErrorMsg
+        echo 'Failed to write to file : ' . file_path
+        echohl None
+        return
+    endtry
+
+    " Perldoc in new vertical window
+    let winnum = bufwinnr(g:__perldoc__)
+    if winnum == -1
+        execute 'vnew'
+    else
+        if winnr() != winnum
+            exe winnum . 'wincmd w'
+        endif
+    endif
+
+    execute 'wincmd L'
+    execute 'vertical resize 80'
+
+    execute 'silent edit ' . file_path
+
+    let g:__perldoc__ = pod_name_with_hyphes
+endfunction
+
+let g:__perldoc__ = '__perldoc__'
+command! -nargs=? Perldoc :call Perldoc('<args>')
+

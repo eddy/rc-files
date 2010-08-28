@@ -1,0 +1,27 @@
+Global setup:
+
+ Download and install Git
+  git config --global user.name "Eddy Tan"
+  git config --global user.email eddy.net@gmail.com
+        
+
+Next steps:
+
+  mkdir rcfiles
+  cd rcfiles
+  git init
+  touch README
+  git add README
+  git commit -m 'first commit'
+  git remote add origin git@github.com:eddy/rcfiles.git
+  git push origin master
+      
+
+Existing Git Repo?
+
+  cd existing_git_repo
+  git remote add origin git@github.com:eddy/rcfiles.git
+  git push origin master
+      
+
+

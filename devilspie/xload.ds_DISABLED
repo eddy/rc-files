@@ -1,0 +1,9 @@
+(if 
+    (matches (application_name) "xload.*") 
+    (begin
+        (pin)
+        (undecorate) 
+        (skip_pager)
+        (skip_tasklist)
+    )
+)

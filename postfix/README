@@ -1,0 +1,52 @@
+After install postfix, run:
+
+  $ sudo dpkg-reconfigure postfix
+
+Then do:
+
+* update /etc/postfix/main.cf
+* update /etc/aliases
+* update /etc/postfix/generic
+
+Then run:
+
+  	$ sudo postconf -e 'home_mailbox = Maildir/'
+  	$ sudo postconf -e 'mailbox_command ='
+  	$ sudo postmap generic
+  	$ sudo newaliases
+  	$ sudo service postfix reload
+  	$ sudo service postfix stop
+  	$ sudo service postfix start
+
+Test it by running the following:
+
+	$ telnet localhost 25
+	Trying ::1...
+	Connected to localhost.
+	Escape character is '^]'.
+	220 et6339-desktop ESMTP Postfix (Ubuntu)
+	mail from: root@localhost
+	250 2.1.0 Ok
+	rcpt to: et6339@localhost
+	250 2.1.5 Ok
+	data
+	354 End data with <CR><LF>.<CR><LF>
+	Subject: test from localhost
+	
+	Cheers,
+	 admin
+	
+	.
+	250 2.0.0 Ok: queued as 32711276AD
+	quit
+	221 2.0.0 Bye
+	Connection closed by foreign host.
+
+	$ mailq
+	Mail queue is empty
+
+Second test is to send an email to a valid internet email from mutt.
+
+*If* mailq is not empty, it can be deleted by: sudo postsuper -d MSGID
+
+

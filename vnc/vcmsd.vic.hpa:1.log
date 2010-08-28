@@ -1,0 +1,89 @@
+_XSERVTransmkdir: ERROR: euid != 0,directory /tmp/.X11-unix will not be created.
+_XSERVTransSocketUNIXCreateListener: mkdir(/tmp/.X11-unix) failed, errno = 2
+_XSERVTransMakeAllCOTSServerListeners: failed to create listener for local
+
+Xvnc version 4.0 - built Nov 24 2004 16:08:56
+Underlying X server release 60801000, The X.Org Foundation
+
+
+Tue Mar 31 13:04:44 2009
+ vncext:      VNC extension running!
+ vncext:      Listening for VNC connections on port 5901
+ vncext:      Listening for HTTP connections on port 5801
+ vncext:      created VNC server for screen 0
+error opening security policy file /usr/X11R6/lib/X11/xserver/SecurityPolicy
+Could not init font path element /usr/X11R6/lib/X11/fonts/TTF/, removing from list!
+Could not init font path element /usr/X11R6/lib/X11/fonts/CID/, removing from list!
+xset:  bad font path element (#37), possible causes are:
+    Directory does not exist or has wrong permissions
+    Directory missing fonts.dir
+    Incorrect font server address or syntax
+startkde: Starting up...
+kbuildsycoca running...
+Server has no DPMS extension
+Xlib:  extension "XFree86-Misc" missing on display "vcmsd.vic.hpa:1.0".
+server does not have extension for "r rate" option
+X Error: BadValue (integer parameter out of range for operation) 2
+  Major opcode:  102
+  Minor opcode:  0
+  Resource id:  0x0
+X Error: BadValue (integer parameter out of range for operation) 2
+  Major opcode:  102
+  Minor opcode:  0
+  Resource id:  0x0
+Klipper is already running!
+/usr/lib/python2.3/site-packages/gtk-2.0/gtk/__init__.py:90: GtkDeprecationWarning: gtk.mainloop is deprecated, use gtk.main instead
+  self.warn(message, DeprecationWarning)
+
+Tue Mar 31 13:05:02 2009
+ Connections: accepted: 10.3.16.139::1498
+ SConnection: Client needs protocol version 3.4
+ SConnection: Client uses unofficial protocol version 3.4
+ SConnection: Assuming compatibility with version 3.3
+
+Tue Mar 31 13:05:06 2009
+ VNCSConnST:  Server default pixel format depth 16 (16bpp) little-endian rgb565
+
+Tue Mar 31 13:05:07 2009
+ VNCSConnST:  Client pixel format depth 16 (16bpp) little-endian rgb565
+
+Tue Mar 31 13:05:08 2009
+ VNCSConnST:  Client pixel format depth 16 (16bpp) little-endian rgb565
+OggS-SEEK: at 7872 want 1032 got 0 (diff-requested -6840)
+/usr/lib/python2.3/site-packages/gtk-2.0/gtk/__init__.py:90: GtkDeprecationWarning: gtk.mainquit is deprecated, use gtk.main_quit instead
+  self.warn(message, DeprecationWarning)
+X Error: BadWindow (invalid Window parameter) 3
+  Major opcode:  7
+  Minor opcode:  0
+  Resource id:  0x1800003
+X Error: BadWindow (invalid Window parameter) 3
+  Major opcode:  6
+  Minor opcode:  0
+  Resource id:  0x1800003
+startkde: Shutting down...
+klauncher: Exiting on signal 1
+DCOP Cleaning up dead connections.
+warning: leaving MCOP Dispatcher and still 11 object references alive.
+  - Arts::SampleStorage
+  - Arts::Synth_MULTI_ADD
+  - Arts::Synth_MULTI_ADD
+  - Arts::Synth_PLAY
+  - Arts::StereoVolumeControl
+  - Arts::StereoEffectStack
+  - Arts::Synth_BUS_DOWNLINK
+  - Arts::SoundServerV2
+  - Arts::Synth_BUS_UPLINK
+  - Arts::AudioManagerClient
+  - Arts::Synth_AMAN_PLAY
+warning: leaving MCOP Dispatcher and still 113 types alive.
+startkde: Running shutdown scripts...
+startkde: Done.
+
+Tue Mar 31 13:12:52 2009
+ Connections: closed: 10.3.16.139::1498 (Clean disconnection)
+ SMsgWriter:  framebuffer updates 9285
+ SMsgWriter:    copyRect rects 182, bytes 2912
+ SMsgWriter:    hextile rects 12651, bytes 23590845
+ SMsgWriter:    ZRLE rects 2, bytes 247660
+ SMsgWriter:    raw bytes equivalent 46371122, compression ratio 1.945219
+X connection to vcmsd.vic.hpa:1.0 broken (explicit kill or server shutdown).

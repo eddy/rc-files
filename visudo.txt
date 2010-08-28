@@ -1,0 +1,26 @@
+# /etc/sudoers
+#
+# This file MUST be edited with the 'visudo' command as root.
+#
+# See the man page for details on how to write a sudoers file.
+#
+
+# Host alias specification
+
+# User alias specification
+User_Alias      USERS = et6339
+
+# Cmnd alias specification
+Cmnd_Alias      NTPDATE = /usr/sbin/ntpdate
+
+# Defaults
+
+Defaults    !lecture,tty_tickets,!fqdn
+
+# Members of the admin group may gain root privileges
+%admin  ALL=(ALL) ALL
+
+# User privilege specification
+# NOTE: NOPASSWD _has_ to be in the last line *HELL!@#*
+root    ALL=(ALL) ALL
+USERS   ALL = NOPASSWD: NTPDATE

@@ -1,0 +1,60 @@
+127.0.0.1	localhost
+127.0.1.1	et6339-desktop
+
+# Centrelink
+10.3.64.95    vcmsd.vic.hpa vcmsd
+10.3.64.96    vcmsp.vic.hpa vcmsp
+10.3.64.97    vcmsb.vic.hpa vcmsb
+10.2.54.15    vcmsr.nsw.hpa vcmsr
+10.120.133.3  cldomino.salmat.com.au cldomino
+# 10.6.64.45  cldomino.act.hpa cldomino
+
+# MIPS
+10.3.64.45  misappvic.vic.hpa misappvic
+10.2.64.44  misappnsw.nsw.hpa misappnsw
+
+# barr server
+10.3.64.19  odin.vic.hpa odin
+10.7.41.23  iris3.qld.hpa iris.qld.hpa iris
+10.7.41.25  phoenix.qld.hpa phoenix
+10.2.64.171 pbursyd1.nsw.hpa pbursyd1
+10.2.64.172 pbursyd2.nsw.hpa pbursyd2
+10.8.64.25  sabarr
+10.9.64.160 wabarr
+
+# IT-Dev box
+10.3.64.151 appdev01.vic.hpa    appdev01
+10.3.64.31  robin.vic.hpa robin
+10.3.64.30  batman.vic.hpa batman
+10.3.64.154 appdev04.vic.hpa appdev04
+10.3.66.84  appsvr04.vic.hpa appsvr04
+10.3.64.15  mel4app05pv.vic.hpa mel4app
+10.3.64.215 mel4dev05pv.vic.hpa mel4dev
+
+# Medicare - ACT
+10.6.200.46 client-gw2-mip-madev.act.hpa madev.act.hpa madev
+10.6.64.44 sybill.act.hpa sybill
+10.6.70.10 dolly.act.hpa dolly
+
+# Telstra box
+10.3.199.1 mqdev2.vic.hpa mqdev2
+10.3.64.232 thor2.vic.hpa thor2
+10.3.64.124 vs-telapp-441.vic.hpa telapp-441
+
+# Origin test box
+10.3.64.64 teldev01.vic.hpa teldev01
+10.3.64.65 jord2.vic.hpa jord2
+
+# eDD
+10.2.64.160 monsyd1.nsw.hpa monsyd1 edd
+
+# Bendigo
+10.113.145.9 aixmbk10 mbk10
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts

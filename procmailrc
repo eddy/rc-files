@@ -1,0 +1,268 @@
+#
+# Run in conjunction with /etc/procmailrc
+#
+
+LOG = "
+======================================================
+"
+HOME=/users/et6339
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/.procmaillog
+
+# :0fhw
+# * ^Content-Type: application/x-pkcs7-mime; name="smime.p7m"
+# | /usr/bin/formail -I "Content-Type:" -X "" ; cat $HOME/.smimeHeaders.txt ; echo
+
+#
+# HPA
+#
+SHELL=/bin/bash
+LINEBUF=4096
+PATH=/bin:/usr/bin:/usr/local/bin
+VERBOSE=on
+
+
+############################################################################
+# Igonore EVERYTHING else BUT the one we like to read
+#
+:0
+* ^From.*incident.report@dont.reply
+* ^Subject: Hung Centrelink Process
+{
+    :0 c
+    | formail -X From: -X Subject: -cs /users/et6339/sourcebin/pager_me.pl
+
+    :0
+    mail_notified/
+}
+
+:0
+* ^From.*et6339@hpa.com.au
+* ^Subject: Incident from disk space monitor vcmsp.vic.hpa.*
+{
+    :0 c
+    | formail -X From: -X Subject: -cs /users/et6339/sourcebin/pager_me.pl
+
+    :0
+    mail_notified/
+}
+
+:0
+* ^From.*
+/dev/null
+
+
+############################################################################
+# Consume the following emails before notifications are sent
+# do NOT use it! It's much better to ignore everything and send only
+# The ones we're interested in.
+# 
+# :0
+# * ^Return-Path:.*vcmsd
+# mail_ignored
+# 
+# :0
+# * ^Subject:.*could not send message for past
+# mail_ignored
+# 
+# :0
+# * ^From: root@vcmsd.vic.hpa
+# * ^Subject: Cron.*/usr/bin/fetchmail
+# mail_ignored/
+# 
+# :0
+# * ^From: .*Eddy.Tan@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^From: .*AnnMaree.Pinna@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^From: .*lucy.tabone@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^Subject: *HEAT Call Assignments
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*National HEAT Call Reference.*
+# mail_ignored/
+# 
+# # Ignore file not receive warning
+# # Only want to care IF the file is at expire state
+# :0
+# * From.*incident.report@dont.reply
+# * ^Subject: *Unprocessed Centrelink Files
+# {
+#     :0B:
+#     * Expiry is nigh!.*
+#     mail_ignored/
+# }
+# 
+# # Temporarily ignore I#PYCH39
+# :0
+# * From.*incident.report@dont.reply
+# * ^Subject: *Unprocessed Centrelink Files
+# {
+#     :0B:
+#     * /cmsdata/prod/client/data/problem/.*I\#PYCH39.*
+#     mail_ignored/
+# }
+# 
+# :0
+# * ^Subject: .*annual leave.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*Missing.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*Assignment for HEAT call.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*WFH.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*work from home.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*MA.*
+# mail_ignored/
+# 
+# :0
+# * ^Subject: .*Medicare.*
+# mail_ignored/
+# 
+# :0
+# * ^Cc: .*Medicare Development.*
+# mail_ignored/
+# 
+# :0
+# * ^To: .*Medicare Development.*
+# mail_ignored/
+# 
+# :0
+# * ^From: .*bill.frost@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^To: .*bill.frost@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^From: .*Rob.Charlton@hpa.com.au
+# mail_ignored/
+# 
+# :0
+# * ^Cc: .*Rob.Charlton@hpa.com.au
+# mail_ignored/
+# 
+# 
+# ############################################################################
+# # Send notifications for all other emails and store the emails
+# #
+# 
+# :0 c
+# | formail -X From: -X Subject: -cs /users/et6339/sourcebin/pager_me.pl
+# 
+# :0
+# mail_notified/
+# 
+
+######################################################################
+
+#
+# Junkmail - why do we need to keep this?
+#
+# :0
+# * ^Subject: Email Notification: A New Resource
+# office-junkmail/
+
+#
+# Host alert - delete them, why bother to keep them?
+#
+# :0
+# * ^Subject: Host DOWN alert.*
+# # hostalert/
+# /dev/null
+
+#
+# Temporary CC during break - has to be here to CC everything but above
+# this line
+#
+# :0
+# * ^From.*
+# {
+#    :0 c
+#    ! eddy_away@yahoo.com
+# }
+
+#
+# Web report, stats, etc...
+#
+# :0
+# * ^Subject:.*Webalizer Stats:.*
+# * ^From:.*root@infoxchange.net.au
+# webalizer/
+# 
+# :0
+# * ^From.*root@atlas1.onthe.net.au
+# * ^Subject:.*Mail Server Report.*
+# report/
+# 
+# :0
+# * From.*support-rt@onthe.net.au
+# * ^Subject.*\[RT \#[0-9]+\].*
+# RT/
+
+#
+# Spams (from zeus filtering?) Check this folder regularly
+#
+# :0
+# * ^X-Spam-Status: Yes,.*
+# spam/
+
+######################################################################
+# Below rules to filter message's body 
+# :0B:
+# * blah bulakana test
+# friend/
+#
+# :0
+# * From.*ups@office.infoxchange.net.au
+# {
+#     :0B:
+#     * Communications with UPS.*
+#     /dev/null
+# }
+
+
+#
+# Friends list
+#
+
+# Bounced anything from erick with the size > 300Kb
+# :0
+# * From.*ewirawan@doxa.org.au
+# * $ > 81920
+# {
+#    LOG="Bouncing (message too big!) ${LOG}"
+#    EXITCODE=77
+#    HOST
+# }
+
+# :0
+# * To: shead@onthe.net.au
+# {
+#   :0 c
+#   ! shead2@onthe.net.au
+#   :0
+#   away/
+# }
+

@@ -1,0 +1,9 @@
+# m h  dom mon dow   command
+# */10 * * * * sudo /usr/sbin/ntpdate exchange2k.vic.hpa 0.pool.ntp.org 1.pool.ntp.org  >> /tmp/ntpdate.est.log 2>&1
+
+# Wallpaper roll-out... Reload Background Image
+# 0,10,20,30,40,50 * * * * killall -USR1 xfdesktop
+
+# fastri server - speed up ruby ri lookup
+# @reboot /usr/bin/fastri-server
+

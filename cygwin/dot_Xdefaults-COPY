@@ -1,0 +1,149 @@
+! Xft settings
+Xft.dpi: 96
+Xft.antialias:  1
+Xft.hinting:    1
+Xft.rgba:       rgb
+
+!COLOR
+*background:     #121212
+!black
+*color0:         #000000
+*color8:         #666666
+!red
+*color1:         #cc6666
+*color9:         #ff6666
+!green
+*color2:         #33cc66
+*color10:        #66ff66
+!brown/yellow
+*color3:         #cc9933
+*color11:        #ffff66
+!blue
+*color4:         #3366cc
+*color12:        #6699ff
+!magenta
+*color5:         #cc33cc
+*color13:        #ff66ff
+!cyan
+*color6:         #33cccc
+*color14:        #33ffff
+!white
+*color7:         #cccccc
+*color15:        #ffffff
+*foreground:     #DDDDDD
+
+! XTerm settings
+XTerm*pointerShape:     arrow
+XTerm*toolBar: false
+XTerm*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+XTerm*boldMode: false
+XTerm*boldFont: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+XTerm*pointerColor:     navyblue
+XTerm*pointerColorBackground:   White
+XTerm*borderColor:      RoyalBlue
+XTerm*highlight:        RoyalBlue
+XTerm*saveLines:        5000
+XTerm*loginShell:       false
+XTerm*vt100*geometry:   122x68
+XTerm*termName:  xterm-256color
+xterm*reverseVideo: false
+xterm*faceSize: 11
+! XTerm*font: xft:DejaVu Sans Mono:size=10
+! xterm*faceName: Mono
+
+! rxvt-unicode setting
+! urxvt*faceSize: 11
+URxvt*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+URxvt*boldFont: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+URxvt.insecure:         true
+URxvt.visualBell:       true
+URxvt.pastableTabs:     false
+URxvt.pointerShape:     arrow
+URxvt.transparent: true
+URxvt.shading: 15
+URxvt.toolBar: false
+URxvt.boldMode: false
+URxvt.borderColor:      RoyalBlue
+URxvt.saveLines:        5000
+URxvt.loginShell:       false
+URxvt.vt100*geometry:   122x68
+URxvt.termName: rxvt-unicode
+URxvt.cursorColor:  #dc74d1
+URxvt.pointerColor: #dc74d1
+URxvt.background:   #0e0e0e
+URxvt.color0:       #000000
+URxvt.color8:       #8b8f93
+URxvt.color1:       #dc74d1
+URxvt.color9:       #dc74d1
+URxvt.color2:       #33cc66
+URxvt.color10:      #66ff66
+URxvt.color3:       #dfe37e
+URxvt.color11:      #dfe37e
+URxvt.color5:       #9e88f0
+URxvt.color13:      #9e88f0
+URxvt.color6:       #73f7ff
+URxvt.color14:      #73f7ff
+URxvt.color7:       #d8d8d8
+URxvt.color15:      #d8d8d8
+URxvt.colorBD:  white
+URxvt.colorIT:  green
+URxvt.underlineColor:   yellow
+URxvt.throughColor:     #8080f0
+URxvt.highlightColor:   RoyalBlue
+
+! plain rxvt setting
+Rxvt*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+Rxvt*boldFont: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+Rxvt.insecure:         true
+Rxvt.visualBell:       true
+Rxvt.pastableTabs:     false
+Rxvt.pointerShape:     arrow
+Rxvt.toolBar: false
+Rxvt.boldMode: false
+Rxvt.borderColor:      RoyalBlue
+Rxvt.saveLines:        5000
+Rxvt.loginShell:       false
+Rxvt.vt100*geometry:   122x68
+Rxvt.termName: rxvt-unicode
+Rxvt.cursorColor:  #dc74d1
+Rxvt.pointerColor: #dc74d1
+Rxvt.background:   #0e0e0e
+Rxvt.color0:       #000000
+Rxvt.color8:       #8b8f93
+Rxvt.color1:       #dc74d1
+Rxvt.color9:       #dc74d1
+Rxvt.color2:       #33cc66
+Rxvt.color10:      #66ff66
+Rxvt.color3:       #dfe37e
+Rxvt.color11:      #dfe37e
+Rxvt.color5:       #9e88f0
+Rxvt.color13:      #9e88f0
+Rxvt.color6:       #73f7ff
+Rxvt.color14:      #73f7ff
+Rxvt.color7:       #d8d8d8
+Rxvt.color15:      #d8d8d8
+Rxvt.colorBD:  white
+Rxvt.colorIT:  green
+Rxvt.underlineColor:   yellow
+Rxvt.throughColor:     #8080f0
+Rxvt.highlightColor:   RoyalBlue
+
+! Other settings
+! *customization: -color
+! *font: 9x15
+! *faceName: mono
+! *faceSize: 8
+! *enableBackups: off
+
+
+! copy and paste to both PRIMARY and clipboard
+! XTerm.vt100.translations: #override <Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
+
+XTerm*.Translations:    #override
+	Shift<Btn1Down>:		select-start()
+	Shift<Btn1Motion>:		select-extend()
+	Shift<Btn1Up>:			select-end(CLIPBOARD)
+	Shift<Btn2Up>:			insert-selection(CLIPBOARD)
+	Shift<Btn3Down>:		start-extend()
+	Shift<Btn3Motion>:		select-extend()
+	Shift<Btn3Up>:			select-end(CLIPBOARD)

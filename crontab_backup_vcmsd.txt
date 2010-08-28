@@ -1,0 +1,25 @@
+SHELL=/bin/sh
+MAILTO=""
+
+# Fetchmail - used by pager system @ dingo.vic.hpa
+10 9 * * * /usr/bin/fetchmail --quit
+5 17 * * * /usr/bin/fetchmail
+
+# Check disk uptime
+*/10 * * * * /users/et6339/files/bin/check_system_uptime.pl
+
+# Jabber server
+@reboot /users/et6339/files/local/open-im/openimctl start
+
+#
+# Cron jobs for testing
+#
+# */2 0-24 * * * /users/et6339/cvs/centrelink.test10g/bin/filereceipt.pl -e CON >> /users/et6339/cvs/centrelink.test10g/bin/logs/fr_cron.log 2>&1
+# 1-59/2 * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/cl_jobbuilder.pl -e CON >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/jb_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/cl_jobprocessor.pl -e CON >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/jp1_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/cl_jobprocessor.pl -e CON -d 3 >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/jp2_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/cl_jobprocessor.pl -e CON -d 6 >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/jp3_cron.log 2>&1
+# */2 * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/hpa_batcher.pl -e CON >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/hb_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/hpa_batchprocessor.pl -e CON -d 5 >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/bp1_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/hpa_batchprocessor.pl -e CON -d 15 >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/bp2_cron.log 2>&1
+# * * * * * /users/et6339/cvs/centrelink.solution-consolidation_development/bin/hpa_batchprocessor.pl -e CON -d 25 >> /users/et6339/cvs/centrelink.solution-consolidation_development/bin/logs/bp3_cron.log 2>&1

@@ -1,0 +1,82 @@
+#!/opt/perl/bin/perl
+#    Modified: delphinus <delphinus@remora.cx>
+#      Change: 30-Apr-2009.2009
+# Last Change: 13-Feb-2010.2009
+
+use strict;
+use warnings;
+
+use Pod::Find;
+use Pod::Simple::Vim;
+
+my $pod_name = shift; 
+die ("Usage: pod2vim Module::Name_or_function") unless $pod_name;
+
+my $pod_filename = Pod::Find::pod_where( {-inc => 1}, $pod_name );
+my @pod;
+
+unless ($pod_filename) {
+    my @found_things = Pod::Find::pod_where( {-inc => 1}, "perlfunc" );
+    &search_perlfaqs( \@found_things, \@pod, $pod_name );
+    unshift @pod, "=over 8", "";
+    push @pod, "=back";
+}
+die("No documentation found for \"$pod_name\"") unless $pod_filename or @pod;
+
+my $parser = Pod::Simple::Vim->new;
+my $perldoc;
+
+$parser->output_string(\$perldoc);
+$pod_filename ?
+    $parser->parse_file( $pod_filename ):
+    $parser->parse_lines( @pod, undef );
+
+print $perldoc;
+
+exit;
+
+# Pod::Perldoc
+sub search_perlfaqs {
+    my ( $found_things, $pod, $search_key ) = @_;
+
+    my $perlfunc = shift @$found_things;
+    open(PFUNC, "<", $perlfunc)               # "Funk is its own reward"
+        or die("Can't open $perlfunc: $!");
+
+    # Functions like -r, -e, etc. are listed under `-X'.
+    my $search_re = ($search_key =~ /^-[rwxoRWXOeszfdlpSbctugkTBMAC]$/)
+                        ? '(?:I<)?-X' : quotemeta($search_key) ;
+
+    my $re = 'Alphabetical Listing of Perl Functions';
+
+    # Skip introduction
+    local $_;
+    while (<PFUNC>) {
+        last if /^=head2 $re/;
+    }
+
+    # Look for our function
+    my $found = 0;
+    my $inlist = 0;
+    while (<PFUNC>) {  # "The Mothership Connection is here!"
+        if ( m/^=item\s+$search_re\b/ )  {
+            $found = 1;
+        }
+        elsif (/^=item/) {
+            last if $found > 1 and not $inlist;
+        }
+        next unless $found;
+        if (/^=over/) {
+            ++$inlist;
+        }
+        elsif (/^=back/) {
+            --$inlist;
+        }
+        push @$pod, $_;
+        ++$found if /^\w/;        # found descriptive text
+    }
+    close PFUNC                or die "Can't open $perlfunc: $!";
+
+    return;
+}
+

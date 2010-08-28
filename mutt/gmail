@@ -1,0 +1,6 @@
+set pager_format="(P1) %S [%C/%T] %n (%l) %s"
+set realname="Eddy HS"
+set from=eddy.net@gmail.com
+my_hdr Organization: Carik's and co.
+set signature="~/.mutt/signature_gmail"
+my_hdr Reply-To: eddy.net@gmail.com

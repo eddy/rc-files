@@ -1,0 +1,92 @@
+background yes
+
+use_xft yes
+xftfont Monospace:size=8
+xftalpha 0.8
+out_to_console no
+total_run_times 0
+own_window no
+# own_window_colour LightYellow
+own_window_colour grey24
+own_window_type normal
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+stippled_borders 5
+border_inner_margin 4
+border_width 1
+default_color grey
+default_shade_color white
+default_outline_color black
+
+# on_bottom yes
+
+update_interval 5.0
+
+total_run_times 0
+
+double_buffer yes
+
+# minimum_size 280 5
+minimum_size 1000 5
+
+alignment top_right
+
+maximum_width 200
+
+gap_x 10
+gap_y 700
+
+no_buffers yes
+
+uppercase no
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+override_utf8_locale no
+
+use_spacer none
+
+#
+# stuff after 'TEXT' will be formatted on screen
+#
+# To display date and time, uncomment the following lines and placed after TEXT
+# ${color slate grey}${time %a, }${color }${time %e %B %G}
+# ${color slate grey}${time %Z, }${color }${time %H:%M:%S}
+
+TEXT
+${font FFF Tusj:size=20}${color #ffffff}${exec /usr/bin/lsb_release -sd}
+${font Times:size=10}${color #ffff00}SYSTEM${color #ffffff}INFO${color #ffff00}  ${hr 2}
+  ${font Monospace:size=8}${color #ffffff} Kernel: ${color #ccffff}linux-$kernel
+  ${color #ffffff}Uptime:${color #ccffff} $uptime 
+  ${color #ffffff}Load  :${color #ccffff} $loadavg
+
+  ${color #ffffff}CPU Frequency:${color #ccffff} $freq_g
+  ${color #ffffff}CPU Usage:${color #ccffff} $cpu% ${color #7f8ed3}${cpubar}
+  ${color #ffffff}RAM Usage:${color #ccffff} $memperc% ${color #7f8ed3}${membar}
+  ${color #ffffff}Swap Usage:${color #ccffff} $swapperc% ${color #7f8ed3}${swapbar}
+  ${color #ffffff}Processes:${color #ccffff} $processes  ${color #ffffff}Running:${color #ccffff} $running_processes
+
+${font Times:size=10}${color #ffff00}FILE${color #ffffff}INFO${color #ffff00}  ${hr 2}
+  ${font Monospace:size=8}${color #ffffff} / : ${color #ccffff}${fs_used /} / ${fs_size /} 
+  ${color #7f8ed3}${fs_bar /}
+
+${font Times:size=10}${color #ffff00}MEMORY${color #ffffff}INFO${color #ffff00}  ${hr 2}
+  ${font Monospace:size=8}${color #ffffff} Top CPU           CPU%   MEM%
+  ${color #ddaa00}${top name 1} ${top cpu 1} ${top mem 1}
+  ${color #ccffff}${top name 2} ${top cpu 2} ${top mem 2}
+  ${color #ccffff}${top name 3} ${top cpu 3} ${top mem 3}
+
+  ${color #ffffff}Top MEM
+  ${color #ddaa00}${top_mem name 1} ${top_mem cpu 1} ${top_mem mem 1}
+  ${color #ccffff}${top_mem name 2} ${top_mem cpu 2} ${top_mem mem 2}
+  ${color #ccffff}${top_mem name 3} ${top_mem cpu 3} ${top_mem mem 3}
+
+${color #dddddd}${font FFF Tusj:size=35}${alignc}${time %H:%M}${font Sans:size=10}
+
+${font Sans:size=9}${alignc}${time %A, %d %B %Y}

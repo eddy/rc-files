@@ -1,0 +1,37 @@
+# 44 10 * * * /cmsdata/prod/hpa/et6339/ibstest/do.sh >> /cmsdata/prod/hpa/et6339/ibstest/do.log 2>&1
+# 05 12 * * 1-6 /users/et6339/sourcebin/scp_small_processed_files_to_vcmsd.sh >> /users/et6339/sourcebin/scp_to_vcmsd.log 2>&1
+#
+# Test reports
+#####0 7 * * * /users/et6339/files/wip/reports/send_report-lodgement.sh
+#####0 7 * * * /users/et6339/files/wip/reports/send_report-spoils.sh
+# QLD MQFTP transfer monitoring
+0 * * * * /users/et6339/files/bin/qld_mqftp_monitor.pl
+
+# Disk space monitoring
+0 * * * * /users/et6339/files/bin/dfcheck /cmsdata 90
+0 * * * * /users/et6339/files/bin/dfcheck /oracle 80
+0 * * * * /users/et6339/files/bin/dfcheck / 80
+
+# Server uptime monitoring
+*/10 * * * * /users/et6339/files/bin/check_system_uptime.pl
+
+# mutt tidy-up
+* * * * * /usr/bin/find /tmp -maxdepth 1 -user et6339 -name 'mutt*' -mtime +7 -exec rm {} \;
+
+# all WA jobs for Tony Bollen
+# 15 10 * * * /users/et6339/centrelink.solution/bin/wa_overnight_job_list.sh 2>&1
+
+# Extra batches in BLP1B1 jobs
+21 13 * * * /users/et6339/files/bin/check_extra_batches.pl BLP1B1 2>&1
+24 13 * * * /users/et6339/files/bin/check_extra_batches.pl BLP1A1 2>&1
+
+# rsync IBS images to vcmsd 
+01 13 * * * /usr/bin/rsync -Cavzr /users/ibs/ibs41/ibsroot/images vcmsd:/cmsdata/prod/ibs/ 2>&1
+11 13 * * * /usr/bin/rsync -Cavzr /users/ibs/ibs41/ibsroot/jsl vcmsd:/cmsdata/prod/ibs/ 2>&1
+
+######################################################################
+# Temporary solution to move files to rerun
+#
+# 5 4 * * * /bin/mv /cmsdata/prod/client/data/problem/PCLK*.txt /cmsdata/prod/client/data/files-to-be-deleted/ 2>&1
+# 10 4 * * * /tmp/move_to_rerun.sh 2>&1
+
