@@ -48,6 +48,17 @@ VERBOSE=on
 }
 
 :0
+* ^From.*incident.report@dont.reply
+* ^Subject: Incident Report from HPA Batch Processor.*
+{
+    :0 c
+    | formail -X From: -X Subject: -cs /users/et6339/sourcebin/pager_me.pl
+
+    :0
+    mail_notified/
+}
+
+:0
 * ^From.*
 /dev/null
 
