@@ -62,7 +62,7 @@ export ftp_proxy=$http_proxy
 ######################################################################
 # path
 #
-export PATH=$PATH:/home/et6339/files/bin:/home/et6339/.vim/bin
+export PATH=/home/et6339/.vim/bin:/home/et6339/files/bin:$PATH
 
 
 ######################################################################
@@ -359,11 +359,12 @@ alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 #
 
 # perlbrew
-source /home/et6339/perl5/perlbrew/etc/bashrc
+export PERLBREW_ROOT=/opt/perlbrew
+source /opt/perlbrew/etc/bashrc
 
 alias myperl='/opt/perl/bin/perl'
 alias cdp='cd /opt/perl/bin/'
-alias perldoc='/opt/perl/bin/perldoc'
+alias myperldoc='/opt/perl/bin/perldoc'
 eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
 export PERLDOC=-it
