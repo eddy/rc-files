@@ -178,7 +178,7 @@ runtime! macros/matchit.vim
 let g:acp_behaviorSnipmateLength=1           " support snipmate
 let g:acp_behaviorPerlOmniLength=1           " support omnicompletion (Moose, etc)
 let g:acp_mappingDriven=1                    " disable cursor key
-let g:acp_behaviorKeywordLength=3
+let g:acp_behaviorKeywordLength=2
 let g:acp_behaviorFileLength=-1              " disable filename completion
 let g:acp_behaviorRubyOmniMethodLength=-1    " disable ruby
 let g:acp_behaviorPythonOmniLength=-1        " disable python
@@ -217,7 +217,7 @@ iab Ydatetime   <C-R>=strftime("%Y%m%d %T")<CR>
 iab Ytime   <C-R>=strftime("%H:%M")<CR>
 iab Yfilepath   <C-R>=getcwd()."/".bufname(1)<CR>
 iab Ysu sub {<CR>    my () = @_;<CR>}<CR><ESC>3k <ESC>l <ESC>i
-iab Ype #!/usr/bin/perl<ESC>o<CR>use strict;<CR>use warnings;<CR><CR><ESC>j
+iab Ype #!/usr/bin/env perl<ESC>o<CR>use 5.12.2;<CR>use warnings;<CR><CR><ESC>j
 iab Ymo package MyOwnPackage;<ESC>o<CR>use Moose; # turn on strict/warnings<CR><CR><ESC>j
 
 " ---------------------------------------------------------------------- 
