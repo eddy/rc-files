@@ -217,7 +217,7 @@ iab Ydatetime   <C-R>=strftime("%Y%m%d %T")<CR>
 iab Ytime   <C-R>=strftime("%H:%M")<CR>
 iab Yfilepath   <C-R>=getcwd()."/".bufname(1)<CR>
 iab Ysu sub {<CR>    my () = @_;<CR>}<CR><ESC>3k <ESC>l <ESC>i
-iab Ype #!/usr/bin/env perl<ESC>o<CR>use 5.12.2;<CR>use warnings;<CR><CR><ESC>j
+iab Ype #!/usr/bin/env perl<ESC>o<CR>use common::sense;<CR><CR><ESC>j
 iab Ymo package MyOwnPackage;<ESC>o<CR>use Moose; # turn on strict/warnings<CR><CR><ESC>j
 
 " ---------------------------------------------------------------------- 
