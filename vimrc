@@ -10,7 +10,7 @@ else
 endif
 
 if &t_Co == 256
-    colorscheme moria
+    colorscheme ir_black2
 else
     let g:CSApprox_loaded = 1
     colorscheme peaksea
