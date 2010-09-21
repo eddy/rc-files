@@ -9,12 +9,6 @@ else
     set t_Co=16
 endif
 
-if &t_Co == 256
-    colorscheme ir_black2
-else
-    let g:CSApprox_loaded = 1
-    colorscheme peaksea
-endif   
 
 " ---------------------------------------------------------------------- 
 " Option specific for gvim
@@ -378,3 +372,7 @@ augroup gpg
   autocmd BufWritePost,FileWritePost  *.gpg !chmod 600 <afile>
   autocmd BufWritePost,FileWritePost  *.gpg undo|set nobin
 augroup END
+
+" Color scheme must be the last line
+set bg=dark
+colorscheme ir_black

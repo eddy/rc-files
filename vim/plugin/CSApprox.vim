@@ -985,7 +985,3 @@ unlet s:savecpo
 
 
 " {0} vim:sw=2:sts=2:et:fdm=expr:fde=substitute(matchstr(getline(v\:lnum),'^\\s*"\\s*{\\zs.\\{-}\\ze}'),'^$','=','')
-
-" My internal addition
-set bg=dark
-colo moria
