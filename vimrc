@@ -48,6 +48,8 @@ set showmatch                           " show matching parens?
 set showmode                            " show current mode?
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
+set cursorline
+set cursorcolumn
 set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
 syntax on
@@ -375,4 +377,4 @@ augroup END
 
 " Color scheme must be the last line
 set bg=dark
-colorscheme ir_black
+colorscheme ir_black2
