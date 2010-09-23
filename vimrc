@@ -49,7 +49,7 @@ set showmode                            " show current mode?
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
 set cursorline
-set cursorcolumn
+" set cursorcolumn
 set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
 syntax on
