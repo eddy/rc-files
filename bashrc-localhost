@@ -336,6 +336,7 @@ alias sshpbursyd2='ssh barrnsw@pbursyd2.nsw.hpa'
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}
+function svndiff() { svn diff $@ | colordiff;}
 function rcsdiff() { /usr/bin/rcsdiff -u $@ | colordiff;}
 alias diff='colordiff -u'
 
@@ -375,7 +376,7 @@ function pmver ( ) { perl -M$1 -le "print $1->VERSION"; }
 function mypmver ( ) { myperl -M$1 -E "say $1->VERSION"; }
 
 # perldoc-complete
-alias pod=perldoc
+alias pod='perldoc -o man'
 complete -C perldoc-complete.pl -o nospace -o default pod
 
 
