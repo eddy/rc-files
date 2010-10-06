@@ -54,6 +54,13 @@ set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
 syntax on
 syn sync fromstart
+
+" ---------------------------------------------------------------------- 
+"  PLUGIN: xml.vim - unfortunately it needs to be declared prior to
+" filetype plugin on below.
+" ---------------------------------------------------------------------- 
+let xml_use_xhtml = 1
+
 filetype on
 filetype plugin on
 filetype indent on
