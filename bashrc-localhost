@@ -379,6 +379,8 @@ function mypmver ( ) { myperl -M$1 -E "say $1->VERSION"; }
 alias pod='perldoc -o man'
 complete -C perldoc-complete.pl -o nospace -o default pod
 
+# perltidy with Method::Signature::simple
+alias perltidy='/home/et6339/files/bin/perltidy'
 
 ######################################################################
 # Java home
