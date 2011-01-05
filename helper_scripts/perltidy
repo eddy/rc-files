@@ -1,0 +1,13 @@
+#!/usr/bin/env perl
+
+use common::sense;
+
+package main;
+
+use FindBin;
+use lib "$FindBin::Bin";
+use JS::Perl::Tidy;
+
+say {*STDERR} '# Perl::Tidy with Method::Signature::Simple support';
+JS::Perl::Tidy::perltidy();
+

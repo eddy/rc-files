@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export ORACLE_HOME="/users/oracle/product/9.2.0"
+export LD_LIBRARY_PATH="/users/oracle/product/9.2.0/lib"
+sql.pl $*
+
