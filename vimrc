@@ -119,6 +119,9 @@ map ,pc  :!perl -c %
 nnoremap ,pt  :%!perltidy -q<cr> " only work in 'normal' mode
 vnoremap ,pt  :!perltidy -q<cr>  " only work in 'visual' mode
 
+" Extract long subroutine into inner sub
+vnoremap ,ext :!~/files/bin/extract_sub <cr>
+
 " ---------------------------------------------------------------------- 
 " expandtab is commented out below as we want to set it only on specific
 " FileType via SetCodingStyle()
