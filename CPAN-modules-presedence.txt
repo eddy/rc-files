@@ -91,3 +91,6 @@
 91 		ToolSet
 92 		Data::UUID
 93 		Pod::POM::Web
+94		File::Map
+95		warnings::unused
+96		indirect
