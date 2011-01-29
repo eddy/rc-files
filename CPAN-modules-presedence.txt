@@ -94,3 +94,4 @@
 94		File::Map
 95		warnings::unused
 96		indirect
+97		selfvars
