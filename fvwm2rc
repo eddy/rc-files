@@ -529,9 +529,9 @@ DestroyModuleConfig FvwmPager: *
 *FvwmPager: BalloonBorderWidth  1
 *FvwmPager: BalloonBorderColor  Black
 *FvwmPager: Label 0 Local
-*FvwmPager: Label 1 Net/Mail
-*FvwmPager: Label 2 Dev
-*FvwmPager: Label 3 Prod
+*FvwmPager: Label 1 Dev
+*FvwmPager: Label 2 Prod
+*FvwmPager: Label 3 Net/Mail
 
 
 ########################## Button ##################################

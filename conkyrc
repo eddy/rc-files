@@ -60,7 +60,7 @@ use_spacer none
 # ${color slate grey}${time %Z, }${color }${time %H:%M:%S}
 
 TEXT
-${font FFF Tusj:size=20}${color #ffffff}${exec /usr/bin/lsb_release -sd}
+${font FFF Tusj:size=18}${color #ffffff}${exec /usr/bin/lsb_release -sc}  ${exec /usr/bin/lsb_release -sr}
 ${font Times:size=10}${color #ffff00}SYSTEM${color #ffffff}INFO${color #ffff00}  ${hr 2}
   ${font Monospace:size=8}${color #ffffff} Kernel: ${color #ccffff}linux-$kernel
   ${color #ffffff}Uptime:${color #ccffff} $uptime 
