@@ -87,6 +87,16 @@ ${font Times:size=10}${color #ffff00}MEMORY${color #ffffff}INFO${color #ffff00} 
   ${color #ccffff}${top_mem name 2} ${top_mem cpu 2} ${top_mem mem 2}
   ${color #ccffff}${top_mem name 3} ${top_mem cpu 3} ${top_mem mem 3}
 
+${font Times:size=10}${color #ffff00}KEYBOARD${color #ffffff}Shortcut${color #ffff00}  ${hr 2}
+  ${font Terminus:size=10}${color #ffffff} <C><S>T         Xterm
+  <C><S><arrow>   Goto desktop
+  <C>F1-F8        Goto desktop
+  <C><S><numpad>  Move to
+  <A>F6           H max
+  <A>F7           V max
+  <A>F10          Max
+  <A>F8           Resize
+
 ${color #dddddd}${font FFF Tusj:size=35}${alignc}${time %H:%M}${font Sans:size=10}
 
 ${font Sans:size=9}${alignc}${time %A, %d %B %Y}
