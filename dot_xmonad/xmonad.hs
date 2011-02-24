@@ -105,7 +105,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- launch pidgin
     , ((modMask .|. altMask,    xK_p    ), spawn "pidgin")
  
-	-- status bar
+    -- status bar
     , ((modMask,                xK_s    ), spawn $ myConkyBar)
 
     -- close focused window
@@ -246,6 +246,9 @@ myManageHook = composeAll
     [ className                =? "Xpdf"                   --> doFloat
     , className                =? "Namoroka"               --> doF (W.shift "web/9")
     , className                =? "Pidgin"                 --> doF (W.shift "net/8")
+    , className                =? "Tomboy"                 --> doFloat
+    , className                =? "Gimp"                   --> doFloat
+    , className                =? "MPlayer"                --> doFloat
     , resource                 =? "desktop_window"         --> doIgnore
     , resource                 =? "kdesktop"               --> doIgnore
     , stringProperty "WM_NAME" =? "Downloads"              --> doFloat
@@ -293,8 +296,8 @@ myLogHook h = dynamicLogWithPP $ defaultPP
         , ppTitle          = (" " ++) . dzenColor "#62acce" "" . dzenEscape
         , ppOutput         = hPutStrLn h
       }
-	  where
-	  	wrapFgBg fgColor bgColor content= wrap ("^fg(" ++ fgColor ++ ")^bg(" ++ bgColor ++ ")") "^fg()^bg()" content
+      where
+        wrapFgBg fgColor bgColor content= wrap ("^fg(" ++ fgColor ++ ")^bg(" ++ bgColor ++ ")") "^fg()^bg()" content
  
 ------------------------------------------------------------------------
  

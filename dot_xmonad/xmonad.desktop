@@ -1,0 +1,8 @@
+# save this file in /usr/share/xsession/xmonad.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Name=XMonad
+Comment=Lightweight tiling window manager
+Exec=/home/et6339/files/bin/xmonad.start
+Icon=xmonad.png
+Type=XSession
