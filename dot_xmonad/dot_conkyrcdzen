@@ -1,0 +1,16 @@
+background no
+cpu_avg_samples 2
+net_avg_samples 2
+no_buffers yes
+out_to_console yes
+out_to_x no
+update_interval 8.0
+uppercase no
+use_spacer none
+total_run_times 0
+
+
+TEXT
+cpu: ${cpu cpu1}% ^fg(yellow)|^fg() ${if_up eth0}eth0: ${downspeed eth0}/ ${upspeed eth0}$endif^fg(yellow)|^fg() mem: $memperc% ^fg(yellow)|^fg() swap: $swapperc% ^fg(yellow)| ^fg(lightgreen)${time %a, %d-%m-%y  %H:%M} 
+
+
