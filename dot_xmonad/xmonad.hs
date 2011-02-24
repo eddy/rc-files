@@ -215,13 +215,7 @@ imLayout = smartBorders $ IM (1%5)
               (Or (Title "Buddy List") 
               (And (Resource "main") (ClassName "psi")))
  
-genericLayout = tiled 
-        ||| Mirror tiled 
-        ||| Full 
-        ||| Grid 
-        ||| Accordion
-        ||| simpleFloat
-        ||| imLayout
+genericLayout = avoidStruts (tiled ||| Mirror tiled ||| Grid ||| Accordion ||| simpleFloat ||| imLayout ||| Full) ||| Full
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
