@@ -1,0 +1,55 @@
+Xmonad:
+-------
+
+    Restart                              = win + r
+    Quit                                 = win + shift + q
+
+
+Program:
+--------
+
+    xterm                                =  win + space       
+    urxvt                                =  win + alt + u     
+    firefox                              =  win + alt + f     
+    firefox                              =  win + alt + space 
+    dmenu                                =  win + p           
+    pidgin                               =  win + alt + p     
+    thunar                               =  win + alt + a     
+
+
+Desktop:
+--------
+
+    new status bar                       = win + s
+    toggle status bar                    = win + b
+    rotate layout                        = win + return
+    shrink master area                   = win + h
+    expand master area                   = win + l
+    alt + F1..F9                         = switch workspace
+    ctrl + alt + left/right              = switch workspace
+    win + F1..F9                         = move window to workspace
+    win + alt + F1..F9                   = move window to workspace and switch to it
+    
+
+Window:
+-------
+
+    close window                         = win + x
+    focus next window                    = win + tab
+    focus next window                    = win + j
+    focus prev window                    = win + k
+    focus master window                  = win + m
+    swap focus with next window          = win + shift + j
+    swap focus with prev window          = win + shift + k
+    push window back to tiling           = win + t
+    increment number of window in master = win + ,
+    decrement number of window in master = win + .
+
+
+Mouse:
+------
+
+    win + left click                     = drag and move
+    win + right click                    = resize
+
+
