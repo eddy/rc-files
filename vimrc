@@ -15,7 +15,8 @@ endif
 " ---------------------------------------------------------------------- 
 if has("gui_running")
     " set gfn=Consolas\ 11   " default font
-    set gfn=Droid\ Sans\ Mono\ Dotted\ 10
+    " set gfn=Droid\ Sans\ Mono\ Dotted\ 10
+    set gfn=Envy\ Code\ R\ 11
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
     set guioptions-=r      " disable scrollbar
