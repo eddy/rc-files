@@ -1,0 +1,3 @@
+#!/bin/sh
+
+trayer --edge top --align right --transparent true --alpha 255 --tint 0x000000 --heighttype request --height 24 --widthtype request --width 10 --SetDockType true --SetPartialStrut true --padding 3 --expand true &

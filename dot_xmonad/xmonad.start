@@ -3,12 +3,18 @@
 xrdb -merge $HOME/.Xdefaults
 
 # sleep 120 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 15 --height 12 --transparent true --tint 0x000000 &
+# trayer --edge top --align right --transparent true --alpha 255 --tint 0x000000 --heighttype request --height 24 --widthtype request --width 10 --SetDockType true --SetPartialStrut true --padding 3 --expand true &
+
+# if [ -x /usr/bin/xfce4-power-manager ] ; then
+#    /usr/bin/xfce4-power-manager &
+# fi
+
 
 if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
 
-sleep 60 && hsetroot -center $HOME/files/wallpaper/wallpaper_kids_brighton_smaller.jpg &
+sleep 60 && hsetroot -center $HOME/files/wallpaper/perl_wallpaper.jpg &
 
 # exec xmonad | exec dzen2
 exec xmonad
