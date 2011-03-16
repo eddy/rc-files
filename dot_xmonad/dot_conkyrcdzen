@@ -11,6 +11,6 @@ total_run_times 0
 
 
 TEXT
-^fg(yellow)^i($HOME/.xmonad/icons/cpu.xbm) ^fg()${cpu cpu1}%  ${if_up eth0}^fg(yellow)^i($HOME/.xmonad/icons/arr_down.xbm) ^fg()${downspeed eth0} ^fg(yellow)^i($HOME/.xmonad/icons/arr_up.xbm) ^fg()${upspeed eth0}$endif ^fg(yellow)^i($HOME/.xmonad/icons/mem.xbm) ^fg()$memperc%  ^fg(yellow)^i($HOME/.xmonad/icons/load.xbm) ^fg()$swapperc%  ^fg(yellow)^i($HOME/.xmonad/icons/power-ac.xbm)  ^fg(lightgreen)${time %a, %d-%m-%y  %H:%M} 
+^fg(yellow)^i($HOME/.xmonad/icons/cpu.xbm) ^fg()${cpu cpu1}%  ${if_up eth0}^fg(yellow)^i($HOME/.xmonad/icons/arr_down.xbm) ^fg()${downspeed eth0} ^fg(yellow)^i($HOME/.xmonad/icons/arr_up.xbm) ^fg()${upspeed eth0}$endif ^fg(yellow)^i($HOME/.xmonad/icons/mem.xbm) ^fg()$memperc%  ^fg(yellow)^i($HOME/.xmonad/icons/load.xbm) ^fg()$swapperc%  ^fg(yellow)^i($HOME/.xmonad/icons/power-ac.xbm)  ^fg(lightgreen)${time %a, %d-%m-%y  ^fg(white)^bg(red) %H:%M } 
 
 
