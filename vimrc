@@ -27,7 +27,7 @@ endif
 " ---------------------------------------------------------------------- 
 "  Default setting
 " ---------------------------------------------------------------------- 
-set ignorecase
+set noignorecase
 set textwidth=80
 set autoindent
 set shiftwidth=4
@@ -171,7 +171,7 @@ set tags=tags;/
 " ---------------------------------------------------------------------- 
 " Setting for Project 
 " ---------------------------------------------------------------------- 
-:let g:proj_flags="imstvcg"
+" :let g:proj_flags="imstvcg"
 
 " ---------------------------------------------------------------------- 
 " Matchit
@@ -183,13 +183,17 @@ runtime! macros/matchit.vim
 "  AutoComplPop (acp)
 " ---------------------------------------------------------------------- 
 let g:acp_behaviorSnipmateLength=1           " support snipmate
-let g:acp_behaviorPerlOmniLength=1           " support omnicompletion (Moose, etc)
+let g:acp_behaviorPerlOmniLength=5           " support omnicompletion (Moose, etc) after 5 chars
 let g:acp_mappingDriven=1                    " disable cursor key
-let g:acp_behaviorKeywordLength=2
+let g:acp_behaviorKeywordLength=4
+let g:acp_behaviorKeywordIgnores = ["use"]   " ignore use as Perl uses too many "use"
 let g:acp_behaviorFileLength=-1              " disable filename completion
 let g:acp_behaviorRubyOmniMethodLength=-1    " disable ruby
 let g:acp_behaviorPythonOmniLength=-1        " disable python
+let g:acp_ignorecaseOption=-1                " do not ignore case
+let g:acp_completeoptPreview=0
 
+let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni completion
 
 " ---------------------------------------------------------------------- 
 " perldoc2.vim (colorize perldoc)
@@ -342,7 +346,9 @@ autocmd FileType js call SetCodingStyle()
 autocmd FileType css call SetCodingStyle()
 autocmd BufRead todo.html set ts=8 tw=64
 autocmd BufRead /tmp/cvs set ts=8 et tw=64
-autocmd FileType perl,html,chtml,schtml,js set number
+autocmd FileType perl,html,chtml,schtml,js,c set number
+" autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
+
 
 " .(s)chtml file 
 autocmd BufNewFile,BufRead *.inc setf html
