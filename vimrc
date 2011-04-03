@@ -22,6 +22,12 @@ if has("gui_running")
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
+
+	" Shift-Insert to copy clipboard to gvim
+	set guioptions+=a
+	nmap <S-Insert> "+gP
+	imap <S-Insert> <ESC><S-Insert>i
+	" vmap <C-C> "+y 
 endif
 
 " ---------------------------------------------------------------------- 
@@ -29,7 +35,6 @@ endif
 " ---------------------------------------------------------------------- 
 set noignorecase
 set textwidth=80
-set autoindent
 set shiftwidth=4
 set shiftround
 set formatoptions=tcq2
@@ -50,11 +55,21 @@ set showmode                            " show current mode?
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
 set cursorline
+set undolevels=10
 " set cursorcolumn
 set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
 syntax on
 syn sync fromstart
+
+
+" ---------------------------------------------------------------------- 
+" For performance -- automatic foldmethod makes vim very slow to autocomplete
+" Sourced from vim tip: http://vim.wikia.com/wiki/Keep_folds_closed_while_inserting_text
+"
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+set complete-=i    " Disable searching for include files, boost performance
 
 " ---------------------------------------------------------------------- 
 "  PLUGIN: xml.vim - unfortunately it needs to be declared prior to
@@ -182,16 +197,16 @@ runtime! macros/matchit.vim
 " ---------------------------------------------------------------------- 
 "  AutoComplPop (acp)
 " ---------------------------------------------------------------------- 
-let g:acp_behaviorSnipmateLength=1           " support snipmate
-let g:acp_behaviorPerlOmniLength=5           " support omnicompletion (Moose, etc) after 5 chars
-let g:acp_mappingDriven=1                    " disable cursor key
-let g:acp_behaviorKeywordLength=4
-let g:acp_behaviorKeywordIgnores = ["use"]   " ignore use as Perl uses too many "use"
-let g:acp_behaviorFileLength=-1              " disable filename completion
-let g:acp_behaviorRubyOmniMethodLength=-1    " disable ruby
-let g:acp_behaviorPythonOmniLength=-1        " disable python
-let g:acp_ignorecaseOption=-1                " do not ignore case
-let g:acp_completeoptPreview=0
+" let g:acp_behaviorSnipmateLength=1           " support snipmate
+" let g:acp_behaviorPerlOmniLength=5           " support omnicompletion (Moose, etc) after 5 chars
+" let g:acp_mappingDriven=1                    " disable cursor key
+" let g:acp_behaviorKeywordLength=4
+" let g:acp_behaviorKeywordIgnores=["use","sub"]   " ignore use as Perl uses too many "use" and "sub"
+" let g:acp_behaviorFileLength=-1              " disable filename completion
+" let g:acp_behaviorRubyOmniMethodLength=-1    " disable ruby
+" let g:acp_behaviorPythonOmniLength=-1        " disable python
+" let g:acp_ignorecaseOption=-1                " do not ignore case
+" let g:acp_completeoptPreview=0
 
 let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni completion
 
@@ -234,67 +249,14 @@ iab Ymo package MyOwnPackage;<ESC>o<CR>use Moose; # turn on strict/warnings<CR><
 " ---------------------------------------------------------------------- 
 " Mappings
 " ---------------------------------------------------------------------- 
-map C 0i# <ESC>j    " comment
-map U 0xx<ESC>j     " uncomment
 map ,t   :call Notab()<cr>
-map ,1   :call ToggleBackground()<cr>
-map ,2   :call ToggleHLSearch()<cr>
-map <F1> :call Syntax_toggle()<cr>
-map <F2> :call AI_toggle()<cr>
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
 map Q gq                             " don't use Ex mode, use Q for formatting
-" imap {} {<CR>}<Esc>O               " Added closing bracket
 
 
 " ---------------------------------------------------------------------- 
 "  FUNCTIONS
 " ---------------------------------------------------------------------- 
-
-" toggle the hlsearch thing for when you can't find your cursor
-:function ToggleHLSearch()
-:  if (&hlsearch)
-:    set nohlsearch
-:    return ''
-:  else
-:    set hlsearch
-:    return ''
-:  endif
-:endfunction
-
-" toggle the syntax coloring
-:function ToggleBackground()
-:  if (&background=="dark")
-:    set background=light
-:    return ''
-:  else
-:    set background=dark
-:    return ''
-:  endif
-:endfunction
-
-:function Syntax_toggle()
-:  if has("syntax_items")
-:    syntax off
-:  else
-:    syntax on
-:    syn sync fromstart
-:    set background=dark
-:    hi Comment term=bold ctermfg=DarkCyan
-:  endif
-:endfunction
-
-let b:ai_flag = 1
-:function AI_toggle() 
-:  if b:ai_flag
-:    set noautoindent
-:    set textwidth=0
-:    let b:ai_flag = 0
-:  else
-:    set autoindent
-:    set textwidth=72
-:    let b:ai_flag = 1
-:  endif
-:endfunction 
 
 " function to set coding style 
 :function SetCodingStyle()
@@ -393,5 +355,5 @@ augroup gpg
 augroup END
 
 " Color scheme must be the last line
-set bg=dark
+" set bg=dark
 colorscheme ir_black2

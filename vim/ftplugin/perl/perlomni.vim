@@ -8,11 +8,21 @@ let s:debug_flag = 0
 runtime 'plugin/perlomni-data.vim'
 runtime 'plugin/perlomni-util.vim'
 
-let s:vimbin = globpath(&rtp, 'bin/')
+let s:mod_pattern = '[a-zA-Z][a-zA-Z0-9:]\+'
+
+" Check installed scripts {{{
+fun! s:findBin(script)
+    let bins = split(globpath(&rtp, 'bin/'.a:script), "\n")
+    if len(bins) == 0
+        return ''
+    endif
+    return bins[0][:-len(a:script)-1]
+endfunction
+let s:vimbin = s:findBin('grep-objvar.pl')
+" }}}
 
 " Warning {{{
-if ! filereadable(s:vimbin.'grep-objvar.pl')
-            \ && ! filereadable(s:vimbin.'grep-pattern.pl')
+if len(s:vimbin) == 0
     echo "Please install scripts to ~/.vim/bin"
     finish
 endif
@@ -48,30 +58,55 @@ fun! s:system(...)
 endfunction
 " }}}
 
-
 " Public API {{{
 
 " Rule
 fun! AddPerlOmniRule(hash)
-    cal s:rule(a:hash)
+    return s:rule(a:hash)
 endf
 
 " Cache Function. {{{
 let s:last_cache_ts = localtime()
+let s:cache_expiry =  { }
+let s:cache_last   =  { }
+
 fun! GetCacheNS(ns,key)
-    if localtime() - s:last_cache_ts > g:perlomni_cache_expiry
-        let s:last_cache_ts = localtime()
+    let key = a:ns . "_" . a:key
+    if has_key( s:cache_expiry , key ) 
+        let expiry = s:cache_expiry[ key ]
+        let last_ts = s:cache_last[ key ]
+    else 
+        let expiry = g:perlomni_cache_expiry
+        let last_ts = s:last_cache_ts
+    endif
+
+    if localtime() - last_ts > expiry
+        if has_key( s:cache_expiry , key ) 
+            let s:cache_last[ key ] = localtime()
+        else
+            let s:last_cache_ts = localtime()
+        endif
         return 0
     endif
 
     if ! g:perlomni_use_cache
         return 0
     endif
-    let key = a:ns . "_" . a:key
     if exists('g:perlomni_cache[key]')
         return g:perlomni_cache[key]
     endif
     return 0
+endf
+
+fun! SetCacheNSWithExpiry(ns,key,value,exp)
+    if ! exists('g:perlomni_cache')
+        let g:perlomni_cache = { }
+    endif
+    let key = a:ns . "_" . a:key
+    let g:perlomni_cache[ key ] = a:value
+    let s:cache_expiry[ key ] = a:exp
+    let s:cache_last[ key ] = localtime()
+    return a:value
 endf
 
 fun! SetCacheNS(ns,key,value)
@@ -82,7 +117,7 @@ fun! SetCacheNS(ns,key,value)
     let g:perlomni_cache[ key ] = a:value
     return a:value
 endf
-com! CacheNSClear  :unlet g:perlomni_cache
+com! PerlOmniCacheClear  :unlet g:perlomni_cache
 
 " }}}
 
@@ -213,6 +248,7 @@ endf
 
 fun! PerlComplete(findstart, base)
 
+
     if ! exists('b:lines')
         " max 200 lines , to '$' will be very slow
         let b:lines = getline( 1, 200 )
@@ -222,6 +258,7 @@ fun! PerlComplete(findstart, base)
     let lnum = line('.')
     let start = col('.') - 1
     if a:findstart
+
         let b:comps = [ ]
         "let s_pos = s:FindSpace(start,lnum,line)
 
@@ -295,7 +332,7 @@ fun! PerlComplete(findstart, base)
                     let l:found = 0
                     " check content
                     for line in b:lines 
-                        if l:text =~ rule.contains 
+                        if line =~ rule.contains 
                             let l:found = 1
                             break
                         endif
@@ -324,6 +361,7 @@ fun! PerlComplete(findstart, base)
                 endif
             endif
         endfor
+
         return first_bwidx
     else 
         return b:comps
@@ -445,7 +483,10 @@ endf
 
 " perl builtin functions
 fun! s:CompFunction(base,context)
-    return s:StringFilter(g:p5bfunctions,a:base)
+    let efuncs = s:scanCurrentExportFunction()
+    let flist = copy(g:p5bfunctions)
+    cal extend(flist,efuncs)
+    return filter(flist,'v:val.word =~ "^".a:base')
 endf
 
 fun! s:CompCurrentBaseFunction(base,context)
@@ -541,9 +582,9 @@ fun! s:CompClassName(base,context)
         return cache
     endif
 
-    " prevent waiting too long
+    " XXX: prevent waiting too long
     if strlen(a:base) == 0
-        return [ ]
+       return [ ]
     endif
 
     if exists('g:cpan_mod_cache')
@@ -587,9 +628,20 @@ fun! s:SortByLength(i1, i2)
 endfunc
 
 
+fun! s:CompUnderscoreTokens(base,context)
+    return s:StringFilter( [ 'PACKAGE__' , 'END__' , 'DATA__' , 'LINE__' , 'FILE__' ] , a:base )
+endf
+
+fun! s:CompPodSections(base,context)
+    return s:StringFilter( [ 'NAME' , 'SYNOPSIS' , 'AUTHOR' , 'DESCRIPTION' , 'FUNCTIONS' , 
+        \ 'USAGE' , 'OPTIONS' , 'BUG REPORT' , 'DEVELOPMENT' , 'NOTES' , 'ABOUT' , 'REFERENCES' ] , a:base )
+endf
+
 fun! s:CompPodHeaders(base,context)
-    let pods = [ 'head1' , 'head2' , 'head3' , 'begin' , 'end', 'encoding' , 'cut' , 'pod' , 'over' , 'item' , 'for' , 'back' ]
-    return s:StringFilter( pods , a:base )
+    return s:StringFilter(
+        \ [ 'head1' , 'head2' , 'head3' , 'begin' , 'end', 
+        \   'encoding' , 'cut' , 'pod' , 'over' , 
+        \   'item' , 'for' , 'back' ] , a:base )
 endf
 
 " echo s:CompPodHeaders('h','')
@@ -681,6 +733,65 @@ fun! s:getSubScopeLines(nr)
 endf
 " }}}
 " SCANNING FUNCTIONS {{{
+
+
+fun! s:runPerlEval(mtext,code)
+    let cmd = 'perl -M' . a:mtext . ' -e "' . escape(a:code,'"') . '"'
+    return system(cmd)
+endf
+
+" scan exported functions from a module.
+fun! s:scanModuleExportFunctions(class)
+    let l:cache = GetCacheNS('mef',a:class)
+    if type(l:cache) != type(0)
+        return l:cache
+    endif
+
+    let funcs = []
+
+    " XXX: TOO SLOW, CACHE TO FILE!!!!
+    if exists('g:perlomni_export_functions')
+        let output = s:runPerlEval( a:class , printf( 'print join " ",@%s::EXPORT_OK' , a:class ))
+        cal extend( funcs , split( output ) )
+        let output = s:runPerlEval( a:class , printf( 'print join " ",@%s::EXPORT' , a:class ))
+        cal extend( funcs , split( output ) )
+        echo [a:class,output]
+    endif
+    return SetCacheNS('mef',a:class,s:toCompHashList(funcs,a:class))
+endf
+" echo s:scanModuleExportFunctions( 'List::MoreUtils' )
+" sleep 1
+
+" util function for building completion hashlist
+fun! s:toCompHashList(list,menu)
+  return map( a:list , '{ "word": v:val , "menu": "'. a:menu .'" }' )
+endf
+
+
+" Scan export functions in current buffer
+" Return functions
+fun! s:scanCurrentExportFunction()
+    let l:cache = GetCacheNS('cbexf', bufname('%'))
+    if type(l:cache) != type(0)
+        return l:cache
+    endif
+
+    let lines = getline( 1 , '$' )
+    cal filter(  lines , 'v:val =~ ''^\s*\(use\|require\)\s''')
+    let funcs = [ ]
+    for line in lines
+        let m = matchstr( line , '\(^use\s\+\)\@<=' . s:mod_pattern )
+        if strlen(m) > 0 
+            cal extend(funcs ,s:scanModuleExportFunctions(m))
+        endif
+    endfor
+    return SetCacheNS('cbexf',bufname('%'),funcs)
+endf
+" echo s:scanCurrentExportFunction()
+" sleep 1
+
+
+" FUNC: scanClass {{{
 fun! s:scanClass(path)
     let l:cache = GetCacheNS('classpath', a:path)
     if type(l:cache) != type(0)
@@ -696,7 +807,8 @@ fun! s:scanClass(path)
     return SetCacheNS('classpath',a:path,l:files)
 endf
 " echo s:scanClass(expand('~/aiink/aiink/lib'))
-
+" }}}
+" FUNC: scanObjectVariableLines {{{
 fun! s:scanObjectVariableLines(lines)
     let buffile = tempname()
     cal writefile(a:lines,buffile)
@@ -713,9 +825,10 @@ fun! s:scanObjectVariableLines(lines)
     return b:objvarMapping
 endf
 " echo s:scanObjectVariableLines([])
+" }}}
 
 fun! s:scanObjectVariableFile(file)
-"     let l:cache = GetCacheNS('objvar_', a:file)
+"     let l:cache = GetCacheNS('objvar', a:file)
 "     if type(l:cache) != type(0)
 "         return l:cache
 "     endif
@@ -731,11 +844,13 @@ fun! s:scanObjectVariableFile(file)
         endif
     endfor
     return b:objvarMapping
-"     return SetCacheNS('objvar_',a:file,b:objvarMapping)
+"     return SetCacheNSWithExpiry('objvar',a:file,b:objvarMapping,60 * 10)
 endf
 " echo s:scanObjectVariableFile( expand('~/git/bps/jifty-dbi/lib/Jifty/DBI/Collection.pm') )
 
 
+
+" XXX: CACHE THIS
 fun! s:scanHashVariable(lines)
     let buffile = tempname()
     cal writefile(a:lines,buffile)
@@ -744,6 +859,7 @@ endf
 " echo s:scanHashVariable( getline(1,'$') )
 
 
+" XXX: CACHE THIS
 fun! s:scanQString(lines)
     let buffile = tempname()
     cal writefile( a:lines, buffile)
@@ -751,6 +867,7 @@ fun! s:scanQString(lines)
     return split( cmd ,"\n")
 endf
 
+" XXX: CACHE THIS
 fun! s:scanQQString(lines)
     let buffile = tempname()
     cal writefile( a:lines, buffile)
@@ -758,6 +875,9 @@ fun! s:scanQQString(lines)
 endf
 " echo s:scanQQStringFile('testfile')
 
+
+
+" XXX: CACHE THIS
 fun! s:scanArrayVariable(lines)
     let buffile = tempname()
     cal writefile(a:lines,buffile)
@@ -825,7 +945,7 @@ endf
 "
 
 " XXX: provide a dictinoary loader
-fun! s:DBIxCompMethod(base,context)
+fun! s:CompDBIxMethod(base,context)
     return s:StringFilter([ 
         \ "table" , "table_class" , "add_columns" , 
         \ "set_primary_key" , "has_many" ,
@@ -846,11 +966,17 @@ endf
 
 fun! s:scanDBIxResultClasses()
     let path = 'lib'
+    let l:cache = GetCacheNS('dbix_c',path)
+    if type(l:cache) != type(0) 
+        return l:cache
+    endif
+
     let pms = split(system('find ' . path . ' -iname "*.pm" | grep Result'),"\n")
     cal map( pms, 'substitute(v:val,''^.*lib/\?'',"","")')
     cal map( pms, 'substitute(v:val,"\\.pm$","","")' )
     cal map( pms, 'substitute(v:val,"/","::","g")' )
-    return pms
+
+    return SetCacheNS('dbix_c',path,pms)
 endf
 
 fun! s:getResultClassName( classes )
@@ -859,11 +985,46 @@ fun! s:getResultClassName( classes )
     return classes
 endf
 
-fun! s:compDBIxResultClassName(base,context)
+fun! s:CompDBIxResultClassName(base,context)
     return s:StringFilter( s:getResultClassName(   s:scanDBIxResultClasses()  )  ,a:base)
 endf
 
-" DBIx::Class::Core completion ======================================
+fun! s:CompExportFunction(base,context)
+    let m = matchstr( a:context , '\(^use\s\+\)\@<=' . s:mod_pattern )
+    let l:funcs = s:toCompHashList(s:scanModuleExportFunctions(m),m)
+    return filter(copy(l:funcs),'v:val.word =~ a:base')
+endf
+
+fun! s:CompModuleInstallExport(base,context) 
+    let words = g:p5_mi_export
+    return filter( copy(words) , 'v:val.word =~ a:base' )
+endf
+
+" RULES 
+" ====================================================================
+" MODULE-INSTALL FUNCTIONS ================================={{{
+
+
+cal s:rule({
+    \'contains'  :  'Module::Install',
+    \'backward'  :  '\w*$',
+    \'context'   :  '^$',
+    \'comp'      :  function('s:CompModuleInstallExport') })
+
+cal s:rule(  { 
+    \'context': '^\(requires\|build_requires\|test_requires\)\s',
+    \'backward': '[a-zA-Z0-9:]*$',
+    \'comp': function('s:CompClassName') })
+
+" }}}
+" UNDERSCORES =================================="{{{
+cal s:rule({
+    \'context': '__$',
+    \'backward': '[A-Z]*$',
+    \'comp': function('s:CompUnderscoreTokens') })
+"}}}
+
+" DBIX::CLASS::CORE COMPLETION ======================================"{{{
 "
 "   use contains to check file content, do complete dbix methods if and only
 "   if there is a DBIx::Class::Core
@@ -876,18 +1037,16 @@ cal s:rule({
     \'context': '^__PACKAGE__->$',
     \'contains': 'DBIx::Class::Core',
     \'backward': '\w*$',
-    \'comp':    function('s:DBIxCompMethod')
+    \'comp':    function('s:CompDBIxMethod')
     \})
 
 cal s:rule( {
     \'only': 1,
     \'context': '->resultset(\s*[''"]',
     \'backward': '\w*$',
-    \'comp':  function('s:compDBIxResultClassName') } )
+    \'comp':  function('s:CompDBIxResultClassName') } )
 
-
-
-
+"}}}
 
 " Moose Completion Rules {{{
 cal s:rule({ 
@@ -931,6 +1090,14 @@ cal s:rule({
 " Core Completion Rules {{{
 cal s:rule({'only':1, 'context': '^=$', 'backward': '\w*$', 'comp': function('s:CompPodHeaders') })
 
+cal s:rule({'only':1, 'context': '^=\w\+\s' , 'backward': '\w*$', 'comp': function('s:CompPodSections') })
+
+" export function completion
+cal s:rule({
+    \'only': 1,
+    \'context': '^use\s\+[a-zA-Z0-9:]\+\s\+qw',
+    \'backward': '\w*$',
+    \'comp': function('s:CompExportFunction') })
 
 " class name completion
 "  matches:
@@ -960,7 +1127,7 @@ cal s:rule({
 
 cal s:rule({
     \'only':1, 
-    \'context': '^\s*my\s\+\$self$' , 
+    \'context': '^\s*my\s\+\$self' ,
     \'backward': '\s*=\s\+shift;', 
     \'comp': [ ' = shift;' ] })
 
@@ -990,6 +1157,7 @@ cal s:rule({
     \'backward': '\<\U\w\+$', 
     \'comp': function('s:CompBufferFunction') })
 
+
 " function completion
 cal s:rule({
     \'context': '\(->\|\$\)\@<!$',        
@@ -1015,9 +1183,6 @@ cal s:rule({
     \'context': '$' , 
     \'backward': '\<\u\w*::[a-zA-Z0-9:]*$', 
     \'comp': function('s:CompClassName') } )
-
-
-
 
 " string completion
 " cal s:rule({'context': '\s''', 'backward': '\_[^'']*$' , 'comp': function('s:CompQString') })
