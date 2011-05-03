@@ -61,6 +61,7 @@ shopt -s no_empty_cmd_completion
 # proxy
 #
 export http_proxy=http://127.0.0.1:5865
+export https_proxy=http://127.0.0.1:5865
 export ftp_proxy=$http_proxy
 
 
@@ -371,7 +372,7 @@ source /opt/perlbrew/etc/bashrc
 alias myperl='/opt/perl/bin/perl'
 alias cdp='cd /opt/perl/bin/'
 alias myperldoc='/opt/perl/bin/perldoc'
-eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+# eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
 export PERLDOC=-it
 export MANPATH=/home/et6339/perl5/man:/opt/perl/man:$MANPATH
