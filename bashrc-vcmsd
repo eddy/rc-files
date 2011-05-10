@@ -5,6 +5,11 @@
 #
 [ -z "$PS1" ] && return
 
+#
+# vcmsd/p do not have xterm-256colors
+#
+export TERM=xterm
+
 
 ######################################################################
 # Enable programmable completion features
@@ -278,7 +283,8 @@ fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    # test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias ll='ls -lp --color=tty'
     alias grep='grep --color=auto'
@@ -303,6 +309,8 @@ alias sshappsvr04='ssh taned@appsvr04.vic.hpa'
 alias sshmel4app='ssh taned@mel4app05pv.vic.hpa'
 alias sshmel4dev='ssh taned@mel4dev05pv.vic.hpa'
 alias sshpbursyd2='ssh barrnsw@pbursyd2.nsw.hpa'
+alias sshmel4dev06lx='ssh et6339@mel4dev06lx.vic.hpa'
+alias sshmel4app06lx='ssh et6339@mel4app06lx.salmat.com.au'
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}

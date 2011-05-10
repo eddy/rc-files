@@ -1,4 +1,6 @@
-127.0.0.1	localhost
+192.168.8.164	et6339-desktop	# Added by NetworkManager
+127.0.0.1	localhost.localdomain	localhost
+::1	et6339-desktop	localhost6.localdomain6	localhost6
 127.0.1.1	et6339-desktop
 
 # Centrelink
@@ -19,8 +21,9 @@
 10.7.41.25  phoenix.qld.hpa phoenix
 10.2.64.171 pbursyd1.nsw.hpa pbursyd1
 10.2.64.172 pbursyd2.nsw.hpa pbursyd2
-10.8.64.25  sabarr
+10.121.17.55 sabarr
 10.9.64.160 wabarr
+10.113.145.80 syd4app78lx.salmat.com.au moorebank
 
 # IT-Dev box
 10.3.64.151 appdev01.vic.hpa    appdev01
@@ -30,6 +33,10 @@
 10.3.66.84  appsvr04.vic.hpa appsvr04
 10.3.64.15  mel4app05pv.vic.hpa mel4app
 10.3.64.215 mel4dev05pv.vic.hpa mel4dev
+
+# SBU server
+10.3.64.16 mel4app06lx.salmat.com.au mel4app06lx
+10.3.64.216 mel4dev06lx.vic.hpa mel4dev06lx
 
 # Medicare - ACT
 10.6.200.46 client-gw2-mip-madev.act.hpa madev.act.hpa madev

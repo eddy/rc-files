@@ -339,6 +339,8 @@ alias sshappsvr04='ssh taned@appsvr04.vic.hpa'
 alias sshmel4app='ssh taned@mel4app05pv.vic.hpa'
 alias sshmel4dev='ssh taned@mel4dev05pv.vic.hpa'
 alias sshpbursyd2='ssh barrnsw@pbursyd2.nsw.hpa'
+alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
+alias sshmel4app06lx='ssh et6339@mel4app06lx'
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}
@@ -372,7 +374,7 @@ source /opt/perlbrew/etc/bashrc
 alias myperl='/opt/perl/bin/perl'
 alias cdp='cd /opt/perl/bin/'
 alias myperldoc='/opt/perl/bin/perldoc'
-# eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
 export PERLDOC=-it
 export MANPATH=/home/et6339/perl5/man:/opt/perl/man:$MANPATH
