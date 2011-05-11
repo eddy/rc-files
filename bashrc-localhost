@@ -341,6 +341,7 @@ alias sshmel4dev='ssh taned@mel4dev05pv.vic.hpa'
 alias sshpbursyd2='ssh barrnsw@pbursyd2.nsw.hpa'
 alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
 alias sshmel4app06lx='ssh et6339@mel4app06lx'
+alias sshatoprod='ssh taned@atoprod.act.hpa'
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}

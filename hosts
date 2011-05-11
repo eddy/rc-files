@@ -43,6 +43,9 @@
 10.6.64.44 sybill.act.hpa sybill
 10.6.70.10 dolly.act.hpa dolly
 
+# ATO - ACT
+10.6.64.59 atoprod.act.hoa atoprod
+
 # Telstra box
 10.3.199.1 mqdev2.vic.hpa mqdev2
 10.3.64.232 thor2.vic.hpa thor2
