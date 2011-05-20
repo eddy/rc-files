@@ -238,7 +238,7 @@ myLayout =  onWorkspace "4" imLayout
 --
 myManageHook = composeAll
     [ className                =? "Xpdf"                   --> doFloat
-    , className                =? "Namoroka"               --> doF (W.shift "web/9")
+    , className                =? "Firefox"                --> doF (W.shift "web/9")
     , className                =? "Pidgin"                 --> doF (W.shift "net/8")
     , className                =? "Tomboy"                 --> doFloat
     , className                =? "Gimp"                   --> doFloat

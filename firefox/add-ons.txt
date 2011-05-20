@@ -6,5 +6,7 @@ NoScript
 Google Icon
 Omnibar
 Sage - OR - NewsFox
-
+Ghostery
+Greasemonkey  --> and CPAN dependents
+Web Developer
 
