@@ -14,7 +14,7 @@ if [ -x /usr/bin/nm-applet ] ; then
    nm-applet --sm-disable &
 fi
 
-sleep 60 && hsetroot -center $HOME/files/wallpaper/perl_wallpaper.jpg &
+sleep 60 && hsetroot -fill $HOME/files/wallpaper/perl_wallpaper.jpg &
 
 # exec xmonad | exec dzen2
 exec xmonad
