@@ -261,7 +261,7 @@ myStatusBar :: String
 myStatusBar = "dzen2 -fn '-misc-fixed-*-*-*-*-14-*-*-*-*-*-*-*' -bg '#2a2b2f' -fg '#444444' -w 1250 -h 24 -sa c -x 0 -y 0 -e '' -ta l"
  
 myConkyBar :: String
-myConkyBar = "sleep 1 && if [ `pidof conky` ]; then kill `pidof conky`; fi; conky -c ~/.conkyrcdzen | dzen2 -fn '-*-arial-*-r-*-*-*-*-*-*-*-*-*-*' -bg '#2a2b2f' -w 550 -h 24 -x 1300 -y 0 -e '' -ta r"
+myConkyBar = "sleep 1 && if [ `pidof conky` ]; then kill `pidof conky`; fi; conky -c ~/.conkyrcdzen | dzen2 -fn '-*-arial-*-r-*-*-*-*-*-*-*-*-*-*' -bg '#2a2b2f' -w 600 -h 24 -x 1050 -y 0 -e '' -ta r"
  
 myLogHook :: Handle -> X ()
 myLogHook h = dynamicLogWithPP $ defaultPP
