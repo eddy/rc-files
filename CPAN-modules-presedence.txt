@@ -95,3 +95,5 @@
 95		warnings::unused
 96		indirect
 97		selfvars
+98		CAM::PDF
+99		Data::Printer
