@@ -22,6 +22,7 @@ if has("gui_running")
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
+    highlight Normal guibg=black guifg=white
 
 	" Shift-Insert to copy clipboard to gvim
 	set guioptions+=a
@@ -356,4 +357,5 @@ augroup END
 
 " Color scheme must be the last line
 " set bg=dark
-colorscheme ir_black2
+" colorscheme ir_black2
+colorscheme kraihlight
