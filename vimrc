@@ -22,6 +22,8 @@ if has("gui_running")
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
+	set go-=L
+	set go-=T
     highlight Normal guibg=black guifg=white
 
 	" Shift-Insert to copy clipboard to gvim
@@ -35,6 +37,7 @@ endif
 "  Default setting
 " ---------------------------------------------------------------------- 
 set noignorecase
+set wildignore+=*CVS
 set textwidth=80
 set shiftwidth=4
 set shiftround
@@ -45,6 +48,8 @@ set ruler                               " display cursor position on the bottom 
 set nolist
 set nocompatible                        " use Vim defaults (much better!)
 set bs=2                                " allow backspacing over everything in insert mode
+set backspace=indent,eol,start          " backspaces over everything in insert mode
+set smartindent
 set ai                                  " always set autoindenting on
 set viminfo='20,\"50                    " read/write a .viminfo file, don't store more than 50 lines of registers
 set backup 
@@ -56,8 +61,8 @@ set showmode                            " show current mode?
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
 set cursorline
+set cursorcolumn
 set undolevels=10
-" set cursorcolumn
 set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
 syntax on
@@ -162,9 +167,14 @@ vnoremap ,ext :!~/files/bin/extract_sub <cr>
 " ---------------------------------------------------------------------- 
 " NERD_Tree config
 " ---------------------------------------------------------------------- 
+let NERDTreeShowLineNumbers=1
+let NERDTreeShowBookmarks=1
+let NERDTreeChDirMode=2
+let NERDTreeIgnore=['CVS']
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=35
 map <F10> :NERDTreeToggle<CR>
+
 
 " ---------------------------------------------------------------------- 
 " tasklisk plugin (TODO, FIXME, XXX, etc)

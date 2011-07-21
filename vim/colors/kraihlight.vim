@@ -1,3 +1,4 @@
+" https://gist.github.com/1004856   -- 3 June 2011
 set background=dark
 
 hi clear
