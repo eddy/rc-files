@@ -343,6 +343,9 @@ alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
 alias sshmel4app06lx='ssh et6339@mel4app06lx'
 alias sshatoprod='ssh taned@atoprod.act.hpa'
 
+# ack-grep alias
+alias ack='ACK_PAGER_COLOR="less -x4SRFX" /home/et6339/perl5/bin/ack -a'
+
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}
 function svndiff() { svn diff $@ | colordiff;}
