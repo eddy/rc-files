@@ -344,7 +344,7 @@ alias sshmel4app06lx='ssh et6339@mel4app06lx'
 alias sshatoprod='ssh taned@atoprod.act.hpa'
 
 # ack-grep alias
-alias ack='ACK_PAGER_COLOR="less -x4SRFX" /home/et6339/perl5/bin/ack -a'
+alias ack='ACK_PAGER_COLOR="less -x4SRFX" /opt/perlbrew/perls/perl-5.14.1/bin/ack -a'
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}
@@ -375,19 +375,21 @@ alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 export PERLBREW_ROOT=/opt/perlbrew
 source /opt/perlbrew/etc/bashrc
 
-alias myperl='/opt/perl/bin/perl'
-alias cdp='cd /opt/perl/bin/'
-alias myperldoc='/opt/perl/bin/perldoc'
-eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+# local::lib
+eval $(perl -I/opt/perlbrew/perls/perl-5.14.1/lib/perl5 -Mlocal::lib=/opt/perlbrew/perls/perl-5.14.1)
+# eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)    # 5.12.2
 
-export PERLDOC=-it
-export MANPATH=/home/et6339/perl5/man:/opt/perl/man:$MANPATH
+# $MANPATH
+export MANPATH=/opt/perlbrew/perls/perl-5.14.1/man:$MANPATH
+# export MANPATH=/home/et6339/perl5/man:$MANPATH    # 5.12.2
+
 
 # perl module version
 function pmver ( ) { perl -M$1 -le "print $1->VERSION"; }
 function mypmver ( ) { myperl -M$1 -E "say $1->VERSION"; }
 
 # perldoc-complete
+export PERLDOC=-it
 alias pod='perldoc -o man'
 complete -C perldoc-complete.pl -o nospace -o default pod
 
