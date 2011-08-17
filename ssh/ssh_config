@@ -62,6 +62,7 @@ Host *
 # Telstra dev
 	Host telapp441
 	  HostName vs-telapp-441.vic.hpa
+	  User transrx
 
 # Barr servers
     Host odin
