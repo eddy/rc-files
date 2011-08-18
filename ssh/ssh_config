@@ -110,7 +110,7 @@ Host *
 
 # ATO - Canberra
     Host atoprod
-      HostName atoprod.act.hoa
+      HostName atoprod.act.hpa
       User taned
   
 # EDD
