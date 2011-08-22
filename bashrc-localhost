@@ -119,7 +119,7 @@ fi
 #
 # Turn the prompt to red on error
 #
-export failed_msg="=================================== DANGER: FAILED ==================================="
+export failed_msg="========== FAILED ==========" 
 export PS1="\[\e[\`if [ \$? = 0 ]; then echo '0;32m'; else echo '1;37;41m' $failed_msg; fi\`\]$PS1\[\e[0m\]"
 
 # prompt for Git
@@ -400,5 +400,6 @@ alias perltidy='/home/et6339/files/bin/perltidy'
 # Java home
 #
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
+
 
 

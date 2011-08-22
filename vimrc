@@ -22,39 +22,38 @@ if has("gui_running")
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
-	set go-=L
-	set go-=T
+    set go-=L
+    set go-=T
     highlight Normal guibg=black guifg=white
 
-	" Shift-Insert to copy clipboard to gvim
-	set guioptions+=a
-	nmap <S-Insert> "+gP
-	imap <S-Insert> <ESC><S-Insert>i
-	" vmap <C-C> "+y 
+    " Shift-Insert to copy clipboard to gvim
+    set guioptions+=a
+    nmap <S-Insert> "+gP
+    imap <S-Insert> <ESC><S-Insert>i
+    " vmap <C-C> "+y 
 endif
 
 " ---------------------------------------------------------------------- 
 "  Default setting
 " ---------------------------------------------------------------------- 
-set noignorecase
 set wildignore+=*CVS
 set textwidth=80
-set shiftwidth=4
-set shiftround
-set formatoptions=tcq2
 set tabstop=4
-set nohlsearch
+set shiftwidth=4
+set shiftround                          " Always indent to the nearest tabstop
+set smarttab                            " Use shiftwidths at left margin, tabstops everywhere else
+set formatoptions=tcq2
+set formatoptions-=cro
+set wrapmargin=2                        " Wrap 2 characters from the edge of the window
 set ruler                               " display cursor position on the bottom right
 set nolist
 set nocompatible                        " use Vim defaults (much better!)
 set bs=2                                " allow backspacing over everything in insert mode
-set backspace=indent,eol,start          " backspaces over everything in insert mode
 set smartindent
 set ai                                  " always set autoindenting on
 set viminfo='20,\"50                    " read/write a .viminfo file, don't store more than 50 lines of registers
 set backup 
 set backupext=.backup                   " will be named with an extension of .backup
-set listchars=tab:>.,trail:x            " Set tab and EOL chacter and display tem...
 set showcmd                             " show currently type command?
 set showmatch                           " show matching parens?
 set showmode                            " show current mode?
@@ -65,9 +64,55 @@ set cursorcolumn
 set undolevels=10
 set laststatus=2                        " Status bar
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
+set modelines=0
 syntax on
 syn sync fromstart
 
+" ---------------------------------------------------------------------- 
+" [ Toggle visibility of naughty characters ]
+" ---------------------------------------------------------------------- 
+
+" Make naughty characters visible...
+" (uBB is right double angle, uB7 id middle dot)
+exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+
+augroup VisibleNaughtiness
+    au!
+    au BufEnter * set list
+    au BufEnter *.txt set nolist
+    au BufEnter *.vp* set nolist
+augroup END
+
+" ---------------------------------------------------------------------- 
+" [ Set up smarter search behaviour ]
+" ---------------------------------------------------------------------- 
+set incsearch  " Lookahead as search pattern specified
+set ignorecase " Ignore case in all searches...
+set smartcase  "...unless uppercase letters used
+set hlsearch   " Highlight all search matches
+
+
+" ---------------------------------------------------------------------- 
+" [ There can be only one (one Vim session per file) ]
+" ---------------------------------------------------------------------- 
+
+augroup NoSimultaneousEdits
+    au!
+    au SwapExists * let v:swapchoice = 'o'
+    au SwapExists * echohl ErrorMsg
+    au SwapExists * echo 'Duplicate edit session (readonly)'
+    au SwapExists * echohl None
+    au SwapExists * sleep 2
+augroup END
+
+inoremap # X<C-H>#|                            " And no magic outdent for comments
+nnoremap <silent> >> :call ShiftLine()<CR>|    " And no shift magic on comments
+
+function! ShiftLine()
+    set nosmartindent
+    normal! >>
+    set smartindent
+endfunction
 
 " ---------------------------------------------------------------------- 
 " For performance -- automatic foldmethod makes vim very slow to autocomplete
@@ -121,14 +166,44 @@ else
 end 
 
 " ---------------------------------------------------------------------- 
+" [ Make Visual modes work better ]
+" ---------------------------------------------------------------------- 
+
+" Visual Block mode is far more useful that Visual mode (so swap the commands)...
+nnoremap v <C-V>
+nnoremap <C-V> v
+
+vnoremap v <C-V>
+vnoremap <C-V> v
+
+" Make BS/DEL work as expected in visual modes (i.e. delete elected)...
+vmap <BS> x
+
+"Square up visual selections...
+set virtualedit=block
+
+" ---------------------------------------------------------------------- 
 " Retain visual block after indenting
 " ---------------------------------------------------------------------- 
-:vnoremap > >gv
-:vnoremap < <gv
+
+" When shifting, retain selection over multiple shifts...
+vmap <expr> > KeepVisualSelection(">")
+vmap <expr> < KeepVisualSelection("<")
+
+function! KeepVisualSelection(cmd)
+    if mode() ==# "V"
+        return a:cmd . "gv"
+    else
+        return a:cmd
+    endif
+endfunction
+
+
 
 " ---------------------------------------------------------------------- 
 "  Perl specific
 " ---------------------------------------------------------------------- 
+
 " let perl_nofold_packages=1
 let perl_fold=1
 let perl_want_scope_in_variables=1
@@ -137,12 +212,39 @@ let perl_include_pod=1
 let perl_sync_dist=250
 map ,pc  :!perl -c %
 
+" ---------------------------------------------------------------------- 
+" [ Handle Perl include files better ]
+" ---------------------------------------------------------------------- 
+
+set include=^\\s*use\\s\\+\\zs\\k\\+\\ze
+set includeexpr=substitute(v:fname,'::','/','g')
+set suffixesadd=.pm
+execute 'set path+=' . substitute($PERL5LIB, ':', ',', 'g')
+
 " Run perltidy in normal and visual mode
 nnoremap ,pt  :%!perltidy -q<cr> " only work in 'normal' mode
 vnoremap ,pt  :!perltidy -q<cr>  " only work in 'visual' mode
 
 " Extract long subroutine into inner sub
 vnoremap ,ext :!~/files/bin/extract_sub <cr>
+
+" Adjust keyword characters for Perlish identifiers...
+set iskeyword+=$
+set iskeyword+=%
+set iskeyword+=@
+set iskeyword-=,
+
+" Execute Perl file (output to pager)...
+nmap E :!mperl -w %<CR>
+
+
+" =====[ Auto-setup for Perl scripts and modules ]===========
+
+augroup Perl_Setup
+    au!
+    au BufNewFile *.p[lm] 0r !file_template <afile>
+    au BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
+augroup END
 
 " ---------------------------------------------------------------------- 
 " expandtab is commented out below as we want to set it only on specific
@@ -159,6 +261,37 @@ vnoremap ,ext :!~/files/bin/extract_sub <cr>
 " let g:netrw_browse_split=4
 " set t_ti= t_te=
 
+" ---------------------------------------------------------------------- 
+" [ Miscellaneous features (mainly options) ]
+" ---------------------------------------------------------------------- 
+
+set nomore      " Don't page long listings
+set autowrite   " Save buffer automatically when changing files
+set autoread    " Always reload buffer when external changes detected
+
+"           +--Disable hlsearch while loading viminfo
+"           |  +--Remember marks for last 50 files
+"           |  |      +--Remember up to 1000 lines in each register
+"           |  |      |   +--Remember up to 1MB in each register
+"           |  |      |   |      +--Remember last 1000 search patterns
+"           |  |      |   |      |    +---Remember last 100 commands
+"           |  |      |   |      |    |
+"           v  v      v   v      v    v
+set viminfo=h,'50,<10000,s1000,/1000,:100
+
+set backspace=indent,eol,start    " BS past autoindents, line boundaries,
+                                  " and even the start of insertion
+
+set fileformats=unix,mac,dos      " Handle Mac and DOS line-endings
+                                  " but prefer Unix endings
+
+set wildmode=list:longest,full    " Show list of completions
+                                  " and complete as much as possible then iterate full completions
+
+set noshowmode                    " Suppress mode change messages
+
+" Use space to jump down a page (like browsers do)...
+nnoremap <Space> <PageDown> 
 
 " ###################################################################### 
 "                            Plugins
@@ -221,6 +354,7 @@ runtime! macros/matchit.vim
 
 let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni completion
 
+
 " ---------------------------------------------------------------------- 
 " perldoc2.vim (colorize perldoc)
 " ---------------------------------------------------------------------- 
@@ -256,6 +390,19 @@ iab Yfilepath   <C-R>=getcwd()."/".bufname(1)<CR>
 iab Ysu sub {<CR>    my () = @_;<CR>}<CR><ESC>3k <ESC>l <ESC>i
 iab Ype #!/usr/bin/env perl<ESC>o<CR>use common::sense;<CR><CR><ESC>j
 iab Ymo package MyOwnPackage;<ESC>o<CR>use Moose; # turn on strict/warnings<CR><CR><ESC>j
+
+"=====[ Correct common mistypings in-the-fly ]=======================
+
+iab retrun return
+iab pritn print
+iab teh the
+iab liek like
+iab liekwise likewise
+iab Pelr Perl
+iab pelr perl
+iab ;t 't
+iab moer more
+iab previosu previous
 
 " ---------------------------------------------------------------------- 
 " Mappings
@@ -304,6 +451,105 @@ function! CSVH(colnr)
   endif
 endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
+
+" ---------------------------------------------------------------------- 
+" [ Convert file to different tabspacings ]
+" ---------------------------------------------------------------------- 
+
+function! NewTabSpacing (newtabsize)
+    " Preserve expansion, if expanding...
+    let was_expanded = &expandtab
+
+    " But convert to tabs initially...
+    normal TT
+
+    " Change the tabsizing...
+    execute "set ts=" . a:newtabsize
+    execute "set sw=" . a:newtabsize
+
+    " Update the formatting commands to mirror than new tabspacing...
+    execute "map F !Gformat -T" . a:newtabsize . " -"
+    execute "map <silent> f !Gformat -T" . a:newtabsize . "<CR>"
+
+    " Re-expand, if appropriate...
+    if was_expanded
+        normal TS
+    endif
+endfunction
+
+" Note, these are all T-<SHIFTED-DIGIT>, which is easier to type...
+map <silent> T@ :call NewTabSpacing(2)<CR>
+map <silent> T# :call NewTabSpacing(3)<CR>
+map <silent> T$ :call NewTabSpacing(4)<CR>
+map <silent> T% :call NewTabSpacing(5)<CR>
+map <silent> T^ :call NewTabSpacing(6)<CR>
+map <silent> T& :call NewTabSpacing(7)<CR>
+map <silent> T* :call NewTabSpacing(8)<CR>
+
+" Convert to/from spaces/tabs...
+map <silent> TS :set expandtab<CR>:%retab!<CR>
+map <silent> TT :set noexpandtab<CR>:%retab!<CR>
+
+
+" ---------------------------------------------------------------------- 
+" [ Add or subtract comments ]
+" ---------------------------------------------------------------------- 
+
+" Work out what the comment character is, by filetype...
+au BufNewFile,BufRead * let b:cmt = exists('b:cmt') ? b:cmt : ''
+au FileType *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '# '
+au FileType vim let b:cmt = exists('b:cmt') ? b:cmt : '"'
+
+" Work out whether the line has a comment tehn reverse that condition...
+function! ToggleComment ()
+    " What's the comment character???
+    let comment_char = exists('b:cmt') ? b:cmt : '# '
+
+    " Grab the line and work out whether it's commented...
+    let currline = getline(".")
+
+    " If so, remove it and rewrite the line...
+    if currline =~ '^' . comment_char
+        let repline = substitute(currline, '^' . comment_char, "", "")
+        call setline(".", repline)
+
+    " Otherwise, insert it...
+    else
+        let repline = substitute(currline, '^', comment_char, "")
+        call setline(".", repline)
+    endif
+endfunction
+
+" Toggle comments down an entire visual selection of lines...
+function! ToggleBlock () range
+    " What's the comment character???
+    let comment_char = exists('b:cmt') ? b:cmt : '# '
+
+    " Start at the first line...
+    let linenum = a:firstline
+
+    " Get all the lines, and decide their comment state by examining the first...
+    let currline = getline(a:firstline, a:lastline)
+    if currline[0] =~ '^' . comment_char
+        " If the first line is commented, decomment all...
+        for line in currline
+            let repline = substitute(line, '^' . comment_char, "", "")
+            call setline(linenum, repline)
+            let linenum += 1
+        endfor
+    else
+        " Otherwise, encomment all...
+        for line in currline
+            let repline = substitute(line, '^\('. comment_char . '\)\?', comment_char, "")
+            call setline(linenum, repline)
+            let linenum += 1
+        endfor
+    endif
+endfunction
+
+" Set up the relevant mappings
+nmap <silent> # :call ToggleComment()<CR>j0
+vmap <silent> # :call ToggleBlock()<CR>
 
 
 " ---------------------------------------------------------------------- 
@@ -369,3 +615,12 @@ augroup END
 " set bg=dark
 " colorscheme ir_black2
 colorscheme kraihlight
+
+" ---------------------------------------------------------------------- 
+" [Make the completion popup look menu-ish on a Mac]
+" ---------------------------------------------------------------------- 
+highlight Pmenu guibg=white guifg=black gui=NONE ctermbg=white ctermfg=black
+highlight PmenuSel guibg=blue guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
+highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
+highlight PmenuThumb guibg=blue guifg=blue gui=NONE ctermbg=blue ctermfg=blue
+
