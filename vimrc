@@ -620,7 +620,7 @@ colorscheme kraihlight
 " [Make the completion popup look menu-ish on a Mac]
 " ---------------------------------------------------------------------- 
 highlight Pmenu guibg=white guifg=black gui=NONE ctermbg=white ctermfg=black
-highlight PmenuSel guibg=blue guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
+highlight PmenuSel guibg=#899ab4 guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
 highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
-highlight PmenuThumb guibg=blue guifg=blue gui=NONE ctermbg=blue ctermfg=blue
+highlight PmenuThumb guibg=#899ab4 guifg=#899ab4 gui=NONE ctermbg=blue ctermfg=blue
 
