@@ -51,7 +51,7 @@ Host *
     GSSAPIDelegateCredentials no
     ServerAliveInterval 120
 
-# Allows multiple connection faster (and entered passwd only once if needed)	
+# Allows multiple connection faster (and entered passwd only once if needed)    
     ControlMaster auto
     ControlPath /tmp/ssh_mux_%h_%p_%r
 
@@ -60,9 +60,9 @@ Host *
 #
 
 # Telstra dev
-	Host telapp441
-	  HostName vs-telapp-441.vic.hpa
-	  User transrx
+    Host telapp441
+      HostName vs-telapp-441.vic.hpa
+      User transrx
 
 # Barr servers
     Host odin
@@ -84,6 +84,10 @@ Host *
     Host wabarr
       HostName 10.9.64.160
       User barr
+
+    Host phoenix
+      HostName 10.7.41.25
+      User barrq
 
 # IT-DEV
     Host mel4dev
