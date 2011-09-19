@@ -127,6 +127,9 @@ Host *
       HostName 10.113.145.9
       User taned
 
+    Host stl04 aixstl04.salmat.com.au
+        HostName 135.101.80.161
+        User taned
 #
 # Proxying to another remote machine via vcmsd
 #
