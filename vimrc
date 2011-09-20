@@ -286,7 +286,7 @@ set fileformats=unix,mac,dos      " Handle Mac and DOS line-endings
                                   " but prefer Unix endings
 
 set wildmode=list:longest,full    " Show list of completions
-                                  " and complete as much as possible then iterate full completions
+                                " and complete as much as possible then iterate full completions
 
 set noshowmode                    " Suppress mode change messages
 
@@ -342,7 +342,7 @@ runtime! macros/matchit.vim
 "  AutoComplPop (acp)
 " ---------------------------------------------------------------------- 
 " let g:acp_behaviorSnipmateLength=1           " support snipmate
-" let g:acp_behaviorPerlOmniLength=5           " support omnicompletion (Moose, etc) after 5 chars
+" let g:acp_behaviorPerlOmniLength=2           " support omnicompletion (Moose, etc) after 5 chars
 " let g:acp_mappingDriven=1                    " disable cursor key
 " let g:acp_behaviorKeywordLength=4
 " let g:acp_behaviorKeywordIgnores=["use","sub"]   " ignore use as Perl uses too many "use" and "sub"
@@ -585,31 +585,6 @@ autocmd BufRead mutt-* set tw=64
 autocmd BufRead *.frm set expandtab ts=8
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 
-
-" ###################################################################### 
-"  GPG/PGP
-"
-"  Enable editing of gpg files
-"     read: set binary mode before reading the file, decypher text in buffer after reading
-"    write: cypher file after writing
-"   append: decypher file, append, cypher file
-" ###################################################################### 
-
-:augroup gpg
-augroup gpg
-  au!
-
-  autocmd BufReadPre,FileReadPre      *.gpg set bin
-  autocmd BufReadPost,FileReadPost    *.gpg let ch_save = &ch|set ch=2
-  autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg --no-secmem-warning --out=- -
-  autocmd BufReadPost,FileReadPost    *.gpg set nobin
-  autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
-  autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
-  autocmd BufWritePre,FileWritePre    *.gpg set bin|'[,']!gpg -c --no-secmem-warning --out=- -
-  autocmd BufWritePre,FileWritePre    *.gpg !mv <afile> <afile>:r.bak
-  autocmd BufWritePost,FileWritePost  *.gpg !chmod 600 <afile>
-  autocmd BufWritePost,FileWritePost  *.gpg undo|set nobin
-augroup END
 
 " Color scheme must be the last line
 " set bg=dark
