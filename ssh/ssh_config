@@ -89,6 +89,16 @@ Host *
       HostName 10.7.41.25
       User barrq
 
+# MIPS
+    Host misappnsw
+      HostName misappnsw.nsw.hpa
+      User mqadmin
+
+    Host misappvic
+      HostName misappvic.vic.hpa
+      User mqadmin
+
+
 # IT-DEV
     Host mel4dev
       HostName mel4dev05pv.vic.hpa
