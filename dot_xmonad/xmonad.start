@@ -16,5 +16,8 @@ fi
 
 sleep 60 && hsetroot -fill $HOME/files/wallpaper/perl_wallpaper.jpg &
 
+# My $PATH
+export PATH=/home/et6339/.vim/bin:/home/et6339/files/bin:$PATH
+
 # exec xmonad | exec dzen2
 exec xmonad
