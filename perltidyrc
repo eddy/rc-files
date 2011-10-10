@@ -30,7 +30,7 @@
 -bbc    # Ensure a blank line before every full-line comment
 -bbs    # Ensure a blank line before every sub definition (except one-liners)
 -bbb    # Ensure a blank line before code blocks (for, while, if, ....)
--lbl=8  # Minimum number of lines between each -bbb inserted blank line
+-lbl=1  # Minimum number of lines between each -bbb inserted blank line
 
 #-------------  Additional options, based on PBP recommendations  ------------
 -bar    # K&R style code braces
