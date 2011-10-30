@@ -10,7 +10,7 @@ function! Perldoc(pod)
     let perldoc = system('/home/et6339/.vim/bin/pod2vim ' . shellescape(pod))
     set shellredir&
 
-	" need argument
+    " need argument
     if !strlen(perldoc)
         echohl ErrorMsg
         echo 'No documentation found for: ' . pod
@@ -18,7 +18,7 @@ function! Perldoc(pod)
         return
     endif
 
-	" need to set g:Perldoc_path to store cache
+    " need to set g:Perldoc_path to store cache
     if !strlen(g:Perldoc_path)
         echohl ErrorMsg
         echo 'Please supply value for g:Perldoc_path first'
@@ -58,6 +58,8 @@ function! Perldoc(pod)
     execute 'silent edit ' . file_path
 
     let g:__perldoc__ = pod_name_with_hyphes
+
+    execute 'set syntax=perldoc'
 endfunction
 
 let g:__perldoc__ = '__perldoc__'
