@@ -7,7 +7,7 @@ function! Perldoc(pod)
     endif
 
     set shellredir:>
-    let perldoc = system('pod2vim ' . shellescape(pod))
+    let perldoc = system('/home/et6339/.vim/bin/pod2vim ' . shellescape(pod))
     set shellredir&
 
 	" need argument

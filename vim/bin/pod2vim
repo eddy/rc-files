@@ -1,4 +1,4 @@
-#!/opt/perl/bin/perl
+#!/usr/bin/env perl
 #    Modified: delphinus <delphinus@remora.cx>
 #      Change: 30-Apr-2009.2009
 # Last Change: 13-Feb-2010.2009
