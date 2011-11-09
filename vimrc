@@ -57,6 +57,7 @@ set backupext=.backup                   " will be named with an extension of .ba
 set showcmd                             " show currently type command?
 set showmatch                           " show matching parens?
 set showmode                            " show current mode?
+set scrolloff=5                         " 5 lines before and after cursor on top/bottom screen
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
 set cursorline
