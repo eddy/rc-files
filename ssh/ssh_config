@@ -133,6 +133,10 @@ Host *
       User xfrmbk
 
 # AIX
+    Host mbk09 aixmbk09
+      HostName 10.113.145.8
+      User taned
+
     Host mbk10 aixmbk10
       HostName 10.113.145.9
       User taned
