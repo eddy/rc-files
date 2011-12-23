@@ -60,8 +60,14 @@ shopt -s no_empty_cmd_completion
 ######################################################################
 # proxy
 #
-export http_proxy=http://127.0.0.1:5865
-export https_proxy=http://127.0.0.1:5865
+# NTLMAPS
+# export http_proxy=http://127.0.0.1:5865
+# export https_proxy=http://127.0.0.1:5865
+# export ftp_proxy=$http_proxy
+
+# CNTML
+export http_proxy=http://127.0.0.1:3128
+export https_proxy=http://127.0.0.1:3128
 export ftp_proxy=$http_proxy
 
 
@@ -366,6 +372,8 @@ alias c="tty -s"
 # mutt alias
 alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 
+# CNTML alias
+cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
 
 ######################################################################
 # Perl 5
