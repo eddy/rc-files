@@ -373,7 +373,7 @@ alias c="tty -s"
 alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 
 # CNTML alias
-cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
+alias cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
 
 ######################################################################
 # Perl 5
