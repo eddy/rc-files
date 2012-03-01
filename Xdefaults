@@ -33,11 +33,13 @@ Xft.rgba:       rgb
 *foreground:     #DDDDDD
 
 ! XTerm settings
+xterm*utf8: 1
 XTerm*pointerShape:     arrow
 XTerm*toolBar: false
-XTerm*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+xterm*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
+xterm*wideFont: -misc-fixed-medium-r-normal-ja-18-120-100-100-c-180-iso10646-1
 XTerm*boldMode: false
-XTerm*boldFont: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso8859-15
+XTerm*boldFont: -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
 XTerm*pointerColor:     navyblue
 XTerm*pointerColorBackground:   White
 XTerm*borderColor:      RoyalBlue
