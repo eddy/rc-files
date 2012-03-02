@@ -65,7 +65,7 @@ set cursorline
 set cursorcolumn
 set undolevels=10
 set laststatus=2                        " Status bar
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P
+set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y%=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
 set modelines=0
 syntax on
 syn sync fromstart
