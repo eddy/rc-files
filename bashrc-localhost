@@ -375,6 +375,9 @@ alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 # CNTML alias
 alias cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
 
+# Ghostscrip viewer alias
+alias gs='gs -g832x982 -r85x85'
+
 ######################################################################
 # Perl 5
 #
