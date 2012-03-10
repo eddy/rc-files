@@ -60,6 +60,9 @@ function! Perldoc(pod)
     let g:__perldoc__ = pod_name_with_hyphes
 
     execute 'set syntax=perldoc'
+
+	setlocal nonumber
+	setlocal nolist
 endfunction
 
 let g:__perldoc__ = '__perldoc__'

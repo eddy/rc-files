@@ -97,3 +97,5 @@
 97		selfvars
 98		CAM::PDF
 99		Data::Printer
+100		App::perlfind
+
