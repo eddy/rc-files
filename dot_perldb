@@ -1,0 +1,20 @@
+#
+# Usage e.g.:
+# perl -d -e '$DB::single=1; $a'
+#
+# Then inside the debugger:
+# DB<1> dp { Foo => 'Bar'}
+#
+
+$DB::alias{dp} = 's/dp/DB::dp/';
+sub DB::dp {
+    eval {
+        require Data::Printer;
+        Data::Printer->import(colored=>1,use_prototypes=>0);
+    };
+    if ($@=~/Can't locate/) {
+        print 'Data::Printer is not installed';
+        return;
+    };
+    print Data::Printer::p(@_);
+}
