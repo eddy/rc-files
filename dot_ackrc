@@ -1,0 +1,25 @@
+# Always sort
+--sort-files
+
+# I'm tired of grouping
+--noheading
+--break
+
+# Handle .pmc files
+--type-set=pmc=.pmc
+
+# Handle .hwd files
+--type-set=hwd=.hwd
+
+# Handle .md files
+--type-set=md=.mkd
+--type-add=md=.md
+
+# Handle .textile files
+--type-set=textile=.textile
+
+# Hooray for smart-case!
+--smart-case
+
+--ignore-dir=nytprof
+
