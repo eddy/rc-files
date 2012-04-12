@@ -93,6 +93,18 @@ set ignorecase " Ignore case in all searches...
 set smartcase  "...unless uppercase letters used
 set hlsearch   " Highlight all search matches
 
+" ---------------------------------------------------------------------- 
+" [ Center the display line after searches. (This makes it *much* easier to see
+"   the matched line) ]
+"
+" More info: http://www.vim.org/tips/tip.php?tip_id=528
+" ---------------------------------------------------------------------- 
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
 
 " ---------------------------------------------------------------------- 
 " [ There can be only one (one Vim session per file) ]
@@ -355,6 +367,7 @@ runtime! macros/matchit.vim
 " let g:acp_completeoptPreview=0
 
 let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni completion
+let g:perlomni_export_functions = 1
 
 
 " ---------------------------------------------------------------------- 
@@ -384,7 +397,7 @@ map <F8> :Perldoc<CR>
 " ---------------------------------------------------------------------- 
 :ab Yruler #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 iab Ydate   <C-R>=strftime("%Y%m%d")<CR>
-iab Ydated  <C-R>=strftime("%Y-%m-%d")<CR>
+iab Ydated  <C-R>=strftime("%d-%m-%Y")<CR>
 iab Ydatel  <C-R>=strftime("%a %b %d %T %Z %Y")<CR>
 iab Ydatetime   <C-R>=strftime("%Y%m%d %T")<CR>
 iab Ytime   <C-R>=strftime("%H:%M")<CR>
