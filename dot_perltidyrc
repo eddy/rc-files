@@ -1,14 +1,16 @@
 #----------------  PBP options, as listed on page 35 of PBP  ----------------
 -l=120  # Max line width is 78 cols
+-mbl=2  # No more than 2 blank lines
 -i=4    # Indent level is 4 cols
 -ci=4   # Continuation indent is 4 cols
 -vt=2   # Maximal vertical tightness
 -cti=0  # No extra indentation for closing brackets
--pt=1   # Medium parenthesis tightness
--sbt=1  # Medium square bracket tightness
--bt=1   # Medium brace tightness (for non-code blocks)
+-pt=2   # High parenthesis tightness
+-sbt=2  # High square bracket tightness
+-bt=2   # High brace tightness (for non-code blocks)
 -bbt=1  # Medium block brace tightness (for code blocks)
 -nsfs   # No space before semicolons
+-isbc   # Don't indent comments without leading space
 -nolq   # Don't outdent long quoted strings
         # Break before all operators:
 -wbb="% + - * / x != == >= <= =~ < > | & **= += *= &= <<= &&= -= /= |= >>= ||= .= %= ^= x="
@@ -30,7 +32,7 @@
 -bbc    # Ensure a blank line before every full-line comment
 -bbs    # Ensure a blank line before every sub definition (except one-liners)
 -bbb    # Ensure a blank line before code blocks (for, while, if, ....)
--lbl=1  # Minimum number of lines between each -bbb inserted blank line
+-lbl=2  # Minimum number of lines between each -bbb inserted blank line
 
 #-------------  Additional options, based on PBP recommendations  ------------
 -bar    # K&R style code braces
