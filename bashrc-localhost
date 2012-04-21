@@ -378,6 +378,13 @@ alias cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
 # Ghostscrip viewer alias
 alias gs='gs -g832x982 -r85x85'
 
+# sync date
+alias syncdate='sudo /usr/sbin/ntpdate exchange2k.vic.hpa'
+
+# ctags alias for Perl
+alias ptags='ctags -f tags --recurse --totals --exclude=blib --exclude=.svn --exclude='*~' --languages=Perl --langmap=Perl:+.t'
+
+
 ######################################################################
 # Perl 5
 #
