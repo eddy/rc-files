@@ -424,8 +424,8 @@ iab previosu previous
 map ,t   :call Notab()<cr>
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
 map Q gq                             " don't use Ex mode, use Q for formatting
-map <S-h> gT                         " previous tab
-map <S-l> gt                         " next tab
+noremap <S-h> gT                     " previous tab
+noremap <S-l> gt                     " next tab
 
 " ---------------------------------------------------------------------- 
 "  FUNCTIONS
