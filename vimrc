@@ -213,7 +213,6 @@ function! KeepVisualSelection(cmd)
 endfunction
 
 
-
 " ---------------------------------------------------------------------- 
 "  Perl specific
 " ---------------------------------------------------------------------- 
@@ -338,7 +337,7 @@ let Tlist_Exit_OnlyWindow=1    " close vim if taglist is the only window
 let Tlist_Use_Right_Window=1   " window on the right
 let Tlist_Enable_Fold_Column=0 " dont show folding
 let tlist_perl_settings='perl;c:constants;l:labels;p:package;s:subroutines;o:pod;a:attribute;b:blocks'
-set tags=tags;/
+set tags=./tags,tags
 
 
 " ---------------------------------------------------------------------- 
@@ -425,7 +424,8 @@ iab previosu previous
 map ,t   :call Notab()<cr>
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
 map Q gq                             " don't use Ex mode, use Q for formatting
-
+map <S-h> gT                         " previous tab
+map <S-l> gt                         " next tab
 
 " ---------------------------------------------------------------------- 
 "  FUNCTIONS
@@ -583,7 +583,6 @@ endfunction
 " Set up the relevant mappings
 nmap <silent> # :call ToggleComment()<CR>j0
 vmap <silent> # :call ToggleBlock()<CR>
-
 
 " ---------------------------------------------------------------------- 
 "  AUTOCOMMAND for each file type
