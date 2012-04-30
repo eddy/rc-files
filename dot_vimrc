@@ -320,6 +320,8 @@ let NERDTreeIgnore=['CVS']
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=35
 map <F10> :NERDTreeToggle<CR>
+autocmd vimenter * NERDTree
+autocmd vimenter * if !argc() | NERDTree | endif
 
 
 " ---------------------------------------------------------------------- 
