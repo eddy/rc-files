@@ -5,10 +5,10 @@
 -ci=4   # Continuation indent is 4 cols
 -vt=2   # Maximal vertical tightness
 -cti=0  # No extra indentation for closing brackets
--pt=2   # High parenthesis tightness
--sbt=2  # High square bracket tightness
--bt=2   # High brace tightness (for non-code blocks)
--bbt=1  # Medium block brace tightness (for code blocks)
+-pt=1   # High parenthesis tightness
+-sbt=1  # High square bracket tightness
+-bt=1   # High brace tightness (for non-code blocks)
+-bbt=0  # Medium block brace tightness (for code blocks)
 -nsfs   # No space before semicolons
 -isbc   # Don't indent comments without leading space
 -nolq   # Don't outdent long quoted strings
