@@ -313,15 +313,19 @@ nnoremap <Space> <PageDown>
 " ---------------------------------------------------------------------- 
 " NERD_Tree config
 " ---------------------------------------------------------------------- 
-let NERDTreeShowLineNumbers=1
+let NERDTreeShowLineNumbers=0
 let NERDTreeShowBookmarks=1
 let NERDTreeChDirMode=2
 let NERDTreeIgnore=['CVS']
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=35
-map <F10> :NERDTreeToggle<CR>
-autocmd vimenter * NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
+let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
+map <F10> :NERDTreeTabsToggle<CR>
+
+"autocmd vimenter * NERDTree
+"autocmd vimenter * if !argc() | NERDTree | endif
+"autocmd vimenter * wincmd w
+"autocmd BufEnter * NERDTreeMirror
 
 
 " ---------------------------------------------------------------------- 
@@ -377,14 +381,6 @@ let g:perlomni_export_functions = 1
 let g:Perldoc_path='/tmp/'
 map <F8> :Perldoc<CR>
 
-
-" ---------------------------------------------------------------------- 
-" minibufexplorer setting
-" ---------------------------------------------------------------------- 
-" let g:miniBufExplMapWindowNavVim = 1
-" let g:miniBufExplMapWindowNavArrows = 1
-" let g:miniBufExplMapCTabSwitchBufs = 1
-" let g:miniBufExplModSelTarget = 1 
 
 " ---------------------------------------------------------------------- 
 " Thesaurus & autocorrect -- disabled, it makes slow

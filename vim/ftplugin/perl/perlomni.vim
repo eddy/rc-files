@@ -376,19 +376,23 @@ endf
 let s:rules = [ ]
 
 " Util Functions {{{
+
 fun! s:Quote(list)
     return map(copy(a:list), '"''".v:val."''"' )
 endf
 
 fun! s:RegExpFilter(list,pattern)
-    let pattern = substitute(a:pattern,"'","''",'g')
-    return filter(copy(a:list),"v:val =~ '^".pattern."'")
+    return filter(copy(a:list),"v:val =~ a:pattern")
 endf
 
 fun! s:StringFilter(list,string)
-    let string = substitute(a:string,"'","''",'g')
-    return filter(copy(a:list),"stridx(v:val,'".string."') == 0 && v:val != '".string."'" )
+    return filter(copy(a:list),"stridx(v:val,a:string) == 0 && v:val != a:string" )
 endf
+
+fun! s:ShellQuote(s)
+  return &shellxquote == '"' ? "'".a:s."'" : '"'.a:s.'"'
+endfunction
+
 " }}}
 
 
@@ -529,7 +533,11 @@ fun! s:CompClassFunction(base,context)
     let funclist = type(l:cache2) != type(0) ? l:cache2 : SetCacheNS('class_func_all',class,s:scanFunctionFromClass(class))
 
     let result = filter( copy(funclist),"stridx(v:val,'".a:base."') == 0 && v:val != '".a:base."'" )
-    return SetCacheNS('classfunc',class.'_'.a:base,result)
+    let funclist = SetCacheNS('classfunc',class.'_'.a:base,result)
+    if g:perlomni_show_hidden_func == 0
+        call filter(funclist, 'v:val !~ "^_"')
+    endif
+    return funclist
 endf
 
 
@@ -567,7 +575,10 @@ fun! s:CompObjectMethod(base,context)
             cal extend(funclist,s:scanFunctionFromClass( cls ))
         endfor
         let result = filter( copy(funclist),"stridx(v:val,'".a:base."') == 0 && v:val != '".a:base."'" )
-        return SetCacheNS('objectMethod',objvarname.'_'.a:base,result)
+        let funclist = SetCacheNS('objectMethod',objvarname.'_'.a:base,result)
+    endif
+    if g:perlomni_show_hidden_func == 0
+        call filter(funclist, 'v:val !~ "^_"')
     endif
     return funclist
 endf
@@ -598,7 +609,7 @@ fun! s:CompClassName(base,context)
 
     let result = s:StringFilter(classnames,a:base)
 
-    if len(result) > g:perlomni_max_class_length 
+    if len(result) > g:perlomni_max_class_length
         cal remove(result,0, g:perlomni_max_class_length)
 
 " Find a better way
@@ -664,14 +675,12 @@ fun! CPANParseSourceList(file)
   if !filereadable(g:cpan_mod_cachef) || getftime(g:cpan_mod_cachef) < getftime(a:file)
     let args = []
     if executable('zcat')
-      let args = ['zcat', a:file, '|' , 'grep', '-Ev', '^[A-Za-z0-9-]+: ', '|', 'cut', '-d" "', '-f1', '>', g:cpan_mod_cachef]
+      let args = ['zcat', a:file, '|' , 'grep', '-Ev', '^[A-Za-z0-9-]+: ', '|', 'cut', '-d" "', '-f1']
     else
-      let args = ['cat', a:file, '|', 'gunzip', '|', 'grep', '-Ev', '^[A-Za-z0-9-]+: ', '|', 'cut', '-d" "', '-f1', '>', g:cpan_mod_cachef]
+      let args = ['cat', a:file, '|', 'gunzip', '|', 'grep', '-Ev', '^[A-Za-z0-9-]+: ', '|', 'cut', '-d" "', '-f1']
     endif
-    call call(function("s:system"), args)
-    if v:shell_error 
-      echoerr v:shell_error
-    endif
+    let data = call(function("s:system"), args)
+    cal writefile(split(data, "\n"), g:cpan_mod_cachef)
   endif
   return readfile( g:cpan_mod_cachef )
 endf
@@ -712,10 +721,10 @@ fun! CPANSourceLists()
 
   echo "Downloading CPAN source list."
   if executable('curl')
-    exec '!curl http://cpan.nctu.edu.tw/modules/02packages.details.txt.gz -o ' . f
+    exec '!curl http://cpan.nctu.edu.tw/modules/02packages.details.txt.gz -o ' . s:ShellQuote(f)
     return f
   elseif executable('wget')
-    exec '!wget http://cpan.nctu.edu.tw/modules/02packages.details.txt.gz -O ' . f
+    exec '!wget http://cpan.nctu.edu.tw/modules/02packages.details.txt.gz -O ' . s:ShellQuote(f)
     return f
   endif
   echoerr "You don't have curl or wget to download the package list."
@@ -1199,3 +1208,4 @@ cal s:defopt('perlomni_max_class_length',40)
 cal s:defopt('perlomni_sort_class_by_lenth',0)
 cal s:defopt('perlomni_use_cache',1)
 cal s:defopt('perlomni_use_perlinc',1)
+cal s:defopt('perlomni_show_hidden_func',0)
