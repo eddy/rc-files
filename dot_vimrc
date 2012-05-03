@@ -1,18 +1,18 @@
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  Terminal
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 if &term == 'xterm-256color'
     set t_Co=256
-elseif &term == 'rxvt-unicode'  
+elseif &term == 'rxvt-unicode'
     set t_Co=88
 else
     set t_Co=16
 endif
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Option specific for gvim
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 if has("gui_running")
     " set gfn=Consolas\ 11   " default font
     " set gfn=Droid\ Sans\ Mono\ Dotted\ 10
@@ -30,12 +30,12 @@ if has("gui_running")
     set guioptions+=a
     nmap <S-Insert> "+gP
     imap <S-Insert> <ESC><S-Insert>i
-    " vmap <C-C> "+y 
+    " vmap <C-C> "+y
 endif
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  Default setting
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 set encoding=utf-8
 set wildignore+=*CVS
 set textwidth=80
@@ -53,7 +53,7 @@ set bs=2                                " allow backspacing over everything in i
 set smartindent
 set ai                                  " always set autoindenting on
 set viminfo='20,\"50                    " read/write a .viminfo file, don't store more than 50 lines of registers
-set backup 
+set backup
 set backupext=.backup                   " will be named with an extension of .backup
 set showcmd                             " show currently type command?
 set showmatch                           " show matching parens?
@@ -70,9 +70,9 @@ set modelines=0
 syntax on
 syn sync fromstart
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Toggle visibility of naughty characters ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 " Make naughty characters visible...
 " (uBB is right double angle, uB7 id middle dot)
@@ -85,20 +85,20 @@ augroup VisibleNaughtiness
     au BufEnter *.vp* set nolist
 augroup END
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Set up smarter search behaviour ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 set incsearch  " Lookahead as search pattern specified
 set ignorecase " Ignore case in all searches...
 set smartcase  "...unless uppercase letters used
 set hlsearch   " Highlight all search matches
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Center the display line after searches. (This makes it *much* easier to see
 "   the matched line) ]
 "
 " More info: http://www.vim.org/tips/tip.php?tip_id=528
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -106,9 +106,9 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ There can be only one (one Vim session per file) ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 augroup NoSimultaneousEdits
     au!
@@ -128,7 +128,7 @@ function! ShiftLine()
     set smartindent
 endfunction
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " For performance -- automatic foldmethod makes vim very slow to autocomplete
 " Sourced from vim tip: http://vim.wikia.com/wiki/Keep_folds_closed_while_inserting_text
 "
@@ -136,10 +136,10 @@ autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | se
 autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
 set complete-=i    " Disable searching for include files, boost performance
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  PLUGIN: xml.vim - unfortunately it needs to be declared prior to
 " filetype plugin on below.
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 let xml_use_xhtml = 1
 
 filetype on
@@ -147,41 +147,41 @@ filetype plugin on
 filetype indent on
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " ACK integration for grep
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " set grepprg=ack
 " set grepformat=%f:%l:%m
 
 
-" ---------------------------------------------------------------------- 
-" Set default value for letter capital-K 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
+" Set default value for letter capital-K
+" ----------------------------------------------------------------------
 au BufReadPost *.pl   set keywordprg=perldoc\ -f
 au BufReadPost *.pm   set keywordprg=perldoc\ -f
 au BufReadPost *.vim  map K :exe ":help ".expand("<cword>")<CR>
 au BufReadPost .vimrc map K :exe ":help ".expand("<cword>")<CR>
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  Additional colours
-" ---------------------------------------------------------------------- 
-set background=dark                     
+" ----------------------------------------------------------------------
+set background=dark
 hi Comment term=NONE ctermfg=DarkCyan
-highlight constant ctermfg=DarkGreen    
+highlight constant ctermfg=DarkGreen
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " keep the swap file here.
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 if has("win32") || has("win64")
     set directory=$TMP
 else
     set directory=/tmp
-end 
+end
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Make Visual modes work better ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 " Visual Block mode is far more useful that Visual mode (so swap the commands)...
 nnoremap v <C-V>
@@ -196,9 +196,9 @@ vmap <BS> x
 "Square up visual selections...
 set virtualedit=block
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Retain visual block after indenting
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 " When shifting, retain selection over multiple shifts...
 vmap <expr> > KeepVisualSelection(">")
@@ -213,9 +213,9 @@ function! KeepVisualSelection(cmd)
 endfunction
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  Perl specific
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 " let perl_nofold_packages=1
 let perl_fold=1
@@ -225,9 +225,9 @@ let perl_include_pod=1
 let perl_sync_dist=250
 map ,pc  :!perl -c %
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Handle Perl include files better ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 set include=^\\s*use\\s\\+\\zs\\k\\+\\ze
 set includeexpr=substitute(v:fname,'::','/','g')
@@ -259,24 +259,24 @@ augroup Perl_Setup
     au BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
 augroup END
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " expandtab is commented out below as we want to set it only on specific
 " FileType via SetCodingStyle()
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " set expandtab
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Workaround for Cygwin
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " let g:netrw_cygwin=1
 " let g:netrw_scp_cmd="/usr/bin/scp"
 " let g:netrw_liststyle=3
 " let g:netrw_browse_split=4
 " set t_ti= t_te=
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Miscellaneous features (mainly options) ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 set nomore      " Don't page long listings
 set autowrite   " Save buffer automatically when changing files
@@ -304,15 +304,15 @@ set wildmode=list:longest,full    " Show list of completions
 set noshowmode                    " Suppress mode change messages
 
 " Use space to jump down a page (like browsers do)...
-nnoremap <Space> <PageDown> 
+nnoremap <Space> <PageDown>
 
-" ###################################################################### 
+" ######################################################################
 "                            Plugins
-" ###################################################################### 
+" ######################################################################
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " NERD_Tree config
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 let NERDTreeShowLineNumbers=0
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=2
@@ -329,39 +329,64 @@ map <F10> :NERDTreeTabsToggle<CR>
 "autocmd BufEnter * NERDTreeMirror
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " tasklisk plugin (TODO, FIXME, XXX, etc)
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 let g:tlWindowPosition = 1
 map T :TaskList<CR>
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  Taglist (tag for subroutine, method, class, etc)
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 nnoremap <silent> <F9> :TlistToggle<CR>
 map ,tu :TlistUpdate<cr>
 let Tlist_Exit_OnlyWindow=1    " close vim if taglist is the only window
 let Tlist_Use_Right_Window=0   " window on the left
 let Tlist_Enable_Fold_Column=0 " dont show folding
+let Tlist_Show_One_File = 1    " show only list from the current buffer
 let tlist_perl_settings='perl;c:constants;l:labels;p:package;s:subroutines;o:pod;a:attribute;b:blocks'
 set tags=./tags,tags
 
 
-" ---------------------------------------------------------------------- 
-" Setting for Project 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
+"  MiniBufferExplorer
+" ----------------------------------------------------------------------
+let g:miniBufExplUseSingleClick = 1
+let g:miniBufExplModSelTarget = 1
+let g:miniBufExplTabWrap = 1
+let g:miniBufExplMaxSize = 1        " max lines: defualt 0, means window gets bigger needed to fit all your buffers.
+
+" This options fail to work:
+" let g:miniBufExplMapWindowNavVim = 1
+" let g:miniBufExplMapWindowNavArrows = 1
+
+" MiniBufExpl Colors
+hi MBENormal term=bold cterm=bold ctermbg=LightGray ctermfg=DarkGray
+hi MBEChanged ctermbg=darkblue ctermbg=white
+hi MBEVisibleChangedActive term=bold cterm=bold ctermfg=red ctermbg=white
+
+hi MBEVisibleActive guifg=#A6DB29 guibg=fg
+hi MBEVisibleChangedActive guifg=#F1266F guibg=fg
+hi MBEVisibleChanged guifg=#F1266F guibg=fg
+hi MBEVisibleNormal guifg=#5DC2D6 guibg=fg
+hi MBEChanged guifg=#CD5907 guibg=fg
+hi MBENormal guifg=#808080 guibg=fg
+
+" ----------------------------------------------------------------------
+" Setting for Project
+" ----------------------------------------------------------------------
 " :let g:proj_flags="imstvcg"
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Matchit
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 runtime! macros/matchit.vim
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  AutoComplPop (acp)
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " let g:acp_behaviorSnipmateLength=1           " support snipmate
 " let g:acp_behaviorPerlOmniLength=2           " support omnicompletion (Moose, etc) after 5 chars
 " let g:acp_mappingDriven=1                    " disable cursor key
@@ -377,23 +402,23 @@ let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni comple
 let g:perlomni_export_functions = 1
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " perldoc2.vim (colorize perldoc)
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 let g:Perldoc_path='/tmp/'
 map <F8> :Perldoc<CR>
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Thesaurus & autocorrect -- disabled, it makes slow
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " set thesaurus+=/home/et6339/.vim/thesaurus/mthesaur.txt
 " :source ~/.vim/autocorrect/autocorrect.vim
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " ABBREVIATIONS
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 :ab Yruler #234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 iab Ydate   <C-R>=strftime("%Y%m%d")<CR>
 iab Ydated  <C-R>=strftime("%d-%m-%Y")<CR>
@@ -418,20 +443,20 @@ iab ;t 't
 iab moer more
 iab previosu previous
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " Mappings
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 map ,t   :call Notab()<cr>
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
 map Q gq                             " don't use Ex mode, use Q for formatting
-noremap <S-h> gT                     " previous tab
-noremap <S-l> gt                     " next tab
+noremap <S-h> :bp<cr>                " previous buffer
+noremap <S-l> :bn<cr>                " next buffer
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  FUNCTIONS
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
-" function to set coding style 
+" function to set coding style
 :function SetCodingStyle()
 :  set tabstop=4
 :  set expandtab
@@ -467,9 +492,9 @@ function! CSVH(colnr)
 endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  [ Remove trailing spaces automatically ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 function! Preserve(command)
   " Preparation: save last search, and cursor position.
   let _s=@/
@@ -485,9 +510,9 @@ nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
 nmap _= :call Preserve("normal gg=G")<CR>
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Convert file to different tabspacings ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 function! NewTabSpacing (newtabsize)
     " Preserve expansion, if expanding...
@@ -524,9 +549,9 @@ map <silent> TS :set expandtab<CR>:%retab!<CR>
 map <silent> TT :set noexpandtab<CR>:%retab!<CR>
 
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [ Add or subtract comments ]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 
 " Work out what the comment character is, by filetype...
 au BufNewFile,BufRead * let b:cmt = exists('b:cmt') ? b:cmt : ''
@@ -584,9 +609,9 @@ endfunction
 nmap <silent> # :call ToggleComment()<CR>j0
 vmap <silent> # :call ToggleBlock()<CR>
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 "  AUTOCOMMAND for each file type
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 autocmd FileType sh call SetCodingStyle()
 autocmd FileType perl call SetCodingStyle()
 au FileType perl,sh,php set cin cinkeys=0{,0},:,!^F,o,O,e comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
@@ -601,7 +626,7 @@ autocmd FileType perl,html,chtml,schtml,js,c set number
 " autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
 
 
-" .(s)chtml file 
+" .(s)chtml file
 autocmd BufNewFile,BufRead *.inc setf html
 autocmd BufNewFile,BufRead *.chtml setf html
 autocmd BufNewFile,BufRead *.schtml setf html
@@ -609,7 +634,7 @@ autocmd BufNewFile,BufRead *.schtml setf html
 autocmd BufReadPost /tmp/crd.diff :map <F1> :call Notab()
 
 " In text files, always limit the width of text to 78 characters
-autocmd BufRead *.txt set tw=64 
+autocmd BufRead *.txt set tw=64
 
 " In email files, always limit the width of text to 64 characters
 autocmd BufRead mutt-* set tw=64
@@ -623,9 +648,9 @@ autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "norm
 " colorscheme ir_black2
 colorscheme kraihlight
 
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 " [Make the completion popup look menu-ish on a Mac]
-" ---------------------------------------------------------------------- 
+" ----------------------------------------------------------------------
 highlight Pmenu guibg=white guifg=black gui=NONE ctermbg=white ctermfg=black
 highlight PmenuSel guibg=#899ab4 guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
 highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
