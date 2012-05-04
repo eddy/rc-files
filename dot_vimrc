@@ -36,6 +36,7 @@ endif
 " ----------------------------------------------------------------------
 "  Default setting
 " ----------------------------------------------------------------------
+set hidden                              " Allow to open a new buffer without saving current one
 set encoding=utf-8
 set wildignore+=*CVS
 set textwidth=80
@@ -355,7 +356,14 @@ set tags=./tags,tags
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplModSelTarget = 1
 let g:miniBufExplTabWrap = 1
-let g:miniBufExplMaxSize = 1        " max lines: defualt 0, means window gets bigger needed to fit all your buffers.
+let g:miniBufExplMaxSize = 1    " max lines: default 0, means window gets bigger needed to fit all your buffers.
+
+" allows :b <Tab> or :b ch*<Tab>
+set wildchar=<Tab> wildmenu wildmode=full 
+
+" use fancy buffer closing that doesn't close the split
+cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
+let bclose_multiple = 1
 
 " This options fail to work:
 " let g:miniBufExplMapWindowNavVim = 1
