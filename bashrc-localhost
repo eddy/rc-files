@@ -294,8 +294,14 @@ echo -ne "${CYAN}";
 echo -ne "${LIGHTPURPLE}Sysinfo:";uptime ;echo ""
 
 # Colour grep
-export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;33'
+GREP_OPTIONS='--color=auto'
+if grep --help | grep -- --exclude-dir &>/dev/null; then
+    for PATTERN in .cvs .git .hg .svn; do
+        GREP_OPTIONS="$GREP_OPTIONS --exclude-dir=$PATTERN"
+    done
+fi
+export GREP_OPTIONS
 
 
 ######################################################################
@@ -382,7 +388,7 @@ alias gs='gs -g832x982 -r85x85'
 alias syncdate='sudo /usr/sbin/ntpdate exchange2k.vic.hpa'
 
 # ctags alias for Perl
-alias ptags='ctags -f tags --recurse --totals --exclude=blib --exclude=.svn --exclude='*~' --languages=Perl --langmap=Perl:+.t'
+alias perltags='ctags -f tags --recurse --totals --exclude=blib --exclude=.svn --exclude='*~' --languages=Perl --langmap=Perl:+.t'
 
 
 ######################################################################

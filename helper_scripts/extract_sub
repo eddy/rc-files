@@ -76,9 +76,9 @@ sub generate_signature {
             if ( $var =~ /^(\%|\@)(.*)$/) {
                 my $sigil = $1;
                 my $name =  $2;
-                "   my ".$var." = ".$sigil."{(shift)};";
+                "    my ".$var." = ".$sigil."{(shift)};";
             } else {
-            "   my $var = shift;";
+            "    my $var = shift;";
             }
             }  @params
         )

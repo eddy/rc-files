@@ -16,7 +16,7 @@ endif
 if has("gui_running")
     " set gfn=Consolas\ 11   " default font
     " set gfn=Droid\ Sans\ Mono\ Dotted\ 10
-    set gfn=Envy\ Code\ R\ 11
+    set gfn=Envy\ Code\ R\ 10
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
     set guioptions-=r      " disable scrollbar
@@ -321,6 +321,7 @@ let NERDTreeIgnore=['CVS']
 let NERDTreeWinPos="left"
 let NERDTreeWinSize=35
 let NERDTreeDirArrows=1
+let NERDChristmasTree=1
 let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
 map <F10> :NERDTreeTabsToggle<CR>
 
