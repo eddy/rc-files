@@ -351,47 +351,11 @@ let tlist_perl_settings='perl;c:constants;l:labels;p:package;s:subroutines;o:pod
 set tags=./tags,tags
 
 
-" ----------------------------------------------------------------------
-"  MiniBufferExplorer
-" ----------------------------------------------------------------------
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplTabWrap = 1
-let g:miniBufExplMaxSize = 1    " max lines: default 0, means window gets bigger needed to fit all your buffers.
-
-" allows :b <Tab> or :b ch*<Tab>
-set wildchar=<Tab> wildmenu wildmode=full 
-
-" use fancy buffer closing that doesn't close the split
-cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
-let bclose_multiple = 1
-
-" This options fail to work:
-" let g:miniBufExplMapWindowNavVim = 1
-" let g:miniBufExplMapWindowNavArrows = 1
-
-" MiniBufExpl Colors
-hi MBENormal term=bold cterm=bold ctermbg=LightGray ctermfg=DarkGray
-hi MBEChanged ctermbg=darkblue ctermbg=white
-hi MBEVisibleChangedActive term=bold cterm=bold ctermfg=red ctermbg=white
-
-hi MBEVisibleActive guifg=#A6DB29 guibg=fg
-hi MBEVisibleChangedActive guifg=#F1266F guibg=fg
-hi MBEVisibleChanged guifg=#F1266F guibg=fg
-hi MBEVisibleNormal guifg=#5DC2D6 guibg=fg
-hi MBEChanged guifg=#CD5907 guibg=fg
-hi MBENormal guifg=#808080 guibg=fg
 
 " ----------------------------------------------------------------------
 " Setting for Project
 " ----------------------------------------------------------------------
 " :let g:proj_flags="imstvcg"
-
-" ----------------------------------------------------------------------
-" Matchit
-" ----------------------------------------------------------------------
-runtime! macros/matchit.vim
-
 
 " ----------------------------------------------------------------------
 "  AutoComplPop (acp)
@@ -409,6 +373,9 @@ runtime! macros/matchit.vim
 
 let g:omni_syntax_group_exclude_perl = 'perlPOD'    " disable POD on omni completion
 let g:perlomni_export_functions = 1
+
+" local set in perlomni.vim plugin does not work as expected..set globally
+set omnifunc=PerlComplete
 
 
 " ----------------------------------------------------------------------
@@ -664,4 +631,33 @@ highlight Pmenu guibg=white guifg=black gui=NONE ctermbg=white ctermfg=black
 highlight PmenuSel guibg=#899ab4 guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
 highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
 highlight PmenuThumb guibg=#899ab4 guifg=#899ab4 gui=NONE ctermbg=blue ctermfg=blue
+
+
+" ----------------------------------------------------------------------
+"  MiniBufferExplorer, its color must be set after colorscheme
+" ----------------------------------------------------------------------
+let g:miniBufExplUseSingleClick = 1
+let g:miniBufExplModSelTarget = 1
+let g:miniBufExplTabWrap = 1
+let g:miniBufExplMaxSize = 1    " max lines: default 0, means window gets bigger needed to fit all your buffers.
+let g:miniBufExplSplitBelow=0   " put it above, or on left for vertical splits
+
+" allows :b <Tab> or :b ch*<Tab>
+set wildchar=<Tab> wildmenu wildmode=full 
+
+" use fancy buffer closing that doesn't close the split
+cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
+let bclose_multiple = 1
+
+" This options fail to work:
+" let g:miniBufExplMapWindowNavVim = 1
+" let g:miniBufExplMapWindowNavArrows = 1
+
+" MiniBufExpl Colors
+hi MBEVisibleActive guifg=#A6DB29 guibg=fg
+hi MBEVisibleChanged guifg=#F1266F guibg=fg
+hi MBEVisibleNormal guifg=#5DC2D6 guibg=fg
+hi MBEVisibleChangedActive guifg=#F1266F guibg=fg term=bold cterm=bold ctermfg=red ctermbg=black
+hi MBEChanged guifg=#CD5907 guibg=fg ctermfg=darkblue ctermbg=white
+hi MBENormal guifg=#808080 guibg=fg term=bold cterm=bold ctermbg=LightGray ctermfg=DarkGray
 

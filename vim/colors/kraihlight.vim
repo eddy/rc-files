@@ -19,8 +19,8 @@ hi SpecialKey guifg=#303030 guibg=NONE ctermfg=239
 hi LineNr guifg=#34383c guibg=NONE gui=NONE ctermfg=240
 " hi StatusLine guifg=#34383c guibg=NONE gui=NONE ctermfg=240 cterm=NONE
 " hi StatusLineNC guifg=#34383c guibg=NONE gui=NONE ctermfg=240 cterm=NONE
-hi StatusLine       guifg=darkred     guibg=#eeeeee     gui=italic    ctermfg=white       ctermbg=darkgray    cterm=NONE
-hi StatusLineNC     guifg=#cccccc       guibg=#202020     gui=NONE      ctermfg=blue        ctermbg=darkgray    cterm=NONE  
+hi StatusLine       guifg=#34383c     guibg=#dedede     gui=italic    ctermfg=yellow      ctermbg=darkgray    cterm=NONE
+hi StatusLineNC     guifg=#aaaaaa       guibg=#666666     gui=NONE      ctermfg=gray        ctermbg=darkgray    cterm=NONE  
 hi VertSplit guifg=#303030 guibg=#303030 gui=NONE ctermfg=239 ctermbg=239
 hi WildMenu guifg=#f9f9f9 guibg=NONE gui=NONE ctermfg=254 ctermbg=NONE
 hi Folded guifg=#8a9597 guibg=#34383c gui=NONE ctermfg=250
@@ -53,7 +53,8 @@ hi Special guifg=#ac98ac ctermfg=225
 hi Delimiter guifg=#f9f9f9 ctermfg=254
 hi Operator guifg=#f9f9f9 ctermfg=254
 
-hi Title guifg=#ab8252 gui=underline ctermfg=215
+" hi Title guifg=#ab8252 gui=underline ctermfg=215
+hi Title guifg=#ab8252 gui=NONE ctermfg=215
 hi Repeat guifg=#d6b67f ctermfg=215
 hi Structure guifg=#d6b67f ctermfg=215
 
