@@ -249,7 +249,11 @@ set iskeyword+=@
 set iskeyword-=,
 
 " Execute Perl file (output to pager)...
-nmap E :!mperl -w %<CR>
+if has("gui_running")
+    nmap E :!/usr/bin/xterm -hold -e /bin/bash -l -c "perl -MDebug::Phases -w %"<CR>
+else
+    nmap E :!mperl -w %<CR>
+endif
 
 
 " =====[ Auto-setup for Perl scripts and modules ]===========
