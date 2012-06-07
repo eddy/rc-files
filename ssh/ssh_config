@@ -72,7 +72,7 @@ Host *
     Host pbursyd2
       HostName pbursyd2.nsw.hpa
       User barrnsw
-    
+ 
     Host moorebank
       HostName syd4app78lx.salmat.com.au
       User barrnsw
@@ -81,6 +81,10 @@ Host *
       HostName 10.121.17.55
       User ibsprod
     
+    Host sanewbarr
+      HostName 10.121.16.50
+      User taned
+
     Host wabarr
       HostName 10.9.64.160
       User barr
@@ -144,6 +148,20 @@ Host *
     Host stl04 aixstl04.salmat.com.au
         HostName 135.101.80.161
         User taned
+
+    Host stl16 aixstl16.salmat.com.au
+        HostName 135.101.80.32
+        User taned
+
+# Transurban
+    Host vtuffp vtuffp.vic.hpa
+      HostName 10.3.64.90
+      User tl6208
+
+    Host vtufft vtufft.vic.hpa
+      HostName 10.3.64.75
+      User oracle
+
 #
 # Proxying to another remote machine via vcmsd
 #
