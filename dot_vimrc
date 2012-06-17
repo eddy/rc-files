@@ -255,6 +255,16 @@ else
     nmap E :!mperl -w %<CR>
 endif
 
+" highlight lines longer than 100 chars in perl files
+autocmd FileType perl match ErrorMsg '\%>100v.\+'
+
+" set execute bit
+autocmd BufWritePost *.pl,*.ksh,*.sh,*.bash !chmod +x %
+
+" run perl syntac check on save
+au FileType perl set makeprg=perl\ -c\ %\ $*
+au FileType perl set errorformat=%f:%l:%m
+
 
 " =====[ Auto-setup for Perl scripts and modules ]===========
 
