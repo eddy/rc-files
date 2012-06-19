@@ -263,7 +263,9 @@ autocmd BufWritePost *.pl,*.ksh,*.sh,*.bash !chmod +x %
 
 " run perl syntac check on save
 au FileType perl set makeprg=perl\ -c\ %\ $*
-au FileType perl set errorformat=%f:%l:%m
+
+" comment out this line as it makes vim runs very slow
+" au FileType perl set errorformat=%f:%l:%m
 
 
 " =====[ Auto-setup for Perl scripts and modules ]===========
