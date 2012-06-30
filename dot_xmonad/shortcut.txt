@@ -51,5 +51,17 @@ Mouse:
 
     win + left click                     = drag and move
     win + right click                    = resize
+    alt + left click                     = previous workspace
+    alt + right click                    = next workspace
 
+
+gvim:
+-----
+
+    Copy from gvim to clipboard          = "+y
+    Copy to gvim from PRIMARY buffer     = CTRL R *
+    Paste to/from gvim                   = shift insert
+
+    Copy to OS clipboard                 = "*yy
+    Paste from OS clipboard              = "*p
 

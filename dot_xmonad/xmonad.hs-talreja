@@ -72,7 +72,6 @@ myNumlockMask   = mod2Mask
 --
 myWorkspaces    = ["local/1","local/2","local/3","im/4","dev/5","prod/6","prod/7","net/8","web/9"]
 
- 
 -- Border colors for unfocused and focused windows, respectively.
 --
 myNormalBorderColor  = "#aaaaaa"
@@ -160,7 +159,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,                xK_b     ), sendMessage ToggleStruts)
  
     -- Quit xmonad (Default)
-    , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
+    -- , ((modMask .|. shiftMask, xK_q     ), spawn "xfce4-session-logout")
+    -- , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
+    , ((modMask .|. shiftMask,  xK_q     ), spawn "sudo shutdown -h now" )
+
  
     -- Restart xmonad
     , ((modMask,                xK_r     ),
@@ -198,16 +200,23 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
  
     -- mod-button1, Set the window to floating mode and move by dragging
     [ ((modMask, button1), (\w -> focus w >> mouseMoveWindow w))
- 
+
     -- mod-button2, Raise the window to the top of the stack
     , ((modMask, button2), (\w -> focus w >> windows W.swapMaster))
  
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((modMask, button3), (\w -> focus w >> mouseResizeWindow w))
  
+    -- alt + left click, move to prev ws
+    , ((altMask, button1), const (prevWS))
+    
+    -- alt + right click, move to next ws
+    , ((altMask, button3), const (nextWS))
+
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
  
+
 ------------------------------------------------------------------------
 -- Layouts:
 -- 
