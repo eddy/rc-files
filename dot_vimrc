@@ -242,6 +242,10 @@ vnoremap ,pt  :!perltidy -q<cr>  " only work in 'visual' mode
 " Extract long subroutine into inner sub
 vnoremap ,ext :!~/files/bin/extract_sub <cr>
 
+" perlcritic
+noremap ,c :!time perlc --critic %<cr>
+
+
 " Adjust keyword characters for Perlish identifiers...
 set iskeyword+=$
 set iskeyword+=%
@@ -266,6 +270,11 @@ au FileType perl set makeprg=perl\ -c\ %\ $*
 
 " comment out this line as it makes vim runs very slow
 " au FileType perl set errorformat=%f:%l:%m
+"
+" quickfix for Perl error formats
+set errorformat+=%m\ at\ %f\ line\ %l\.
+set errorformat+=%m\ at\ %f\ line\ %l
+
 
 
 " =====[ Auto-setup for Perl scripts and modules ]===========
