@@ -61,8 +61,8 @@ hi Structure guifg=#d6b67f ctermfg=215
 hi Directory guifg=#dad085 ctermfg=228
 hi Error guibg=#602020 ctermfg=52
 
-hi CursorLine     guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=BOLD
-hi CursorColumn   guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=NONE        cterm=BOLD
+hi CursorLine     guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=235        cterm=BOLD
+hi CursorColumn   guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=235        cterm=BOLD
 
 " Special for XML
 hi link xmlTag          Keyword 

@@ -36,6 +36,7 @@ endif
 " ----------------------------------------------------------------------
 "  Default setting
 " ----------------------------------------------------------------------
+set nocompatible                        " use Vim defaults (much better!)
 set hidden                              " Allow to open a new buffer without saving current one
 set encoding=utf-8
 set wildignore+=*CVS
@@ -49,16 +50,12 @@ set formatoptions-=cro
 set wrapmargin=2                        " Wrap 2 characters from the edge of the window
 set ruler                               " display cursor position on the bottom right
 set nolist
-set nocompatible                        " use Vim defaults (much better!)
 set bs=2                                " allow backspacing over everything in insert mode
 set smartindent
 set ai                                  " always set autoindenting on
 set viminfo='20,\"50                    " read/write a .viminfo file, don't store more than 50 lines of registers
-set backup
-set backupext=.backup                   " will be named with an extension of .backup
-set showcmd                             " show currently type command?
-set showmatch                           " show matching parens?
 set showmode                            " show current mode?
+set showcmd                             " show currently type command?
 set scrolloff=5                         " 5 lines before and after cursor on top/bottom screen
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
@@ -68,6 +65,11 @@ set undolevels=10
 set laststatus=2                        " Status bar
 set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
 set modelines=0
+set ttyfast
+set relativenumber                      " only in 7.3+ - show relative line number from previous line
+set undofile                            " only in 7.3+ - create filename.un~ so that we can undo it even after we close and reopen it
+set backup
+set backupext=.backup                   " will be named with an extension of .backup
 syntax on
 syn sync fromstart
 
@@ -93,6 +95,8 @@ set incsearch  " Lookahead as search pattern specified
 set ignorecase " Ignore case in all searches...
 set smartcase  "...unless uppercase letters used
 set hlsearch   " Highlight all search matches
+set gdefault   " Change globally in the same line
+set showmatch  " show matching parens?
 
 " ----------------------------------------------------------------------
 " [ Center the display line after searches. (This makes it *much* easier to see
@@ -106,6 +110,12 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+
+" ----------------------------------------------------------------------
+"  Fix vim broken regex by automatically inserting a \v before any string
+" ----------------------------------------------------------------------
+nnoremap / /\v
+vnoremap / /\v
 
 " ----------------------------------------------------------------------
 " [ There can be only one (one Vim session per file) ]
@@ -455,6 +465,15 @@ noremap <S-h> :bp<cr>                " previous buffer
 noremap <S-l> :bn<cr>                " next buffer
 
 " ----------------------------------------------------------------------
+" Moving between open window
+" ----------------------------------------------------------------------
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+
+" ----------------------------------------------------------------------
 "  FUNCTIONS
 " ----------------------------------------------------------------------
 
@@ -624,7 +643,7 @@ autocmd FileType js call SetCodingStyle()
 autocmd FileType css call SetCodingStyle()
 autocmd BufRead todo.html set ts=8 tw=64
 autocmd BufRead /tmp/cvs set ts=8 et tw=64
-autocmd FileType perl,html,chtml,schtml,js,c set number
+" autocmd FileType perl,html,chtml,schtml,js,c set number
 " autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
 
 
