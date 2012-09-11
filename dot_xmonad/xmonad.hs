@@ -160,8 +160,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
  
     -- Quit xmonad (Default)
     -- , ((modMask .|. shiftMask, xK_q     ), spawn "xfce4-session-logout")
-    -- , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
-    , ((modMask .|. shiftMask,  xK_q     ), spawn "sudo shutdown -h now" )
+    -- , ((modMask .|. shiftMask,  xK_q     ), spawn "sudo shutdown -h now" )
+    , ((modMask .|. shiftMask,  xK_q     ), io (exitWith ExitSuccess))
 
  
     -- Restart xmonad
@@ -169,8 +169,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
           broadcastMessage ReleaseResources >> restart "xmonad" True)
 
     -- ctrl alt left/right to switch workspace
-    , ((altMask .|. controlMask, xK_Left  ), prevWS)
-    , ((altMask .|. controlMask, xK_Right ), nextWS)
+    , ((altMask .|. myModMask, xK_Left  ), prevWS)
+    , ((altMask .|. myModMask, xK_Right ), nextWS)
 
     ]
     ++
@@ -252,6 +252,8 @@ myManageHook = composeAll
     , className                =? "Tomboy"                 --> doFloat
     , className                =? "Gimp"                   --> doFloat
     , className                =? "MPlayer"                --> doFloat
+    , className                =? "xfce4-panel"            --> doIgnore
+    , className                =? "Xfce4-panel"            --> doIgnore
     , resource                 =? "desktop_window"         --> doIgnore
     , resource                 =? "kdesktop"               --> doIgnore
     , stringProperty "WM_NAME" =? "Downloads"              --> doFloat
@@ -316,7 +318,7 @@ main = do
          focusFollowsMouse  = myFocusFollowsMouse,
          borderWidth        = myBorderWidth,
          modMask            = myModMask,
-         numlockMask        = myNumlockMask,
+         -- numlockMask        = myNumlockMask,
          workspaces         = myWorkspaces,
          normalBorderColor  = myNormalBorderColor,
          focusedBorderColor = myFocusedBorderColor,
