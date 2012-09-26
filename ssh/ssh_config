@@ -119,6 +119,15 @@ Host *
       HostName appsvr04.vic.hpa
       User taned
 
+    Host mel4app07lx
+      HostName mel4app07lx.salmat.com.au
+      User taned
+
+# IT EMD
+    Host merlin
+      HostName merlin.salmat.com.au
+      User webadmin
+
 # SBU
     Host mel4dev06lx
       HostName mel4dev06lx.vic.hpa
@@ -169,6 +178,17 @@ Host *
 #      HostName mel4dev05pv.vic.hpa 
 #      User taned
 #      ProxyCommand ssh vcmsd.vic.hpa nc %h %p
+
+#
+# Proxying to mel4dev05pv by hopping via vcmsp --> vcmsd --> mel4dev05pv
+#
+#    Host test_vcmsd
+#      ProxyCommand ssh -q vcmsp.vic.hpa nc vcmsd.vic.hpa 22
+#    
+#    Host test_mel4dev05pv
+#      HostName mel4dev05pv.salmat.com.au
+#      User taned
+#      ProxyCommand ssh -q test_vcmsd nc %h 22
 
 #
 # Connecting to Remote Services with Local Apps
