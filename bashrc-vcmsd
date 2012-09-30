@@ -8,7 +8,7 @@
 #
 # vcmsd/p do not have xterm-256colors
 #
-export TERM=xterm
+# export TERM=xterm
 
 
 ######################################################################
@@ -346,6 +346,7 @@ alias vim='~/files/vim/bin/vim'
 # alias cdp='cd /opt/perl/bin/'
 # alias perldoc='/opt/perl/bin/perldoc'
 # eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+export PERL5LIB=$PERL5LIB:/users/et6339/files/site_perl/lib/perl5/5.8.5:/users/et6339/files/site_perl/lib/perl5/site_perl/5.8.5
 
 export PERLDOC=-it
 
@@ -362,4 +363,12 @@ complete -C perldoc-complete.pl -o nospace -o default pod
 #
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
 
+## START-BCVI
+  echo $PATH | grep -q /users/et6339/bin || PATH="/users/et6339/bin:$PATH"
+  test -n "$(which bcvi)" && eval "$(bcvi --unpack-term)"
+  test -n "${BCVI_CONF}"  && alias vi="bcvi"
+  test -n "${BCVI_CONF}"  && alias suvi="EDITOR='bcvi -c viwait' sudoedit"
+  test -n "${BCVI_CONF}"  && alias bcp="bcvi -c scpd"
+  test -n "${BCVI_CONF}"  && alias bnotify="bcvi --no-path-xlate -c notify --"
+## END-BCVI
 

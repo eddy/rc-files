@@ -8,7 +8,7 @@
 #
 # Ubuntu Maverick 10.10 has issue with TERM setting
 #
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 
 ######################################################################
@@ -415,3 +415,20 @@ alias perltidy='/home/et6339/files/bin/perltidy'
 # Java home
 #
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
+
+
+## START-BCVI
+  export BCVI_PORT=`cat $HOME/.config/bcvi/listener_port`
+  export BCVI_KEY=`cat $HOME/.config/bcvi/listener_key`
+  export BCVI_CONF=localhost:localhost:$BCVI_PORT:$BCVI_KEY
+  echo $PATH | grep -q /home/et6339/bin || PATH="/home/et6339/bin:$PATH"
+  test -n "$(which bcvi)" && eval "$(bcvi --unpack-term)"
+  test -n "${BCVI_CONF}"  && alias bcp="bcvi -c scpd"
+  test -n "${BCVI_CONF}"  && alias ssh="bcvi --wrap-ssh --"
+  test -n "${BCVI_CONF}"  && alias bnotify="bcvi --no-path-xlate -c notify --"
+  # need not these two aliases for localhost
+  # test -n "${BCVI_CONF}"  && alias vi="bcvi"
+  # test -n "${BCVI_CONF}"  && alias suvi="EDITOR='bcvi -c viwait' sudoedit"
+## END-BCVI
+
+printf 1

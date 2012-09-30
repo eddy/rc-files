@@ -106,7 +106,7 @@ export MANPATH=$MANPATH:/users/et6339/files/site_perl/share/man
 set -o emacs
 
 # dircolors
-export TERM=xterm-color
+# export TERM=xterm-color
 eval `dircolors /etc/DIR_COLORS`
 export LS_COLORS="$LS_COLORS:di=01;34"
 
@@ -206,3 +206,13 @@ unset   rgb_restore   \
  rgb_white     \
  rgb_std       \
  rgb_usr
+
+
+## START-BCVI
+  echo $PATH | grep -q /users/et6339/bin || PATH="/users/et6339/bin:$PATH"
+  test -n "$(which bcvi)" && eval "$(bcvi --unpack-term)"
+  test -n "${BCVI_CONF}"  && alias vi="bcvi"
+  test -n "${BCVI_CONF}"  && alias suvi="EDITOR='bcvi -c viwait' sudoedit"
+  test -n "${BCVI_CONF}"  && alias bcp="bcvi -c scpd"
+  test -n "${BCVI_CONF}"  && alias bnotify="bcvi --no-path-xlate -c notify --"
+## END-BCVI
