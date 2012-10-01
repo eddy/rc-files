@@ -8,7 +8,7 @@
 #
 # Ubuntu Maverick 10.10 has issue with TERM setting
 #
-# export TERM=xterm-256color
+export TERM=xterm-256color
 
 
 ######################################################################

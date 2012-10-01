@@ -26,7 +26,7 @@ fi
 vmware-user &
 
 # start up BCVI listener (server)
-/opt/perl5/perls/perl-5.16.1/bin/perl $HOME/.perlbrew/libs/perl-5.16.1@cpan/bin/bcvi -l &
+perl $HOME/.perlbrew/libs/perl-5.16.1@cpan/bin/bcvi -l &
 
 sleep 30 && hsetroot -fill $HOME/files/wallpaper/wallpaper_kids_studio.jpg &
 

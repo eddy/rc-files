@@ -106,7 +106,6 @@ export MANPATH=$MANPATH:/users/et6339/files/site_perl/share/man
 set -o emacs
 
 # dircolors
-# export TERM=xterm-color
 eval `dircolors /etc/DIR_COLORS`
 export LS_COLORS="$LS_COLORS:di=01;34"
 
@@ -216,3 +215,6 @@ unset   rgb_restore   \
   test -n "${BCVI_CONF}"  && alias bcp="bcvi -c scpd"
   test -n "${BCVI_CONF}"  && alias bnotify="bcvi --no-path-xlate -c notify --"
 ## END-BCVI
+
+# vcmsp does not have xterm-256color, must set it after BCVI
+export TERM=xterm-color
