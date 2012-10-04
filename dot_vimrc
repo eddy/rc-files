@@ -359,6 +359,7 @@ let NERDTreeWinSize=35
 let NERDTreeDirArrows=1
 let NERDChristmasTree=1
 " let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
+let g:nerdtree_tabs_open_on_gui_startup=0
 map <F10> :NERDTreeTabsToggle<CR>
 
 "autocmd vimenter * NERDTree
