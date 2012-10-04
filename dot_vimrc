@@ -15,8 +15,8 @@ endif
 " ----------------------------------------------------------------------
 if has("gui_running")
     " set gfn=Consolas\ 11   " default font
-    " set gfn=Droid\ Sans\ Mono\ Dotted\ 10
-    set gfn=Envy\ Code\ R\ 10
+    " set gfn=Envy\ Code\ R\ 10
+    set gfn=Droid\ Sans\ Mono\ Dotted\ 10
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
     set guioptions-=r      " disable scrollbar
@@ -38,6 +38,7 @@ endif
 " ----------------------------------------------------------------------
 set nocompatible                        " use Vim defaults (much better!)
 set hidden                              " Allow to open a new buffer without saving current one
+let mapleader=","
 set encoding=utf-8
 set wildignore+=*CVS
 set textwidth=80
@@ -357,7 +358,7 @@ let NERDTreeWinPos="left"
 let NERDTreeWinSize=35
 let NERDTreeDirArrows=1
 let NERDChristmasTree=1
-let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
+" let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
 map <F10> :NERDTreeTabsToggle<CR>
 
 "autocmd vimenter * NERDTree
@@ -371,6 +372,7 @@ map <F10> :NERDTreeTabsToggle<CR>
 " ----------------------------------------------------------------------
 let g:tlWindowPosition = 1
 map T :TaskList<CR>
+map <leader>tl <Plug>TaskList
 
 
 " ----------------------------------------------------------------------
@@ -384,7 +386,7 @@ let Tlist_Enable_Fold_Column=0 " dont show folding
 let Tlist_Show_One_File = 1    " show only list from the current buffer
 let Tlist_Process_File_Always = 1 "even without taglist window, create tags fil
 let tlist_perl_settings='perl;c:constants;l:labels;p:package;s:subroutines;o:pod;a:attribute;b:blocks'
-set tags=./tags,tags
+set tags=./tags,tags,/tmp/tags
 
 
 
@@ -458,7 +460,7 @@ iab previosu previous
 " ----------------------------------------------------------------------
 " Mappings
 " ----------------------------------------------------------------------
-map ,t   :call Notab()<cr>
+map _t   :call Notab()<cr>           " used to be ,t -- but it's for Command-T now
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
 map Q gq                             " don't use Ex mode, use Q for formatting
 noremap <S-h> :bp<cr>                " previous buffer
