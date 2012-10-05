@@ -517,6 +517,18 @@ endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
 
 " ----------------------------------------------------------------------
+"  [ Substitute the file to scp://host/dir/file for remote ctags ]
+"    :Rct 'mbk10','workdir'
+"    :Rct 'vcmsd','cvs/centrelink.solutions/bin'
+" ----------------------------------------------------------------------
+function! Remotectags(hosts,dirs)
+    let host = a:hosts
+    let dir = a:dirs
+    execute '%s#^\(\w\+\)\t#\1\tscp://' . host . '/' . dir . '/#'
+endfunction
+command! -nargs=+ Rct :call Remotectags(<args>)
+
+" ----------------------------------------------------------------------
 "  [ Remove trailing spaces automatically ]
 " ----------------------------------------------------------------------
 function! Preserve(command)
