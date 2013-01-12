@@ -80,4 +80,4 @@ hi link javaScriptNumber      Number
 " Special for Python
 hi  link pythonEscape         Keyword      
 
-
+hi Search term=reverse ctermfg=252 ctermbg=60 cterm=bold,underline guifg=Black guibg=LightYellow
