@@ -1,3 +1,0 @@
-set imap_authenticators="LOGIN"
-source ~/.mutt/hpa
-source ~/.mutt/gpg_mutt

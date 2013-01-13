@@ -1,6 +1,0 @@
-(if 
-    (matches (application_name) "Vmware-toolbox-gtk") 
-    (begin
-         (set_workspace 5)
-    )
-)
