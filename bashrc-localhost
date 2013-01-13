@@ -201,11 +201,11 @@ function gvim {
     module="${@/%/.pm}"
     testclass="t/${@/%/.pm}"
     if [ -f $module ]; then
-        command gvim $module
+        command gvim --remote-silent $module || command gvim $module;
     elif [ -f $testclass ]; then
-        command gvim $testclass
+        command gvim --remote-silent $testclass || command gvim $testclass;
     else
-        command gvim "${@}"
+        command gvim --remote-silent "${@}" || command gvim "${@}";
     fi
 }
 
@@ -329,6 +329,7 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias ll='ls -lp --color=tty'
+    alias l='ls++'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -354,6 +355,7 @@ alias sshpbursyd2='ssh -t pbursyd2 screen /bin/bash'
 alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
 alias sshmel4app06lx='ssh et6339@mel4app06lx'
 alias sshatoprod='ssh taned@atoprod.act.hpa'
+alias sshodin='/usr/bin/ssh odin'
 
 # ack-grep alias
 alias ack='ACK_PAGER_COLOR="less -x4SRFX" /opt/perl5/bin/ack -a'
@@ -390,6 +392,9 @@ alias syncdate='sudo /usr/sbin/ntpdate exchange2k.vic.hpa'
 # ctags alias for Perl
 alias perltags='ctags -f tags --recurse --totals --exclude=blib --exclude=.svn --exclude='*~' --languages=Perl --langmap=Perl:+.t'
 
+# tree 
+alias tree="/usr/bin/tree --dirsfirst -F -I 'CVS|log|tags|*.backup'"
+
 
 ######################################################################
 # Perl 5
@@ -410,6 +415,12 @@ complete -C perldoc-complete.pl -o nospace -o default podw
 
 # perltidy with Method::Signature::simple
 alias perltidy='/home/et6339/files/bin/perltidy'
+
+######################################################################
+# tmuxinator
+# 
+# [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+[[ -s /usr/local/bin/tmuxinator_completion ]] && source /usr/local/bin/tmuxinator_completion
 
 ######################################################################
 # Java home

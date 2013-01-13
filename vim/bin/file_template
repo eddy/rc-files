@@ -46,11 +46,13 @@ sub gen_pl_file { <<'END_PL_TEMPLATE'
 use v5.14;
 use warnings;
 use Carp;
+use autodie qw(:all);
 
 # use IO::Prompt;
 # use Perl6::Slurp;
 # use Perl6::Say;
 # use Smart::Comments
+# use Data::Printer;
 
 
 # Implementation here

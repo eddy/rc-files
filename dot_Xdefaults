@@ -2,7 +2,8 @@
 Xft.dpi: 96
 Xft.antialias:  1
 Xft.hinting:    1
-Xft.rgba:       rgb
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
 
 !COLOR
 *background:     #121212
@@ -33,7 +34,6 @@ Xft.rgba:       rgb
 *foreground:     #DDDDDD
 
 ! XTerm settings
-xterm*utf8: 1
 XTerm*pointerShape:     arrow
 XTerm*toolBar: false
 xterm*font:     -misc-fixed-medium-r-normal--14-130-75-75-c-70-iso10646-1
@@ -44,14 +44,29 @@ XTerm*pointerColor:     navyblue
 XTerm*pointerColorBackground:   White
 XTerm*borderColor:      RoyalBlue
 XTerm*highlight:        RoyalBlue
-XTerm*saveLines:        5000
+XTerm*saveLines:        10000
 XTerm*loginShell:       false
 XTerm*vt100*geometry:   122x68
 XTerm*termName:  xterm-256color
 xterm*reverseVideo: false
-xterm*faceSize: 11
-! XTerm*font: xft:DejaVu Sans Mono:size=10
-! xterm*faceName: Mono
+xterm*dynamicColors: on
+xterm*highlightSelection: true
+xterm*cursorColor: #DCDCCC
+
+! Powerline setting
+! xterm*faceName: Envy Code R for Powerline:pixelsize=10
+! xterm*faceName: Envy Code R for Powerline:size=10
+! xterm*faceName: Liberation Mono for Powerline:size=10
+! xterm*faceName: Droid Sans Mono Dotted for Powerline:size=10
+xterm*faceName: Consolas for Powerline:regular:pixelsize=13
+xterm*boldMode: false
+XTerm*allowBoldFonts: false
+xterm*utf8: 2
+xterm*background: rgb:0/0/0
+xterm*foreground: rgb:f/f/f
+
+! this charClass allow us to double click excl = and :
+xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48,35:48
 
 ! rxvt-unicode setting
 ! urxvt*faceSize: 11
