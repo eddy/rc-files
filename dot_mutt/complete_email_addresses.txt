@@ -1,0 +1,160 @@
+alias adamwilson                "Adam Wilson"                    <adam.wilson@salmat.com.au>
+alias adelprint                 "Adelprint"                      <adelprint@salmat.com.au>
+alias alanajduffy               "Alan Aj Duffy"                  <alan.aj.duffy@centrelink.gov.au>
+alias annecoghlan               "Anne Coghlan"                   <anne.coghlan@salmat.com.au>
+alias annemariedamore           "Annemarie Damore"               <annemarie.damore@salmat.com.au>
+alias anthonygray               "Anthony Gray"                   <anthony.gray@centrelink.gov.au>
+alias anthonyowens              "Anthony Owens"                  <anthony.owens@salmat.com.au>
+alias aquilahmed                "Aquil Ahmed"                    <aquil.ahmed@salmat.com.au>
+alias ashleyasmartin            "Ashley As Martin"               <ashley.as.martin@centrelink.gov.au>
+alias benhardy                  "Ben Hardy"                      <ben.hardy@salmat.com.au>
+alias benleishman               "Ben Leishman"                   <ben.leishman@salmat.com.au>
+alias benlucas                  "Ben Lucas"                      <ben.lucas@centrelink.gov.au>
+alias bobnason                  "Bob Nason"                      <bob.nason@salmat.com.au>
+alias bradboyd                  "Brad Boyd"                      <brad.boyd@salmat.com.au>
+alias brentonbowels             "Brenton Bowels"                 <brenton.bowels@salmat.com.au>
+alias brettbrown                "Brett Brown"                    <brett.brown@centrelink.gov.au>
+alias brigittesham              "Brigitte Sham"                  <brigitte.sham@salmat.com.au>
+alias brisbaneplanning          "Brisbane Planning"              <brisbane.planning@salmat.com.au>
+alias carolyncenewmanmartin     "Carolyn Ce Newman-martin"       <carolyn.ce.newman-martin@centrelink.gov.au>
+alias catherinelakeland         "Catherine Lakeland"             <catherine.lakeland@centrelink.gov.au>
+alias centrelinkcsolist         "Centrelink Cso List"            <centrelink.cso.list@hpa.com.au>
+alias centrelinknswprod         "Centrelinknswprod"              <centrelinknswprod@hpa.com.au>
+alias centrelinkqldprod         "Centrelinkqldprod"              <centrelinkqldprod@hpa.com.au>
+alias centrelinksaprod          "Centrelinksaprod"               <centrelinksaprod@hpa.com.au>
+alias centrelinkvicprod         "Centrelinkvicprod"              <centrelinkvicprod@hpa.com.au>
+alias centrelinkwaprod          "Centrelinkwaprod"               <centrelinkwaprod@hpa.com.au>
+alias charliedodson             "Charlie Dodson"                 <charlie.dodson@centrelink.gov.au>
+alias chrisjackson              "Chris Jackson"                  <chris.jackson@salmat.com.au>
+alias chriswall                 "Chris Wall"                     <chris.wall@salmat.com.au>
+alias colinwaters               "Colin Waters"                   <colin.waters@centrelink.gov.au>
+alias craigticehurst            "Craig Ticehurst"                <craig.ticehurst@salmat.com.au>
+alias dalefoulkes               "Dale Foulkes"                   <dale.foulkes@salmat.com.au>
+alias dannguyen                 "Dan Nguyen"                     <dan.nguyen@salmat.com.au>
+alias darynwhittaker            "Daryn Whittaker"                <daryn.whittaker@salmat.com.au>
+alias davidclark                "David Clark"                    <david.clark@centrelink.gov.au>
+alias davidmongey               "David Mongey"                   <david.mongey@salmat.com.au>
+alias davidpedras               "David Pedras"                   <david.pedras@salmat.com.au>
+alias donmcneill                "Don Mcneill"                    <don.mcneill@centrelink.gov.au>
+alias donna                     "Donna"                          <donna@contacmail.com.au>
+alias errolramadan              "Errol Ramadan"                  <errol.ramadan@centrelink.gov.au>
+alias evavella                  "Eva Vella"                      <eva.vella@salmat.com.au>
+alias gardnarlaw                "Gardnar Law"                    <gardnar.law@centrelink.gov.au>
+alias garyfisher                "Gary Fisher"                    <gary.fisher@salmat.com.au>
+alias garyheaton                "Gary Heaton"                    <gary.heaton@centrelink.gov.au>
+alias garylouth                 "Gary Louth"                     <gary.louth@salmat.com.au>
+alias geoffreygrlloyd           "Geoffrey Gr Lloyd"              <geoffrey.gr.lloyd@centrelink.gov.au>
+alias georgefarhat              "George Farhat"                  <george.farhat@salmat.com.au>
+alias glennvillena              "Glenn Villena"                  <glenn.villena@centrelink.gov.au>
+alias gregmcleod                "Greg Mcleod"                    <greg.mcleod@salmat.com.au>
+alias gustavo_gmd163marconi     "Gustavo_gmd163 Marconi"         <gustavo_gmd163.marconi@centrelink.gov.au>
+alias handlinebrisbane          "Handline Brisbane"              <handline.brisbane@salmat.com.au>
+alias hayleygreen               "Hayley Green"                   <hayley.green@salmat.com.au>
+alias itservicedeskmelbourne    "Itservicedesk Melbourne"        <itservicedesk.melbourne@salmat.com.au>
+alias jamesrallis               "James Rallis"                   <james.rallis@salmat.com.au>
+alias jasonshannon              "Jason Shannon"                  <jason.shannon@salmat.com.au>
+alias jaynehowley               "Jaynehowley"                    <jaynehowley@gmail.com>
+alias jeanetteanderson          "Jeanette Anderson"              <jeanette.anderson@centrelink.gov.au>
+alias jeffowens                 "Jeff Owens"                     <jeff.owens@salmat.com.au>
+alias jefftaylor                "Jeff Taylor"                    <jeff.taylor@salmat.com.au>
+alias jimintan                  "Jimin Tan"                      <jimin.tan@centrelink.gov.au>
+alias johnirvin                 "John Irvin"                     <john.irvin@salmat.com.au>
+alias johnjagleadhill           "John Ja Gleadhill"              <john.ja.gleadhill@centrelink.gov.au>
+alias johnjlsharp               "John Jl Sharp"                  <john.jl.sharp@centrelink.gov.au>
+alias johnrice                  "John Rice"                      <john.rice@salmat.com.au>
+alias johnslee                  "John Slee"                      <john.slee@salmat.com.au>
+alias juliabradbury             "Julia Bradbury"                 <julia.bradbury@centrelink.gov.au>
+alias karenshaw                 "Karen Shaw"                     <karen.shaw@centrelink.gov.au>
+alias kathycondotta             "Kathy Condotta"                 <kathy.condotta@salmat.com.au>
+alias kimpaton                  "Kim Paton"                      <kim.paton@salmat.com.au>
+alias laserbrisbane             "Laser Brisbane"                 <laser.brisbane@salmat.com.au>
+alias lawrencezhong             "Lawrence Zhong"                 <lawrence.zhong@salmat.com.au>
+alias leannececchellero         "Leanne Cecchellero"             <leanne.cecchellero@salmat.com.au>
+alias leonardlim                "Leonard Lim"                    <leonard.lim@centrelink.gov.au>
+alias lindamclochlan            "Linda Mclochlan"                <linda.mclochlan@centrelink.gov.au>
+alias lucytabone                "Lucy Tabone"                    <lucy.tabone@salmat.com.au>
+alias mailingbrisbane           "Mailing Brisbane"               <mailing.brisbane@salmat.com.au>
+alias malcolmmackenzie          "Malcolm Mackenzie"              <malcolm.mackenzie@salmat.com.au>
+alias margaretmedlyn            "Margaret Medlyn"                <margaret.medlyn@salmat.com.au>
+alias marianwhitford            "Marian Whitford"                <marian.whitford@salmat.com.au>
+alias markbarrow                "Mark Barrow"                    <mark.barrow@centrelink.gov.au>
+alias markdavies                "Mark Davies"                    <mark.davies@centrelink.gov.au>
+alias markfalzon                "Mark Falzon"                    <mark.falzon@salmat.com.au>
+alias maxrose                   "Max Rose"                       <max.rose@salmat.com.au>
+alias mediareceiptact           "Media Receipt Act"              <media.receipt.act@salmat.com.au>
+alias melbournefulfilment       "Melbourne Fulfilment"           <melbourne.fulfilment@salmat.com.au>
+alias melbourneitgroup          "Melbourneitgroup"               <melbourneitgroup@salmat.com.au>
+alias melbournemanual           "Melbourne Manual"               <melbourne.manual@salmat.com.au>
+alias melbplan                  "Melbplan"                       <melbplan@salmat.com.au>
+alias melimpteam                "Melimpteam"                     <melimpteam@salmat.com.au>
+alias michaelbolton             "Michael Bolton"                 <michael.bolton@centrelink.gov.au>
+alias michaelcook               "Michael Cook"                   <michael.cook@salmat.com.au>
+alias michaelmpbolton           "Michael Mp Bolton"              <michael.mp.bolton@centrelink.gov.au>
+alias michaelphillips           "Michael Phillips"               <michael.phillips@salmat.com.au>
+alias michellewerner            "Michelle Werner"                <michelle.werner@salmat.com.au>
+alias michelmadeleeuwe          "Michel Ma De Leeuwe"            <michel.ma.de.leeuwe@centrelink.gov.au>
+alias misrequests               "Mis Requests"                   <mis.requests@salmat.com.au>
+alias nancyclement              "Nancy Clement"                  <nancy.clement@salmat.com.au>
+alias nationalsupport           "National Support"               <national.support@salmat.com.au>
+alias neilbrener                "Neil Brener"                    <neil.brener@salmat.com.au>
+alias neilnpmulherin            "Neil Np Mulherin"               <neil.np.mulherin@centrelink.gov.au>
+alias nevillengwarlow           "Neville Ng Warlow"              <neville.ng.warlow@centrelink.gov.au>
+alias nickkovanidis             "Nick Kovanidis"                 <nick.kovanidis@salmat.com.au>
+alias nicolerety                "Nicole Rety"                    <nicole.rety@salmat.com.au>
+alias nikirojas                 "Niki Rojas"                     <niki.rojas@salmat.com.au>
+alias noriksarkissian           "Norik Sarkissian"               <norik.sarkissian@salmat.com.au>
+alias patroberson               "Pat Roberson"                   <pat.roberson@salmat.com.au>
+alias peteranderson             "Peter Anderson"                 <peter.anderson@salmat.com.au>
+alias peterhofstaetter          "Peter Hofstaetter"              <peter.hofstaetter@salmat.com.au>
+alias peterkuppers              "Peter Kuppers"                  <peter.kuppers@salmat.com.au>
+alias peter_pwu242wilson        "Peter_pwu242 Wilson"            <peter_pwu242.wilson@centrelink.gov.au>
+alias philhoare                 "Phil Hoare"                     <phil.hoare@salmat.com.au>
+alias productionteamleaders     "Production Teamleaders"         <production.teamleaders@salmat.com.au>
+alias rebeccalinton             "Rebecca Linton"                 <rebecca.linton@salmat.com.au>
+alias releasechecklist          "Release Checklist"              <release.checklist@centrelink.gov.au>
+alias remcotenharkel            "Remco Ten-harkel"               <remco.ten-harkel@salmat.com.au>
+alias richardgowan              "Richard Gowan"                  <richard.gowan@salmat.com.au>
+alias richardnagle              "Richard Nagle"                  <richard.nagle@centrelink.gov.au>
+alias robertvelardi             "Robert Velardi"                 <robert.velardi@salmat.com.au>
+alias rodmay                    "Rod May"                        <rod.may@salmat.com.au>
+alias ronaldoakes               "Ronald Oakes"                   <ronald.oakes@centrelink.gov.au>
+alias roseymortellaro           "Rosey Mortellaro"               <rosey.mortellaro@salmat.com.au>
+alias rossbrown                 "Ross Brown"                     <ross.brown@centrelink.gov.au>
+alias sandrateffer              "Sandra Teffer"                  <sandra.teffer@centrelink.gov.au>
+alias sarahhoward               "Sarah Howard"                   <sarah.howard@salmat.com.au>
+alias sarahsmith                "Sarah Smith"                    <sarah.smith@salmat.com.au>
+alias sharongorton              "Sharon Gorton"                  <sharon.gorton@salmat.com.au>
+alias shifengxiao               "Shifeng Xiao"                   <shifeng.xiao@centrelink.gov.au>
+alias sianobrien                "Sian Obrien"                    <sian.obrien@salmat.com.au>
+alias simonabernethy            "Simon Abernethy"                <simon.abernethy@centrelink.gov.au>
+alias simonkrix                 "Simon Krix"                     <simon.krix@salmat.com.au>
+alias sophiakollaris            "Sophia Kollaris"                <sophia.kollaris@centrelink.gov.au>
+alias stephaniehoy              "Stephanie Hoy"                  <stephanie.hoy@salmat.com.au>
+alias stephenboag               "Stephen Boag"                   <stephen.boag@centrelink.gov.au>
+alias stevegreen                "Steve Green"                    <steve.green@centrelink.gov.au>
+alias stevewinnick              "Steve Winnick"                  <steve.winnick@salmat.com.au>
+alias susanculham               "Susan Culham"                   <susan.culham@centrelink.gov>
+alias susanculham               "Susan Culham"                   <susan.culham@centrelink.gov.au>
+alias suzanalecek               "Suzana Lecek"                   <suzana.lecek@salmat.com.au>
+alias sydneyfinance             "Sydneyfinance"                  <sydneyfinance@salmat.com.au>
+alias sydneyplanningschedule    "Sydneyplanningschedule"         <sydneyplanningschedule@salmat.com.au>
+alias terrybutler               "Terry Butler"                   <terry.butler@salmat.com.au>
+alias thanhluu                  "Thanh Luu"                      <thanh.luu@salmat.com.au>
+alias thanhtnbui                "Thanh Tn Bui"                   <thanh.tn.bui@centrelink.gov.au>
+alias thanhttran                "Thanh T Tran"                   <thanh.t.tran@centrelink.gov.au>
+alias timbradley                "Tim Bradley"                    <tim.bradley@centrelink.gov.au>
+alias toddsidney                "Todd Sidney"                    <todd.sidney@salmat.com.au>
+alias tonyasallen               "Tony As Allen"                  <tony.as.allen@centrelink.gov.au>
+alias tonyfitzpatrick           "Tony Fitzpatrick"               <tony.fitzpatrick@centrelink.gov.au>
+alias traceymackenzie           "Tracey Mackenzie"               <tracey.mackenzie@salmat.com.au>
+alias tracynixon                "Tracy Nixon"                    <tracy.nixon@salmat.com.au>
+alias vickiselby                "Vicki Selby"                    <vicki.selby@centrelink.gov.au>
+alias waprod                    "Waprod"                         <waprod@salmat.com.au>
+alias willfentonsmith           "Will Fenton-smith"              <will.fenton-smith@salmat.com.au>
+alias stuartherring             "Stuart Herring"                 <stuart.herring@salmat.com.au>
+alias natashafaolua             "Natasha Faolua"                 <Natasha.Faolua@salmat.com.au>
+alias yunitachandra             "Yunita Chantiq"                 <yunita.chandra@ycfinance.com.au>
+alias leiferiksen               "Leif Eriksen"                   <leif.eriksen@salmat.com.au>
+alias ianhollitt                "Ian Hollitt"                    <Ian.Hollitt@salmat.com.au>
+alias daniellestorer            "Danielle Storer"                <Danielle.Storer@salmat.com.au>
+alias gregcarver                "Greg Carver"                    <Greg.Carver@salmat.com.au>

@@ -1,0 +1,3 @@
+#! /bin/ksh
+
+perl -MDebug::Phases $* | less
