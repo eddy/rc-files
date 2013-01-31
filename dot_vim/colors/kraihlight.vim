@@ -12,7 +12,7 @@ let colors_name = "kraihlight"
 hi Visual guibg=#404040 ctermbg=238
 hi Cursor guibg=#b0d0f0 ctermbg=117
 
-hi Normal guifg=#f9f9f9 guibg=#1a1a1a ctermfg=254
+hi Normal guifg=#f9f9f9 guibg=#131313 ctermfg=254
 hi Underlined guifg=#f9f9f9 guibg=NONE gui=underline ctermfg=254
 hi NonText guifg=#34383c guibg=NONE ctermfg=240
 hi SpecialKey guifg=#303030 guibg=NONE ctermfg=239
@@ -47,7 +47,7 @@ hi Constant guifg=#d08356 ctermfg=209
 hi Identifier guifg=#899ab4 ctermfg=110
 hi Function guifg=#ab8252 ctermfg=215
 hi Type guifg=#d87d5f gui=bold ctermfg=209
-hi Statement guifg=#d6b67f ctermfg=215
+hi Statement guifg=#d6b67f ctermfg=215 gui=NONE
 
 hi Special guifg=#ac98ac ctermfg=225
 hi Delimiter guifg=#f9f9f9 ctermfg=254
@@ -61,8 +61,9 @@ hi Structure guifg=#d6b67f ctermfg=215
 hi Directory guifg=#dad085 ctermfg=228
 hi Error guibg=#602020 ctermfg=52
 
-hi CursorLine     guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=233        cterm=BOLD
+hi CursorLine     guifg=NONE        guibg=#161616     gui=NONE      ctermfg=NONE        ctermbg=233        cterm=BOLD
 hi CursorColumn   guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=233        cterm=BOLD
+hi LineNr         ctermfg=NONE      guifg=#555555     guibg=NONE
 
 " Special for XML
 hi link xmlTag          Keyword 

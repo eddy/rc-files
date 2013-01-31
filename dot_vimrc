@@ -22,12 +22,13 @@ if has("gui_running")
     " set gfn=Consolas\ 11   " default font
     " set gfn=Envy\ Code\ R\ 10
     " set gfn=Envy\ Code\ R\ for\ Powerline
-    set gfn=Droid\ Sans\ Mono\ Dotted\ for\ Powerline
+    set gfn=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 9
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
+    set guicursor+=a:blinkon0  " stop blinking
     set go-=L
     set go-=T
     highlight Normal guibg=black guifg=white
@@ -51,7 +52,11 @@ end
 " ----------------------------------------------------------------------
 "  Use Python Powerline
 "  Install it using: pip install https://github.com/Lokaltog/powerline/tarball/develop
+"  Disable laststatus/statusline in favor of powerline
 " ----------------------------------------------------------------------
+" set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
+" set laststatus=2                      " Status bar
+set laststatus=0                        " Status bar
 python from powerline.ext.vim import source_plugin; source_plugin()
 set fillchars+=stl:\ ,stlnc:\
 
@@ -83,11 +88,7 @@ set showcmd                             " show currently type command?
 set scrolloff=5                         " 5 lines before and after cursor on top/bottom screen
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
-set cursorline
-set cursorcolumn
 set undolevels=50
-set laststatus=2                        " Status bar
-set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
 set modelines=0
 set ttyfast
 set relativenumber                      " only in 7.3+ - show relative line number from previous line
@@ -96,6 +97,41 @@ set undofile                            " only in 7.3+ - create filename.un~ so 
 " set backupext=.backup                 " will be named with an extension of .backup
 syntax on
 syn sync fromstart
+
+" Don't start with an empty extra buffer on startup
+if bufname('%') == ''
+  set bufhidden=wipe
+endif
+
+" ----------------------------------------------------------------------
+" [ Improve move speed ]
+" ----------------------------------------------------------------------
+" set cursorcolumn
+set cursorline
+let g:boostmove=0
+set updatetime=500
+au CursorMoved * call BoostMoveON()
+au CursorMovedI * call BoostMoveON()
+au CursorHold * call BoostMoveOFF()
+au CursorHoldI * call BoostMoveOFF()
+
+function BoostMoveON()
+    if (winline() != line('$')) && (line('.') != 1)
+        if (winline() == winheight('.')) || (winline() == 1)
+            let g:boostmove=1
+            setlocal nocursorline
+            setlocal syntax=OFF
+        endif
+    endif
+endfunction
+
+function BoostMoveOFF()
+    if g:boostmove==1
+        let g:boostmove=0
+        setlocal cursorline
+        setlocal syntax=ON
+    endif
+endfunction
 
 " ----------------------------------------------------------------------
 " [ Toggle visibility of naughty characters ]
@@ -354,6 +390,17 @@ nnoremap <Space> <PageDown>
 " ######################################################################
 
 " ----------------------------------------------------------------------
+"  TabBar config
+" ----------------------------------------------------------------------
+let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
+let g:Tb_MoreThanOne=0      " I want the tabbar to be always visible
+let g:Tb_ModSelTarget = 1
+
+" use fancy buffer closing that doesn't close the split
+cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
+let bclose_multiple = 1
+
+" ----------------------------------------------------------------------
 " NERD_Tree config
 " ----------------------------------------------------------------------
 let NERDTreeShowLineNumbers=0
@@ -425,8 +472,6 @@ iab previosu previous
 " Mappings
 " ----------------------------------------------------------------------
 nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
-noremap <S-h> :bp<cr>                " previous buffer
-noremap <S-l> :bn<cr>                " next buffer
 
 " ----------------------------------------------------------------------
 " Moving between open window
@@ -662,32 +707,5 @@ highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
 highlight PmenuThumb guibg=#899ab4 guifg=#899ab4 gui=NONE ctermbg=blue ctermfg=blue
 
 
-" ----------------------------------------------------------------------
-"  MiniBufferExplorer, its color must be set after colorscheme
-" ----------------------------------------------------------------------
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplTabWrap = 1
-let g:miniBufExplMaxSize = 1    " max lines: default 0, means window gets bigger needed to fit all your buffers.
-let g:miniBufExplSplitBelow=0   " put it above, or on left for vertical splits
-
-" allows :b <Tab> or :b ch*<Tab>
-set wildchar=<Tab> wildmenu wildmode=full 
-
-" use fancy buffer closing that doesn't close the split
-cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
-let bclose_multiple = 1
-
-" This options fail to work:
-" let g:miniBufExplMapWindowNavVim = 1
-" let g:miniBufExplMapWindowNavArrows = 1
-
-" MiniBufExpl Colors
-hi MBEVisibleActive guifg=#A6DB29 guibg=fg
-hi MBEVisibleChanged guifg=#F1266F guibg=fg
-hi MBEVisibleNormal guifg=#5DC2D6 guibg=fg
-hi MBEVisibleChangedActive guifg=#F1266F guibg=fg term=bold cterm=bold ctermfg=red ctermbg=black
-hi MBEChanged guifg=#CD5907 guibg=fg ctermfg=darkblue ctermbg=white
-hi MBENormal guifg=#808080 guibg=fg term=bold cterm=bold ctermbg=LightGray ctermfg=DarkGray
 
 
