@@ -61,6 +61,7 @@ function! Perldoc(pod)
 
     execute 'set syntax=perldoc'
 
+	setlocal norelativenumber
 	setlocal nonumber
 	setlocal nolist
 endfunction
