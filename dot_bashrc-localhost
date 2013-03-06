@@ -118,15 +118,17 @@ esac
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]
 then
     # export PS1='\[\033[0;32m\]\u@\h:\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
-    export PS1='\[\e[0m\]\u@\[\e[1;$(hostname_color)m\]\h:\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
+    export PS1='\[\e[0m\]\u@\[\e[1;$(hostname_color)m\]\h:\e[32;1m\][\j]\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
     export PS2="continue-> "
 fi
 
 #
 # Turn the prompt to red on error
 #
-export failed_msg="========== FAILED ==========" 
-export PS1="\[\e[\`if [ \$? = 0 ]; then echo '0;32m'; else echo '1;37;41m' $failed_msg; fi\`\]$PS1\[\e[0m\]"
+# export failed_msg="========== FAILED ==========" 
+# export PS1="\[\e[\`if [ \$? = 0 ]; then echo '0;32m'; else echo '1;37;41m' $failed_msg; fi\`\]$PS1\[\e[0m\]"
+PS1error='$( ret=$? ; test $ret -gt 0 && echo "\[\e[41;93m\][FAILED: $ret]\[\e[0m\] " )'
+export PS1="$PS1error\[\e$PS1\[\e[0m\]"
 
 # prompt for Git
 PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"

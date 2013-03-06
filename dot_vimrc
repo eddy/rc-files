@@ -14,6 +14,10 @@ else
     set t_Co=16
 endif
 
+" ----------------------------------------------------------------------
+" Make it play nicely with tmux
+" ----------------------------------------------------------------------
+map <Esc>[A <Down>
 
 " ----------------------------------------------------------------------
 " Option specific for gvim
@@ -39,6 +43,18 @@ if has("gui_running")
     imap <S-Insert> <ESC><S-Insert>i
 endif
 
+" ----------------------------------------------------------------------
+" Faster switch between insert and command mode for terminal
+" ----------------------------------------------------------------------
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
+
 
 " ----------------------------------------------------------------------
 " keep the swap file here.
@@ -55,11 +71,17 @@ end
 "  Disable laststatus/statusline in favor of powerline
 " ----------------------------------------------------------------------
 " set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
-" set laststatus=2                      " Status bar
-set laststatus=0                        " Status bar
-python from powerline.ext.vim import source_plugin; source_plugin()
-set fillchars+=stl:\ ,stlnc:\
+set laststatus=2                      " Status bar
+" python from powerline.ext.vim import source_plugin; source_plugin()
+" set rtp+=/home/et6339/cvs/vim-plugins/powerline/powerline/bindings/vim
+" set fillchars+=stl:\ ,stlnc:\
 
+" ----------------------------------------------------------------------
+" Use vim.powerline as the Python version is not mature yet
+" ----------------------------------------------------------------------
+if has("gui_running")
+    let g:Powerline_symbols = 'fancy'
+endif
 
 " ----------------------------------------------------------------------
 "  Default setting
@@ -395,6 +417,9 @@ nnoremap <Space> <PageDown>
 let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
 let g:Tb_MoreThanOne=0      " I want the tabbar to be always visible
 let g:Tb_ModSelTarget = 1
+noremap <C-PageUp>   :Tbbn<CR>  
+noremap <C-PageDown> :Tbbp<CR>
+
 
 " use fancy buffer closing that doesn't close the split
 cnoremap <expr> bd (getcmdtype() == ':' ? 'Bclose' : 'bd') 
