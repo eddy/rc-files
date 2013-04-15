@@ -117,9 +117,11 @@ esac
 # prompt colour
 if [ "$TERM" != 'dumb'  ] && [ -n "$BASH" ]
 then
-    # export PS1='\[\033[0;32m\]\u@\h:\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
-    export PS1='\[\e[0m\]\u@\[\e[1;$(hostname_color)m\]\h:\e[32;1m\][\j]\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
-    export PS2="continue-> "
+    # export PS1='\[\e[0m\]\u@\[\e[1;$(hostname_color)m\]\h:\e[32;1m\][\j]\[\033[33m\][\W]\[\033[01;36m\]$git_branch \$ \[\033[00m\]'
+    # export PS2="continue-> "
+    HOST_COLOR="\[\033[1;$((30 + $(hostname | cksum | cut -c1-3) % 6))m\]"
+    PS1="\[\033[0m\]\u${HOST_COLOR}@\h\[\033[32;1m\] [\j]\[\033[33m\][\W]\[\033[01;36m\]\$git_branch \$\[\033[00m\] "
+    PS2="continue-> "
 fi
 
 #
