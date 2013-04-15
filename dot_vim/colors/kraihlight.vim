@@ -10,7 +10,16 @@ endif
 let colors_name = "kraihlight"
 
 hi Visual guibg=#404040 ctermbg=238
-hi Cursor guibg=#b0d0f0 ctermbg=117
+" Original kraih colour
+" hi Cursor guibg=#b0d0f0 ctermbg=117
+
+" Torte colour
+" highlight Cursor guifg=Black        guibg=Green     gui=NONE
+" highlight Cursor ctermfg=Black      ctermbg=Green   cterm=NONE
+
+" zenburn colour
+hi Cursor guifg=#000d18 guibg=#ff009f gui=bold
+hi Cursor ctermfg=233   ctermbg=109     cterm=bold
 
 hi Normal guifg=#f9f9f9 guibg=#131313 ctermfg=254
 hi Underlined guifg=#f9f9f9 guibg=NONE gui=underline ctermfg=254
@@ -64,7 +73,7 @@ hi Error guibg=#602020 ctermfg=52
 
 hi CursorLine     guifg=NONE        guibg=#161616     gui=NONE      ctermfg=NONE        ctermbg=233        cterm=BOLD
 hi CursorColumn   guifg=NONE        guibg=#232323     gui=NONE      ctermfg=NONE        ctermbg=233        cterm=BOLD
-hi LineNr         ctermfg=NONE      guifg=#555555     guibg=NONE
+hi LineNr         ctermfg=NONE      guifg=#555555     guibg=#000000
 
 " Special for XML
 hi link xmlTag          Keyword 
