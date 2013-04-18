@@ -1,6 +1,8 @@
+#!/usr/bin/env perl
 # uninstall_perl_module.pl from PerlTricks.com
 
-use 5.14.2;
+use strict;
+use warnings;
 use ExtUtils::Installed;
 use ExtUtils::Packlist;
 
@@ -24,8 +26,7 @@ unlink $packfile or warn "could not remove $packfile: $!\n";
 
 # delete the module directories if they are empty
 foreach my $dir (sort($installed_modules->directory_tree($module))) {
-    print("removing $dir\n");
-    rmdir $dir or warn "could not remove $dir: $!\n";
+    print("Directory still here: $dir\n");
 }
 
 exit 0;
