@@ -427,6 +427,10 @@ alias perltidy='/home/et6339/files/bin/perltidy'
 [[ -s /usr/local/bin/tmuxinator_completion ]] && source /usr/local/bin/tmuxinator_completion
 
 ######################################################################
+# source for directory stack utilities
+source ~/files/bin/dir.sh
+
+######################################################################
 # Java home
 #
 export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
