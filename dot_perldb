@@ -5,6 +5,7 @@
 # Then inside the debugger:
 # DB<1> dp { Foo => 'Bar'}
 #
+use DB::Color;
 
 $DB::alias{dp} = 's/dp/DB::dp/';
 sub DB::dp {
@@ -18,3 +19,14 @@ sub DB::dp {
     };
     print Data::Printer::p(@_);
 }
+
+# increase the limit for recursion from default 100
+$DB::deep=1000 ;
+
+# always "view" where I am in the code 
+sub afterinit { push @DB::typeahead, "{{v" unless $DB::already_curly_curly_v++; } ;
+
+# Depth of variable to 2
+# NonStop=1 is to save us from having to type 'c' after every break point
+parse_options('dumpDepth=2 NonStop=1') ;
+
