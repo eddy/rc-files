@@ -417,8 +417,8 @@ nnoremap <Space> <PageDown>
 let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
 let g:Tb_MoreThanOne=0      " I want the tabbar to be always visible
 let g:Tb_ModSelTarget = 1
-noremap <C-PageUp>   :Tbbn<CR>  
-noremap <C-PageDown> :Tbbp<CR>
+noremap <C-PageUp>   :Tbbp<CR>  
+noremap <C-PageDown> :Tbbn<CR>
 
 
 " use fancy buffer closing that doesn't close the split
@@ -449,6 +449,7 @@ map <F10> :NERDTreeTabsToggle<CR>
 " tasklisk plugin (TODO, FIXME, XXX, etc)
 " ----------------------------------------------------------------------
 let g:tlWindowPosition = 1
+let g:tlTokenList = ['FIXME:', 'TODO:', 'XXX:', 'TANED:']
 map T :TaskList<CR>
 map <leader>tl <Plug>TaskList
 
@@ -462,7 +463,7 @@ let Tlist_Use_Right_Window=0   " window on the left
 let Tlist_Enable_Fold_Column=0 " dont show folding
 let Tlist_Show_One_File = 1    " show only list from the current buffer
 let Tlist_Process_File_Always = 1 "even without taglist window, create tags fil
-let tlist_perl_settings='perl;c:constants;l:labels;p:package;s:subroutines;o:pod;a:attribute;b:blocks'
+let tlist_perl_settings='perl;p:Packages;u:Modules;r:Requires;z:Attributes;o:Ours;c:Constants;s:Subroutines;a:Aliases;b:Blocks;l:Labels;d:POD'
 set tags=./tags,tags,/tmp/tags
 
 " ----------------------------------------------------------------------
@@ -475,8 +476,8 @@ let g:ctrlp_max_height = 30    " maximum height of the match window
 " ----------------------------------------------------------------------
 " ABBREVIATIONS
 " ----------------------------------------------------------------------
-:ab Yruler #23456789A123456789B123456789C123456789D123456789E123456789F12345678G0123456789H123456789I123456789J
-iab Ydated  <C-R>=strftime("%d-%m-%Y")<CR>
+:ab Yruler #23456789\|123456789\|123456789\|123456789\|123456789\|123456789\|12345678\|0123456789\|123456789\|123456789\|
+iab Ydated  <C-R>=strftime("%a %d-%m-%Y")<CR>
 iab Ydatet  <C-R>=strftime("%Y%m%d %T")<CR>
 iab Yfilepath   <C-R>=getcwd()."/".bufname(1)<CR>
 
@@ -496,7 +497,8 @@ iab previosu previous
 " ----------------------------------------------------------------------
 " Mappings
 " ----------------------------------------------------------------------
-nnoremap <Leader>H yyp^v$r-o<Esc>    " added dash underline by CTRL-H
+" added dash underline by CTRL-H
+nnoremap <Leader>H yyp^v$r-<Esc>jA
 
 " ----------------------------------------------------------------------
 " Moving between open window
@@ -731,6 +733,12 @@ highlight PmenuSel guibg=#899ab4 guifg=white gui=BOLD ctermbg=blue ctermfg=white
 highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
 highlight PmenuThumb guibg=#899ab4 guifg=#899ab4 gui=NONE ctermbg=blue ctermfg=blue
 
+
+" ----------------------------------------------------------------------
+" [Easy Motion highlight]
+" ----------------------------------------------------------------------
+hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionShade  Comment
 
 
 
