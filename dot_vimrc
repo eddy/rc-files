@@ -463,7 +463,7 @@ let Tlist_Use_Right_Window=0   " window on the left
 let Tlist_Enable_Fold_Column=0 " dont show folding
 let Tlist_Show_One_File = 1    " show only list from the current buffer
 let Tlist_Process_File_Always = 1 "even without taglist window, create tags fil
-let tlist_perl_settings='perl;p:Packages;u:Modules;r:Requires;z:Attributes;o:Ours;c:Constants;s:Subroutines;a:Aliases;b:Blocks;l:Labels;d:POD'
+let tlist_perl_settings='perl;p:Packages;e:Parents;u:Modules;r:Requires;w:Roles;z:Attributes;o:Ours;c:Constants;s:Subroutines;a:Aliases;b:Blocks;l:Labels;d:POD'
 set tags=./tags,tags,/tmp/tags
 
 " ----------------------------------------------------------------------
