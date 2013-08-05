@@ -63,7 +63,11 @@ Host *
 # Telstra dev
     Host telapp441
       HostName vs-telapp-441.vic.hpa
-      User transrx
+      User taned
+
+    Host telapp401
+      HostName vs-telapp-401.vic.hpa
+      User taned
 
 # Barr servers
     Host odin
@@ -180,6 +184,12 @@ Host *
     Host vtufft vtufft.vic.hpa
       HostName 10.3.64.75
       User oracle
+
+# cldomino
+    Host cldomino cldomino.fxdms.net
+      HostName 10.101.64.244
+      User mqadmin
+
 
 #
 # Proxying to another remote machine via vcmsd
