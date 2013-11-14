@@ -81,15 +81,20 @@ set laststatus=2                      " Status bar
 " ----------------------------------------------------------------------
 if has("gui_running")
     let g:Powerline_symbols = 'fancy'
+else
+    let g:Powerline_symbols = 'unicode'
 endif
 
 " ----------------------------------------------------------------------
 "  Default setting
 " ----------------------------------------------------------------------
 set nocompatible                        " use Vim defaults (much better!)
+set nostartofline                       " keep cursor in the same column (useful for selecting column)
 set hidden                              " Allow to open a new buffer without saving current one
 let mapleader=","
 set encoding=utf-8
+set tenc=utf-8
+setglobal fenc=utf-8
 set wildignore+=*CVS,*/tmp/*,*.so,*.swp,*.zip
 set textwidth=120
 set tabstop=4
@@ -128,7 +133,7 @@ endif
 " ----------------------------------------------------------------------
 " [ Improve move speed ]
 " ----------------------------------------------------------------------
-" set cursorcolumn
+set cursorcolumn
 set cursorline
 let g:boostmove=0
 set updatetime=500
@@ -270,13 +275,112 @@ vmap <expr> > KeepVisualSelection(">")
 vmap <expr> < KeepVisualSelection("<")
 
 function! KeepVisualSelection(cmd)
+    set nosmartindent
     if mode() ==# "V"
-        return a:cmd . "gv"
+        return a:cmd . ":set smartindent\<CR>gv"
     else
-        return a:cmd
+        return a:cmd . ":set smartindent\<CR>"
     endif
 endfunction
 
+
+" ========[ Disabled, replace with below function which is easier to eye ]===============
+" highlight lines longer than 120 chars in perl files 
+" autocmd FileType perl match ErrorMsg '\%>120v.\+'
+
+"====[ Make the 81st column stand out ]====================
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%121v', 100)
+
+" set execute bit
+autocmd BufWritePost *.pl,*.ksh,*.sh,*.bash !chmod +x %
+
+"=====[ Highlight matches when jumping to next ]=============
+nnoremap <silent> n n:call HLNext(0.4)<cr>
+nnoremap <silent> N N:call HLNext(0.4)<cr>
+
+"=====[ Highlight the match in red ]=============
+function! HLNext (blinktime)
+    highlight WhiteOnRed ctermfg=white ctermbg=red
+    let [bufnum, lnum, col, off] = getpos('.')
+    let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
+    let target_pat = '\c\%#'.@/
+    let ring = matchadd('WhiteOnRed', target_pat, 101)
+    redraw
+    exec 'sleep ' . float2nr(a:blinktime * 1000) . 'm'
+    call matchdelete(ring)
+    redraw
+endfunction
+
+"======[ colorfull diff ]=============
+augroup PatchDiffHighlight
+    autocmd!
+    autocmd FileType diff syntax enable
+augroup END
+
+"======[ listtrans.vim plugin from Damian Conway ]=========================
+nmap ;l :call ListTrans_toggle_format()<CR>
+vmap ;l :call ListTrans_toggle_format('visual')<CR>
+
+"======[ vmath.vim plugin from Damian Conway ]==========================
+vmap <expr> ++ VMATH_YankAndAnalyse()
+nmap        ++ vip++
+
+"=====[ Column indicator when inserting in visual mode ]====================
+" Temporarily add a column indicator when inserting or appending in visual mode...
+" (Should use <C-O> instead, but it doesn't seem to work)
+vnoremap <silent>  I  I<C-R>=TemporaryColumnMarkerOn()<CR>
+vnoremap <silent>  A  A<C-R>=TemporaryColumnMarkerOn()<CR>
+
+function! TemporaryColumnMarkerOn ()
+    let g:prev_cursorcolumn_state = g:cursorcolumn_visible ? 'on' : 'off'
+    call Toggle_CursorColumn('on')
+    inoremap <silent>  <ESC>  <ESC>:call TemporaryColumnMarkerOff(g:prev_cursorcolumn_state)<CR>
+    return ""
+endfunction
+
+function! TemporaryColumnMarkerOff (newstate)
+    call Toggle_CursorColumn(a:newstate)
+    iunmap <ESC>
+endfunction
+
+" Implement cursor toggle...
+let g:cursorcolumn_visible = 0
+function! Toggle_CursorColumn (requested_state)
+    if a:requested_state == 'off' || g:cursorcolumn_visible && a:requested_state == 'flip'
+        let g:cursorcolumn_visible = 0
+        highlight clear CursorColumn
+        highlight CursorColumn term=none cterm=none
+    else
+        let g:cursorcolumn_visible = 1
+        highlight CursorColumn term=bold ctermfg=black ctermbg=cyan cterm=bold
+    endif
+endfunction
+
+"=====[ Show help files in a new tab, plus add a shortcut for helpg ]==============
+"Only apply to .txt files...
+augroup HelpInTabs
+    autocmd!
+    autocmd BufEnter  *.txt   call HelpInNewTab()
+augroup END
+
+"Only apply to help files...
+function! HelpInNewTab ()
+    if &buftype == 'help'
+        "Convert the help window to a tab...
+        execute "normal \<C-W>T"
+    endif
+endfunction
+
+"=====[ plugin dragvisuals.vim from Damian Conway ]=========================
+" Unfortunately left and right do not work for me...
+" vmap <expr> <LEFT> DVB_Drag('left')
+" vmap <expr> <RIGHT> DVB_Drag('right')
+vmap <expr> <DOWN> DVB_Drag('down')
+vmap <expr> <UP> DVB_Drag('up')
+
+"Duplicator block
+vmap <expr> D DVB_Duplicate()
 
 " ----------------------------------------------------------------------
 "  Perl specific
@@ -319,20 +423,14 @@ else
     nmap E :!mperl -w %<CR>
 endif
 
-" highlight lines longer than 120 chars in perl files
-autocmd FileType perl match ErrorMsg '\%>120v.\+'
-
-" set execute bit
-autocmd BufWritePost *.pl,*.ksh,*.sh,*.bash !chmod +x %
-
 " run perl syntac check on save
 au FileType perl set makeprg=perl\ -c\ %\ $*
 
-" quickfix for Perl error formats
+" =====[ quickfix for Perl error formats ]=============
 set errorformat+=%m\ at\ %f\ line\ %l\.
 set errorformat+=%m\ at\ %f\ line\ %l
 
-" comment this line as it makes vim runs very slow
+" comment this line as it makes vim runs very slow 
 " au FileType perl set errorformat=%f:%l:%m
 
 " =====[ Auto-setup for Perl scripts and modules ]===========
@@ -601,8 +699,16 @@ nmap _= :call Preserve("normal gg=G")<CR>
 " ----------------------------------------------------------------------
 " [ Convert file to different tabspacings ]
 " ----------------------------------------------------------------------
+function! InferTabspacing ()
+    return min(filter(map(getline(1,'$'),'strlen(matchstr(v:val, ''^\s\+''))'),'v:val != 0'))
+endfunction
 
 function! NewTabSpacing (newtabsize)
+    " Determine apparent tabspacing, if necessary...
+    if &tabstop == 4
+        let &tabstop = InferTabspacing()
+    endif
+
     " Preserve expansion, if expanding...
     let was_expanded = &expandtab
 
@@ -610,11 +716,11 @@ function! NewTabSpacing (newtabsize)
     normal TT
 
     " Change the tabsizing...
-    execute "set ts=" . a:newtabsize
-    execute "set sw=" . a:newtabsize
+    execute "set ts="  . a:newtabsize
+    execute "set sw="  . a:newtabsize
 
     " Update the formatting commands to mirror than new tabspacing...
-    execute "map F !Gformat -T" . a:newtabsize . " -"
+    execute "map          F !Gformat -T" . a:newtabsize . " -"
     execute "map <silent> f !Gformat -T" . a:newtabsize . "<CR>"
 
     " Re-expand, if appropriate...
@@ -648,16 +754,15 @@ function! ShiftLine()
     set smartindent
 endfunction
 
-" ----------------------------------------------------------------------
-" [ Add or subtract comments ]
-" ----------------------------------------------------------------------
+
+"=====[ Add or subtract comments ]===============================
 
 " Work out what the comment character is, by filetype...
-au BufNewFile,BufRead * let b:cmt = exists('b:cmt') ? b:cmt : ''
-au FileType *sh,awk,python,perl,perl6,ruby let b:cmt = exists('b:cmt') ? b:cmt : '# '
-au FileType vim let b:cmt = exists('b:cmt') ? b:cmt : '"'
+autocmd BufNewFile,BufRead   *                                 let b:cmt = exists('b:cmt') ? b:cmt : ''
+autocmd FileType             *sh,awk,python,perl,perl6,ruby    let b:cmt = exists('b:cmt') ? b:cmt : '# '
+autocmd FileType             vim                               let b:cmt = exists('b:cmt') ? b:cmt : '" '
 
-" Work out whether the line has a comment tehn reverse that condition...
+" Work out whether the line has a comment then reverse that condition...
 function! ToggleComment ()
     " What's the comment character???
     let comment_char = exists('b:cmt') ? b:cmt : '# '
@@ -721,8 +826,8 @@ autocmd FileType js call SetCodingStyle()
 autocmd FileType css call SetCodingStyle()
 autocmd BufRead todo.html set ts=8 tw=120
 autocmd BufRead /tmp/cvs set ts=8 et tw=120
-" autocmd FileType perl,html,chtml,schtml,js,c set number
-" autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
+autocmd FileType perl,html,chtml,schtml,js,c set number
+autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
 
 " .(s)chtml file
 autocmd BufNewFile,BufRead *.inc setf html
