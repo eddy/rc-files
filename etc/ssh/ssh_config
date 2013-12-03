@@ -172,9 +172,18 @@ Host *
         HostName 135.101.80.32
         User taned
 
+    Host syd4app07ax
+        HostName 10.101.64.226
+        User taned
+
+    Host syd4dbs06ax
+        HostName 10.101.64.229
+        User taned
+
     Host syd4app16ax syd4app16ax.salmat.com.au
         HostName 135.101.82.45
         User taned
+
 
 # Transurban
     Host vtuffp vtuffp.vic.hpa
@@ -190,6 +199,11 @@ Host *
       HostName 10.101.64.244
       User mqadmin
 
+
+# New VM server
+    Host melapp009lx melapp009lx.fxdms.net
+      HostName 10.120.220.156
+      User taned
 
 #
 # Proxying to another remote machine via vcmsd
