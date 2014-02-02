@@ -55,6 +55,17 @@ if ! has('gui_running')
     augroup END
 endif
 
+if &term =~ '^xterm'
+  " solid underscore in insert mode
+  let &t_SI .= "\<Esc>[4 q"
+  " solid block in any other mode
+  let &t_EI .= "\<Esc>[2 q"
+  " 1 or 0 -> blinking block
+  " 3 -> blinking underscore
+  " 4 -> solid underscore
+  " reset cursor when vim exits
+  autocmd VimLeave * silent !echo -ne "\033]112\007"
+endif
 
 " ----------------------------------------------------------------------
 " keep the swap file here.
@@ -231,10 +242,6 @@ set complete-=i    " Disable searching for include files, boost performance
 " ----------------------------------------------------------------------
 let xml_use_xhtml = 1
 
-filetype on
-filetype plugin on
-filetype indent on
-
 " ----------------------------------------------------------------------
 " ACK integration for grep
 " ----------------------------------------------------------------------
@@ -388,6 +395,8 @@ vmap <expr> D DVB_Duplicate()
 
 " let perl_nofold_packages=1
 let perl_fold=1
+let perl_fold_blocks = 1
+set foldlevelstart=999999
 let perl_want_scope_in_variables=1
 let perl_extended_vars=1
 let perl_include_pod=1
@@ -459,6 +468,21 @@ map <F8> :Perldoc<CR>
 
 
 " ----------------------------------------------------------------------
+" golang (Go) specific
+" ----------------------------------------------------------------------
+function! GoFmt()
+    try                
+        exe "undojoin"
+        exe "Fmt"
+    catch              
+    endtry
+endfunction
+
+au BufRead,BufNewFile *.go setlocal ft=go ts=4 sw=4 expandtab
+let g:gofmt_command='gofmt -tabs=false -tabwidth=4'
+au FileType go au BufWritePre <buffer> call GoFmt()
+
+" ----------------------------------------------------------------------
 " expandtab is commented out below as we want to set it only on specific
 " FileType via SetCodingStyle()
 " ----------------------------------------------------------------------
@@ -512,8 +536,9 @@ nnoremap <Space> <PageDown>
 " ----------------------------------------------------------------------
 "  TabBar config
 " ----------------------------------------------------------------------
-let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
-let g:Tb_MoreThanOne=0      " I want the tabbar to be always visible
+"  Note: comment out the following two TabBar settings in preference of vim-airline
+" let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
+" let g:Tb_MoreThanOne=0      " I want the tabbar to be always visible
 let g:Tb_ModSelTarget = 1
 noremap <C-PageUp>   :Tbbp<CR>  
 noremap <C-PageDown> :Tbbn<CR>
@@ -586,6 +611,11 @@ let g:tagbar_type_perl     = {
 \}
 
 
+" ----------------------------------------------------------------------
+"  vim-airline 
+" ----------------------------------------------------------------------
+let g:airline_powerline_fonts = 1                " use font from vim-powerline
+" let g:airline#extensions#tabline#enabled = 1   " display all buffers when there is only 1 tab open
 
 
 " ----------------------------------------------------------------------
@@ -870,4 +900,8 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 
+
+filetype on
+filetype plugin on
+filetype indent on
 
