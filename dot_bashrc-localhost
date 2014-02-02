@@ -344,11 +344,15 @@ fi
 # cvsroot alias
 alias cvsclink='export CVSROOT=:pserver:et6339@vcmsd.vic.hpa:/cvsroot'
 alias cvslaptop='export CVSROOT=:pserver:et6339@localhost:/cvsroot'
-alias cvsit='export CVSROOT=:pserver:et6339@robin.vic.hpa:/prod2/cvsroot'
-alias cvsitnew='export CVSROOT=:pserver:taned@mel4app05pv.salmat.com.au:/prod/cvsroot'
+alias cvsitnew='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/cvsroot'
+alias cvsit='export CVSROOT=:pserver:taned@mel4app05pv.salmat.com.au:/prod/cvsroot'
 alias cvsedm='export CVSROOT=:pserver:et6339@robin.vic.hpa:/prod2/edm/cvsroot'
 
 # Machines alias
+alias mosh-vcmsd='mosh --server="LANG=en_AU.UTF-8 /users/et6339/files/bin/mosh-server/bin/mosh-server-script" vcmsd'
+alias mosh-vcmsp='mosh --server="LANG=en_AU.UTF-8 /users/et6339/files/bin/mosh-server/bin/mosh-server-script" vcmsp'
+alias mosh-mel4dev05pv='mosh --server="LANG=en_AU.UTF-8 /users/taned/files/bin/mosh-server/bin/mosh-server-script" taned@mel4dev05pv'
+alias mosh-mel4app05pv='mosh --server="LANG=en_AU.UTF-8 /users/taned/files/bin/mosh-server/bin/mosh-server-script" taned@mel4app05pv'
 alias sshmadev='ssh eddyt@client-gw2-mip-madev.act.hpa'
 alias sshsybill='ssh eddyt@sybill.act.hpa'
 alias sshvcmsp='ssh -Y vcmsp'
@@ -362,6 +366,7 @@ alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
 alias sshmel4app06lx='ssh et6339@mel4app06lx'
 alias sshatoprod='ssh taned@atoprod.act.hpa'
 alias sshodin='/usr/bin/ssh odin'
+alias sshbatman='/usr/bin/ssh webadmin@batman'
 
 # ack-grep alias
 alias ack='ACK_PAGER_COLOR="less -x4SRFX" /opt/perl5/bin/ack -a'
@@ -390,7 +395,7 @@ alias mutt='mutt -F $HOME/.mutt/muttrc_hpa'
 alias cntlm='/usr/sbin/cntlm -v -c /home/et6339/.cntlm.conf'
 
 # Ghostscrip viewer alias
-alias gs='gs -g832x982 -r85x85'
+alias gs='gs -g832x982 -r95x95'
 
 # sync date
 alias syncdate='sudo /usr/sbin/ntpdate exchange2k.vic.hpa'
@@ -423,6 +428,13 @@ complete -C perldoc-complete.pl -o nospace -o default podw
 alias perltidy='/home/et6339/files/bin/perltidy'
 
 ######################################################################
+# Go environment
+#
+export PATH="$HOME/.gobrew/bin:$PATH"
+eval "$(gobrew init -)"
+export GOROOT="/home/et6339/.gobrew/versions/1.2"
+
+######################################################################
 # tmuxinator
 # 
 # [[ -s $HOME/.tmuxinator/scripts/tmuxinator ]] && source $HOME/.tmuxinator/scripts/tmuxinator
@@ -452,4 +464,4 @@ export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
   # test -n "${BCVI_CONF}"  && alias suvi="EDITOR='bcvi -c viwait' sudoedit"
 ## END-BCVI
 
-printf 1
+## printf 1
