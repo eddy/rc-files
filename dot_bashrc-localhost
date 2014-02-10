@@ -135,8 +135,10 @@ fi
 # prompt for Git
 # PROMPT_COMMAND="find_git_branch; $PROMPT_COMMAND"
 # 
-source .bash_prompt
-
+# source .bash_prompt
+#
+# Replace .bash_prompt with airline theme from promptline.vim
+source ~/.shell_prompt_airline.sh
 
 ######################################################################
 # FUNCTIONS
@@ -346,7 +348,7 @@ alias cvsclink='export CVSROOT=:pserver:et6339@vcmsd.vic.hpa:/cvsroot'
 alias cvslaptop='export CVSROOT=:pserver:et6339@localhost:/cvsroot'
 alias cvsitnew='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/cvsroot'
 alias cvsit='export CVSROOT=:pserver:taned@mel4app05pv.salmat.com.au:/prod/cvsroot'
-alias cvsedm='export CVSROOT=:pserver:et6339@robin.vic.hpa:/prod2/edm/cvsroot'
+alias cvsedm='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/edm/cvsroot'
 
 # Machines alias
 alias mosh-vcmsd='mosh --server="LANG=en_AU.UTF-8 /users/et6339/files/bin/mosh-server/bin/mosh-server-script" vcmsd'
