@@ -640,7 +640,7 @@ let g:tagbar_type_go = {
 "  vim-airline 
 " ----------------------------------------------------------------------
 let g:airline_powerline_fonts = 1                " use font from vim-powerline
-" let g:airline#extensions#tabline#enabled = 1   " display all buffers when there is only 1 tab open
+let g:airline#extensions#tabline#enabled = 1     " display all buffers when there is only 1 tab open
 
 
 " ----------------------------------------------------------------------
@@ -916,13 +916,6 @@ highlight Pmenu guibg=white guifg=black gui=NONE ctermbg=white ctermfg=black
 highlight PmenuSel guibg=#899ab4 guifg=white gui=BOLD ctermbg=blue ctermfg=white cterm=bold
 highlight PmenuSbar guibg=grey guifg=grey gui=NONE ctermbg=grey ctermfg=grey
 highlight PmenuThumb guibg=#899ab4 guifg=#899ab4 gui=NONE ctermbg=blue ctermfg=blue
-
-
-" ----------------------------------------------------------------------
-" [Easy Motion highlight]
-" ----------------------------------------------------------------------
-hi link EasyMotionTarget ErrorMsg
-hi link EasyMotionShade  Comment
 
 " ----------------------------------------------------------------------
 "  [file type must be the last lines so that all plugins work]
