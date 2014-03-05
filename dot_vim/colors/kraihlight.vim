@@ -35,8 +35,8 @@ hi WildMenu guifg=#f9f9f9 guibg=NONE gui=NONE ctermfg=254 ctermbg=NONE
 hi Folded guifg=#8a9597 guibg=#34383c gui=NONE ctermfg=250
 hi FoldColumn guifg=#8a9597 guibg=#34383c gui=NONE ctermfg=250
 hi SignColumn guifg=#8a9597 guibg=#34383c gui=NONE ctermfg=250
-" hi MatchParen guifg=NONE guibg=#a2a96f gui=bold ctermfg=232
-hi MatchParen guifg=#000000 guibg=#b0d0f0 gui=bold ctermfg=232
+" hi MatchParen guifg=#000000 guibg=#b0d0f0 gui=bold ctermfg=232
+hi MatchParen guifg=#000000 guibg=#b0d0f0 gui=bold term=reverse ctermbg=white ctermfg=232 cterm=bold
 hi ErrorMsg guifg=#f9f9f9 guibg=NONE gui=NONE ctermfg=254
 hi WarnMsg guifg=#f9f9f9 guibg=NONE gui=NONE ctermfg=254
 hi ModeMsg guifg=#f9f9f9 guibg=NONE gui=NONE ctermfg=254
