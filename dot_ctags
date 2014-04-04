@@ -1,6 +1,8 @@
+--regex-perl=/^[ \t]*method\s+([a-zA-Z0-9]+)/\1/s/
+--regex-perl=/^\s*class\s+([a-zA-Z0-9:]+)/\1/p/
 --regex-perl=/^(BEGIN|END)[[:space:]]*\{/\1/b,blocks/
 --regex-perl=/^\s*?use\s+(\w+[\w\:\.]*?\w*?)/\1/u,use,uses/
---regex-perl=/^\s*?require\s+(\w+[\w\:\.]*?\w*?)/\1/r,require,requires/
+--regex-perl=/^\s*?require\s+((\w|\:)+)/\1/r,require,requires/
 --regex-perl=/^\s*?has\s+['"]?(\w+)['"]?/\1/z,attribute,attributes/
 --regex-perl=/^\s*?\*(\w+)\s*?=/\1/a,alias,aliases/
 --regex-perl=/->helper\(\s?['"]?(\w+)['"]?/\1/h,helper,helpers/

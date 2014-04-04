@@ -135,11 +135,15 @@ set mouse=a                             " mouse selection don't include number l
 set selectmode=mouse
 set undolevels=50
 set modelines=0
+set synmaxcol=120                       " avoid slow vim when rendering syntax on long lines
 set ttyfast
+set ttyscroll=3
+set lazyredraw                          " to avoid scrolling problems
 set relativenumber                      " only in 7.3+ - show relative line number from previous line
 set undofile                            " only in 7.3+ - create filename.un~ so that we can undo it even after we close and reopen it
 " set backup                            " not needed, done it via undofile above
 " set backupext=.backup                 " will be named with an extension of .backup
+" let loaded_matchparen = 1
 syntax on
 syn sync fromstart
 
@@ -407,7 +411,7 @@ set foldlevelstart=999999           " don't start folding at startup
 let perl_want_scope_in_variables=1
 let perl_extended_vars=1
 let perl_include_pod=1
-let perl_sync_dist=250
+let perl_sync_dist=100
 
 " =====[ Handle Perl include files better ]===========
 set include=^\\s*use\\s\\+\\zs\\k\\+\\ze
@@ -477,16 +481,17 @@ map <F8> :Perldoc<CR>
 " ----------------------------------------------------------------------
 " =====[ go fmt ]===========
 function! GoFmt()
-    try                
+    try
         exe "undojoin"
         exe "Fmt"
-    catch              
+    catch
     endtry
 endfunction
 
 au BufRead,BufNewFile *.go setlocal ft=go ts=4 sw=4 expandtab
 let g:gofmt_command='gofmt -tabs=false -tabwidth=4'
 au FileType go au BufWritePre <buffer> call GoFmt()
+
 
 " ----------------------------------------------------------------------
 " expandtab is commented out below as we want to set it only on specific
@@ -602,6 +607,7 @@ let g:tagbar_type_perl     = {
         \'f:formats',
         \'l:labels',
         \'s:subroutines',
+        \'s:methods',
         \'u:modules:1',
         \'r:requires',
         \'z:attribute',
@@ -646,8 +652,12 @@ let g:tagbar_type_go = {
 " ----------------------------------------------------------------------
 "  vim-airline 
 " ----------------------------------------------------------------------
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_powerline_fonts = 1                " use font from vim-powerline
-let g:airline#extensions#tabline#enabled = 1     " display all buffers when there is only 1 tab open
+" let g:airline#extensions#tabline#enabled = 1     " display all buffers when there is only 1 tab open
 
 
 " ----------------------------------------------------------------------
@@ -823,6 +833,7 @@ endfunction
 autocmd BufNewFile,BufRead   *                                 let b:cmt = exists('b:cmt') ? b:cmt : ''
 autocmd FileType             *sh,awk,python,perl,perl6,ruby    let b:cmt = exists('b:cmt') ? b:cmt : '# '
 autocmd FileType             vim                               let b:cmt = exists('b:cmt') ? b:cmt : '" '
+autocmd FileType             go                                let b:cmt = exists('b:cmt') ? b:cmt : '// '
 
 " Work out whether the line has a comment then reverse that condition...
 function! ToggleComment ()
