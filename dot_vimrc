@@ -147,6 +147,9 @@ set undofile                            " only in 7.3+ - create filename.un~ so 
 syntax on
 syn sync fromstart
 
+" highlight current variable for plugin vim-hl-var
+let g:hlvarhl="ctermbg=black ctermfg=red guifg=#ff0000 guibg=#000000 gui=bold"
+
 " Don't start with an empty extra buffer on startup
 if bufname('%') == ''
   set bufhidden=wipe
@@ -319,7 +322,7 @@ nnoremap <silent> N N:call HLNext(0.4)<cr>
 
 "=====[ Highlight the match in red ]=============
 function! HLNext (blinktime)
-    highlight WhiteOnRed ctermfg=white ctermbg=red
+    highlight WhiteOnRed ctermfg=white ctermbg=red guifg=white guibg=red
     let [bufnum, lnum, col, off] = getpos('.')
     let matchlen = strlen(matchstr(strpart(getline('.'),col-1),@/))
     let target_pat = '\c\%#'.@/
@@ -607,7 +610,6 @@ let g:tagbar_type_perl     = {
         \'f:formats',
         \'l:labels',
         \'s:subroutines',
-        \'s:methods',
         \'u:modules:1',
         \'r:requires',
         \'z:attribute',
@@ -925,7 +927,8 @@ highlight constant ctermfg=DarkGreen
 
 " Color scheme must be the last line
 " colorscheme ir_black2
-colorscheme kraihlight
+" colorscheme kraihlight
+colorscheme tempire
 
 " ----------------------------------------------------------------------
 " [Make the completion popup look menu-ish on a Mac]

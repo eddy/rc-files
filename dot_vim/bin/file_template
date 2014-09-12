@@ -5,7 +5,7 @@ my %INFO = (
     'MODULE NAME' => $ARGV[0] || "MODULE::NAME",
     'RT NAME'     => $ARGV[0] || "MODULE-NAME",
     AUTHOR        => 'Eddy Tan',
-    EMAIL         => 'eddy.tan@salmat.com.au',
+    EMAIL         => 'eddy.tan@',
     YEAR          => 1900 + (localtime)[5],
 );
 
