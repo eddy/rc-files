@@ -28,7 +28,8 @@ vmware-user &
 # start up BCVI listener (server)
 perl $HOME/.perlbrew/libs/perl-5.16.1@cpan/bin/bcvi -l &
 
-sleep 30 && hsetroot -fill $HOME/files/wallpaper/wallpaper_kids_studio.jpg &
+# sleep 30 && hsetroot -fill $HOME/files/wallpaper/wallpaper_kids_studio.jpg &
+sleep 30 && hsetroot -fill $HOME/files/wallpaper/Dark-1920x1080-Full-HD-Wallpaper.jpg &
 
 # My $PATH
 export PATH=/home/et6339/.vim/bin:/home/et6339/files/bin:$PATH

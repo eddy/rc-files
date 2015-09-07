@@ -2,6 +2,7 @@
 " Instantiate pathogen to install plugins
 " ----------------------------------------------------------------------
 call pathogen#infect()
+"let &verbosefile = "/tmp/vim_debug.out"
 
 " ----------------------------------------------------------------------
 "  Terminal
@@ -21,6 +22,23 @@ if &term =~ '256color'
   set t_ut=
 endif
 
+" Stick with the UTF-8 encoding.
+if has('multi_byte')
+  " Encoding used for the terminal.
+  if empty(&termencoding)
+    let &termencoding = &encoding
+  endif
+
+  " Encoding used in buffers, registers, strings in expressions, "viminfo"
+  " file, etc.
+  set encoding=utf-8
+
+  " Encoding used for writing files.
+  setglobal fileencoding=utf-8
+
+  set fileencodings=ucs-bom,utf-8,latin1
+endif
+
 " ----------------------------------------------------------------------
 " Make it play nicely with tmux
 " ----------------------------------------------------------------------
@@ -28,14 +46,22 @@ map <Esc>[A <Down>
 
 " ----------------------------------------------------------------------
 " Option specific for gvim
+" We can always check the correct font name to use by:
+"    :set guifont=*  "to choose the font from dropdown box
+"    :set guifont?   "to see the correct font setting afterward and put it
+"                    "in your .vimrc
 " ----------------------------------------------------------------------
 if has("gui_running")
     " set gfn=Consolas\ 11   " default font
     " set gfn=Envy\ Code\ R\ 10
     " set gfn=Envy\ Code\ R\ for\ Powerline
-    set gfn=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 9
+    " set gfn=Droid\ Sans\ Mono\ Dotted\ for\ Powerline\ 9
+    " set gfn=Input\ Mono\ Narrow\ Light\ Semi-Condensed\ 9
+    set gfn=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ Plus\ Pomicons\ 9
+    set guifontwide=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ Plus\ Pomicons\ 11
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
+    set guioptions-=m      " disable menu bar
     set guioptions-=r      " disable scrollbar
     set lines=60           " window height
     set columns=120        " window width
@@ -46,6 +72,11 @@ if has("gui_running")
 
     " Shift-Insert to copy clipboard to gvim
     set guioptions+=a
+
+    " the following two lines is to avoid big bar on bottom window
+    set guioptions-=e
+    set guiheadroom=0
+
     nmap <S-Insert> "+gP
     imap <S-Insert> <ESC><S-Insert>i
 endif
@@ -90,6 +121,7 @@ end
 " ----------------------------------------------------------------------
 " set statusline=[%n]\ [FORMAT=%{&ff}]\ %<%.99f\ %h%w%m%r%y\ \ \ [%{Tlist_Get_Tagname_By_Line()}]\ %=%-16(\ %l,%c-%v\ %)%P\ [ASCII=\%03.3b]\ [HEX=\%02.2B]
 set laststatus=2                      " Status bar
+
 " python from powerline.ext.vim import source_plugin; source_plugin()
 " set rtp+=/home/et6339/cvs/vim-plugins/powerline/powerline/bindings/vim
 " set fillchars+=stl:\ ,stlnc:\
@@ -110,10 +142,10 @@ set nocompatible                        " use Vim defaults (much better!)
 set nostartofline                       " keep cursor in the same column (useful for selecting column)
 set hidden                              " Allow to open a new buffer without saving current one
 let mapleader=","
-set encoding=utf-8
-set tenc=utf-8
-setglobal fenc=utf-8
-set wildignore+=*CVS,*/tmp/*,*.so,*.swp,*.zip
+" set encoding=utf-8
+" set tenc=utf-8
+" setglobal fenc=utf-8
+set wildignore+=*CVS,*/tmp/*,*.so,*.swp,*.zip,*/\.git/*,*/\.svn/*,*/tags/*
 set textwidth=120
 set tabstop=4
 set shiftwidth=4
@@ -136,8 +168,8 @@ set selectmode=mouse
 set undolevels=50
 set modelines=0
 set synmaxcol=120                       " avoid slow vim when rendering syntax on long lines
-set ttyfast
 set ttyscroll=3
+set ttyfast
 set lazyredraw                          " to avoid scrolling problems
 set relativenumber                      " only in 7.3+ - show relative line number from previous line
 set undofile                            " only in 7.3+ - create filename.un~ so that we can undo it even after we close and reopen it
@@ -191,7 +223,8 @@ endfunction
 
 " Make naughty characters visible...
 " (uBB is right double angle, uB7 id middle dot)
-exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+" exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+exec "set lcs=tab:\uBB\uBB,trail:\uB7"
 
 augroup VisibleNaughtiness
     au!
@@ -309,7 +342,7 @@ endfunction
 " highlight lines longer than 120 chars in perl files 
 " autocmd FileType perl match ErrorMsg '\%>120v.\+'
 
-"====[ Make the 81st column stand out ]====================
+"====[ Make the 101st column stand out ]====================
 highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%121v', 100)
 
@@ -374,7 +407,7 @@ function! Toggle_CursorColumn (requested_state)
         highlight CursorColumn term=none cterm=none
     else
         let g:cursorcolumn_visible = 1
-        highlight CursorColumn term=bold ctermfg=233 ctermbg=109 cterm=bold
+        highlight CursorColumn term=bold ctermfg=NONE ctermbg=233 cterm=bold
     endif
 endfunction
 
@@ -402,6 +435,8 @@ vmap <expr> <UP> DVB_Drag('up')
 
 "Duplicator block
 vmap <expr> D DVB_Duplicate()
+
+
 
 " ----------------------------------------------------------------------
 "  Perl specific
@@ -532,7 +567,7 @@ set viminfo=h,'50,<10000,s1000,/1000,:100
 set backspace=indent,eol,start    " BS past autoindents, line boundaries,
                                   " and even the start of insertion
 
-set fileformats=unix,mac,dos      " Handle Mac and DOS line-endings
+set fileformats=unix,dos,mac      " Handle Mac and DOS line-endings
                                   " but prefer Unix endings
 
 set wildmode=list:longest,full    " Show list of completions
@@ -551,11 +586,13 @@ nnoremap <Space> <PageDown>
 "  TabBar config
 " ----------------------------------------------------------------------
 "  Note: comment out the following two TabBar settings in preference of vim-airline
-" let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
-let g:Tb_MoreThanOne = 9999   " Never shows TabBar, just use its Tbbp & Tbbn functions. The buffers list is shown by BufferLine
-let g:Tb_ModSelTarget = 1
-noremap <C-PageUp>   :Tbbp<CR>  
-noremap <C-PageDown> :Tbbn<CR>
+" "  let g:Tb_SplitBelow=1       " Put the tabbar at the bottom
+"let g:Tb_MoreThanOne = 9999   " Never shows TabBar, just use its Tbbp & Tbbn functions. The buffers list is shown by BufferLine
+"let g:Tb_ModSelTarget = 1
+"noremap <C-PageUp>   :Tbbp<CR>  
+"noremap <C-PageDown> :Tbbn<CR>
+noremap <C-PageUp>   :bprev<CR>  
+noremap <C-PageDown> :bnext<CR>
 
 " ----------------------------------------------------------------------
 "  BufferLine
@@ -572,14 +609,37 @@ let bclose_multiple = 1
 let NERDTreeShowLineNumbers=0
 let NERDTreeShowBookmarks=0
 let NERDTreeChDirMode=2
-let NERDTreeIgnore=['CVS']
+let NERDTreeIgnore=['CVS', '.git', '.svn']
 let NERDTreeWinPos="left"
 let NERDTreeWinSize=35
 let NERDTreeDirArrows=1
 let NERDChristmasTree=1
 " let g:nerdtree_tabs_open_on_console_startup = 1    " open NERDTree on console vim startup
 let g:nerdtree_tabs_open_on_gui_startup=0
-map <F10> :NERDTreeTabsToggle<CR>
+map <F10> :NERDTreeToggle<CR>
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('pl', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('pm', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('perl', 'Magenta', 'none', '#ff00ff', '#151515')
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
 
 "autocmd vimenter * NERDTree
 "autocmd vimenter * if !argc() | NERDTree | endif
@@ -604,20 +664,20 @@ nnoremap <silent> <F9> :TagbarToggle<CR>
 let g:tagbar_type_perl     = {
     \ 'ctagstype': 'perl',
     \ 'kinds': [
-        \'b:blocks',
         \'p:packages:0:1',
-        \'c:constants',
-        \'f:formats',
-        \'l:labels',
-        \'s:subroutines',
+        \'e:Extends',
+        \'w:Roles',
+        \'z:attribute',
         \'u:modules:1',
         \'r:requires',
-        \'z:attribute',
-        \'a:aliases',
+        \'b:blocks',
         \'o:global variables:1',
+        \'c:constants',
+        \'f:formats',
+        \'a:aliases',
+        \'s:subroutines',
+        \'l:labels',
         \'d:POD',
-        \'w:Roles',
-        \'e:Extends',
     \]
 \}
 
@@ -659,6 +719,10 @@ if !exists('g:airline_symbols')
 endif
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_powerline_fonts = 1                " use font from vim-powerline
+" let g:promptline_preset = {
+"       \'a'    : [ '\h', '\j' ],
+"       \'b'    : [ '\u' ],
+"       \'c'    : [ '\w' ]}
 " let g:airline#extensions#tabline#enabled = 1     " display all buffers when there is only 1 tab open
 
 
@@ -666,8 +730,16 @@ let g:airline_powerline_fonts = 1                " use font from vim-powerline
 "  CTRLP - fuzzy finder
 " ----------------------------------------------------------------------
 set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_max_height = 30    " maximum height of the match window
+let g:ctrlp_max_height = 50    " maximum height of the match window
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+let g:ctrlp_lazy_update = 1
 
+" ----------------------------------------------------------------------
+"  vim-devicons
+" ----------------------------------------------------------------------
+let g:webdevicons_conceal_nerdtree_brackets = 0
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+let g:WebDevIconsUnicodeDecorateFolderNodes = 1
 
 " ----------------------------------------------------------------------
 " ABBREVIATIONS
@@ -739,18 +811,6 @@ function! CSVH(colnr)
   endif
 endfunction
 command! -nargs=1 Csv :call CSVH(<args>)
-
-" ----------------------------------------------------------------------
-"  [ Substitute the file to scp://host/dir/file for remote ctags ]
-"    :Rct 'mbk10','workdir'
-"    :Rct 'vcmsd','cvs/centrelink.solutions/bin'
-" ----------------------------------------------------------------------
-function! Remotectags(hosts,dirs)
-    let host = a:hosts
-    let dir = a:dirs
-    execute '%s#^\(\w\+\)\t#\1\tscp://' . host . '/' . dir . '/#'
-endfunction
-command! -nargs=+ Rct :call Remotectags(<args>)
 
 " ----------------------------------------------------------------------
 "  [ Remove trailing spaces automatically ]
@@ -929,6 +989,8 @@ highlight constant ctermfg=DarkGreen
 " colorscheme ir_black2
 " colorscheme kraihlight
 colorscheme tempire
+highlight SyntasticWarning NONE
+highlight SyntasticError NONE
 
 " ----------------------------------------------------------------------
 " [Make the completion popup look menu-ish on a Mac]

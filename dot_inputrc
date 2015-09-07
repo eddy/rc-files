@@ -44,9 +44,9 @@
   # or, don't beep at me - show me
   #set bell-style visible
 
-  # Filename completion/expansion
-  #set completion-ignore-case on
-  #set show-all-if-ambiguous on
+# Filename completion/expansion
+set completion-ignore-case on
+set show-all-if-ambiguous on
 
   # Expand homedir name
   #set expand-tilde on
@@ -77,3 +77,7 @@ set convert-meta Off
 
 # for Ctrl+l clear screen
 C-L: clear-screen
+
+# search history using arrow up/down
+"\e[A": history-search-backward
+"\e[B": history-search-forward

@@ -35,6 +35,7 @@ HISTCONTROL=ignoreboth
 # date on history
 export HISTTIMEFORMAT='%F %T  '
 export HISTCONTROL=ignoredups
+export HISTSIZE=5000
 
 
 ######################################################################
@@ -344,31 +345,23 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # cvsroot alias
-alias cvsclink='export CVSROOT=:pserver:et6339@vcmsd.vic.hpa:/cvsroot'
-alias cvslaptop='export CVSROOT=:pserver:et6339@localhost:/cvsroot'
-alias cvsitnew='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/cvsroot'
-alias cvsit='export CVSROOT=:pserver:taned@mel4app05pv.salmat.com.au:/prod/cvsroot'
-alias cvsedm='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/edm/cvsroot'
+#
+# ...... REMOVE on purpose .......
+#
 
 # Machines alias
-alias mosh-vcmsd='mosh --server="LANG=en_AU.UTF-8 /users/et6339/files/bin/mosh-server/bin/mosh-server-script" vcmsd'
-alias mosh-vcmsp='mosh --server="LANG=en_AU.UTF-8 /users/et6339/files/bin/mosh-server/bin/mosh-server-script" vcmsp'
-alias mosh-mel4dev05pv='mosh --server="LANG=en_AU.UTF-8 /users/taned/files/bin/mosh-server/bin/mosh-server-script" taned@mel4dev05pv'
-alias mosh-mel4app05pv='mosh --server="LANG=en_AU.UTF-8 /users/taned/files/bin/mosh-server/bin/mosh-server-script" taned@mel4app05pv'
-alias sshmadev='ssh eddyt@client-gw2-mip-madev.act.hpa'
-alias sshsybill='ssh eddyt@sybill.act.hpa'
-alias sshvcmsp='ssh -Y vcmsp'
-alias sshvcmsd='ssh -Y vcmsd'
-alias sshedd='ssh xfrmbk@edd'
-alias sshappsvr04='ssh taned@appsvr04.vic.hpa'
-alias sshmel4app='ssh taned@mel4app05pv.vic.hpa'
-alias sshmel4dev='ssh taned@mel4dev05pv.vic.hpa'
-alias sshpbursyd2='ssh -t pbursyd2 screen /bin/bash'
-alias sshmel4dev06lx='ssh et6339@mel4dev06lx'
-alias sshmel4app06lx='ssh et6339@mel4app06lx'
-alias sshatoprod='ssh taned@atoprod.act.hpa'
-alias sshodin='/usr/bin/ssh odin'
-alias sshbatman='/usr/bin/ssh webadmin@batman'
+#
+# ...... REMOVE on purpose .......
+#
+
+# ssh using peco
+function psh () {
+  peco_query=$@
+  target=$(grep -iE "^^[[:space:]]+?host[[:space:]]+[^*]" /etc/ssh/ssh_config|grep -v "*"|awk "{print \$2}" | peco --query="$peco_query")
+  if [ ! -z $target ]; then
+    ssh $target
+  fi
+}
 
 # ack-grep alias
 alias ack='ACK_PAGER_COLOR="less -x4SRFX" /opt/perl5/bin/ack -a'
@@ -413,7 +406,7 @@ alias tree="/usr/bin/tree --dirsfirst -F -I 'CVS|log|tags|*.backup'"
 # Perl 5
 #
 
-# perlbrew
+# perlbrew - turn on in favor from plenv
 export PERLBREW_ROOT=/opt/perl5
 source ${PERLBREW_ROOT}/etc/bashrc
 
@@ -434,7 +427,14 @@ alias perltidy='/home/et6339/files/bin/perltidy'
 #
 export PATH="$HOME/.gobrew/bin:$PATH"
 eval "$(gobrew init -)"
-export GOROOT="/home/et6339/.gobrew/versions/1.2"
+export GOROOT="/home/et6339/.gobrew/versions/1.4.2"
+
+######################################################################
+# Node.js environment
+#
+[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh                             # This loads NVM
+[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion               # nvm completion
+[[ -r $HOME/.npm/npm_bash_completion ]] && . $HOME/.npm/npm_bash_completion   # npm completion
 
 ######################################################################
 # tmuxinator
