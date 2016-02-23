@@ -251,6 +251,7 @@ myManageHook = composeAll
     , className                =? "Pidgin"                 --> doF (W.shift "net/8")
     , className                =? "Tomboy"                 --> doFloat
     , className                =? "Gimp"                   --> doFloat
+    , className                =? "Zenity"                 --> doFloat
     , className                =? "MPlayer"                --> doFloat
     , className                =? "xfce4-panel"            --> doIgnore
     , className                =? "Xfce4-panel"            --> doIgnore
