@@ -1,0 +1,55 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+ 
+my $add  = ($0 =~ /\/uncomment$/ ? 0 : 1);
+# my $lang = lc(shift) || 'perl';
+my $lang = $ARGV[0] ? lc(shift) : 'perl';
+
+my %comment_chars = (
+    perl        => '# ',
+    bash        => '# ',
+    javascript  => '// ',
+    c           => '// ',
+    java        => '// ',
+    html        => ['<!-- ', ' -->'],
+    xml         => ['<!-- ', ' -->'],
+    sql         => '-- ',
+    css         => ['/* ', ' */'],
+    vi          => '" ',
+    conf        => '# ',
+);
+
+my %shortcuts = (
+    js      => 'javascript',
+    shell   => 'bash',
+    vim     => 'vi',
+);
+
+$lang     = $shortcuts{$lang} if $shortcuts{$lang};
+my $chars = $comment_chars{$lang} || languages();
+my $start = ref $chars ? $chars->[0] : $chars;
+my $stop  = ref $chars ? $chars->[1] : '';
+
+while (<>) {
+    chomp;
+    if( $add ) {
+        print "${start}$_${stop}\n";
+    } else {
+        s/^\Q$start\E//;
+        s/\Q$stop\E$//;
+        print "$_\n";
+    }
+}
+ 
+sub usage {
+    print STDERR "$0 [language]\n";
+    exit 1;
+}
+ 
+sub languages {
+    print STDERR "$0 only supports " . join(', ', sort keys %comment_chars) . "\n";
+    exit 1;
+}
+

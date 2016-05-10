@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/et6339/files/golang/src/github.com/jstemmer/gotags'
+let g:netrw_dirhist_2='/home/et6339/files/golang/src/github.com/jstemmer'
+let g:netrw_dirhist_3='/home/et6339/files/golang/src/github.com'
+let g:netrw_dirhist_4='/home/et6339/files/golang/src'
+let g:netrw_dirhist_5='/home/et6339/files/golang'
+let g:netrw_dirhist_6='/home/et6339/files/my/media/mel4dev05pv/lib'
+let g:netrw_dirhist_7='/home/et6339/files/my/media/mel4dev05pv/lib/EDD'
+let g:netrw_dirhist_8='/home/et6339/files/my/media/mel4dev05pv/lib'
