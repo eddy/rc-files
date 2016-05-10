@@ -5,7 +5,7 @@ my %INFO = (
     'MODULE NAME' => $ARGV[0] || "MODULE::NAME",
     'RT NAME'     => $ARGV[0] || "MODULE-NAME",
     AUTHOR        => 'Eddy Tan',
-    EMAIL         => 'eddy.tan@',
+    EMAIL         => 'eddy.tan@salmat.com.au',
     YEAR          => 1900 + (localtime)[5],
 );
 
@@ -46,13 +46,13 @@ sub gen_pl_file { <<'END_PL_TEMPLATE'
 use v5.14;
 use warnings;
 use Carp;
+use Data::Printer;
 use autodie qw(:all);
 
 # use IO::Prompt;
 # use Perl6::Slurp;
 # use Perl6::Say;
 # use Smart::Comments
-# use Data::Printer;
 
 
 # Implementation here

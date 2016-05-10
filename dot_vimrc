@@ -138,6 +138,8 @@ endif
 " ----------------------------------------------------------------------
 "  Default setting
 " ----------------------------------------------------------------------
+setlocal cm=blowfish
+set sidescroll=1                        " sensible horizontal scroll (don't move cursor to middle screen)
 set nocompatible                        " use Vim defaults (much better!)
 set nostartofline                       " keep cursor in the same column (useful for selecting column)
 set hidden                              " Allow to open a new buffer without saving current one
@@ -377,8 +379,8 @@ nmap ;l :call ListTrans_toggle_format()<CR>
 vmap ;l :call ListTrans_toggle_format('visual')<CR>
 
 "======[ vmath.vim plugin from Damian Conway ]==========================
-vmap <expr> ++ VMATH_YankAndAnalyse()
-nmap        ++ vip++
+vmap <silent><expr> ++ VMATH_YankAndAnalyse()
+nmap <silent>       ++ vip++
 
 "=====[ Column indicator when inserting in visual mode ]====================
 " Temporarily add a column indicator when inserting or appending in visual mode...
@@ -426,16 +428,16 @@ function! HelpInNewTab ()
     endif
 endfunction
 
-"=====[ plugin dragvisuals.vim from Damian Conway ]=========================
-" Unfortunately left and right do not work for me...
-" vmap <expr> <LEFT> DVB_Drag('left')
-" vmap <expr> <RIGHT> DVB_Drag('right')
-vmap <expr> <DOWN> DVB_Drag('down')
-vmap <expr> <UP> DVB_Drag('up')
+"=====[ plugin replacing dragvisuals.vim from Damian Conway ]=========================
 
-"Duplicator block
-vmap <expr> D DVB_Duplicate()
+vmap <unique> <up>    <Plug>SchleppUp
+vmap <unique> <down>  <Plug>SchleppDown
+vmap <unique> <left>  <Plug>SchleppLeft
+vmap <unique> <right> <Plug>SchleppRight
 
+" Reindent code when moving it
+vmap <unique> <S-up>   <Plug>SchleppIndentUp
+vmap <unique> <S-down> <Plug>SchleppIndentDown
 
 
 " ----------------------------------------------------------------------
@@ -949,6 +951,33 @@ nmap <silent> # :call ToggleComment()<CR>j0
 vmap <silent> # :call ToggleBlock()<CR>
 
 " ----------------------------------------------------------------------
+"  Sane movement using "0  ;  H/L  G/gg
+" ----------------------------------------------------------------------
+function! ToggleMovement(firstOp, thenOp)
+  let pos = getpos('.')
+  execute "normal! " . a:firstOp
+  if pos == getpos('.')
+    execute "normal! " . a:thenOp
+  endif
+endfunction
+
+" The original carat 0 swap
+nnoremap <silent> 0 :call ToggleMovement('^', '0')<CR>
+
+" How about ; and ,
+nnoremap <silent> ; :call ToggleMovement(';', ',')<CR>
+nnoremap <silent> , :call ToggleMovement(',', ';')<CR>
+
+" How about H and L
+nnoremap <silent> H :call ToggleMovement('H', 'L')<CR>
+nnoremap <silent> L :call ToggleMovement('L', 'H')<CR>
+
+" How about G and gg
+nnoremap <silent> G :call ToggleMovement('G', 'gg')<CR>
+nnoremap <silent> gg :call ToggleMovement('gg', 'G')<CR>
+
+
+" ----------------------------------------------------------------------
 "  AUTOCOMMAND for each file type
 " ----------------------------------------------------------------------
 autocmd FileType sh call SetCodingStyle()
@@ -963,6 +992,7 @@ autocmd BufRead todo.html set ts=8 tw=120
 autocmd BufRead /tmp/cvs set ts=8 et tw=120
 autocmd FileType perl,html,chtml,schtml,js,c set number
 autocmd Filetype perl setlocal omnifunc=syntaxcomplete#Complete
+au BufEnter *.pl,*.pm,*.t :syntax sync fromstart
 
 " .(s)chtml file
 autocmd BufNewFile,BufRead *.inc setf html
@@ -977,6 +1007,37 @@ autocmd BufRead mutt-* set tw=120
 
 autocmd BufRead *.frm set expandtab ts=8
 autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+
+
+" When opening a large file, take some measures to keep things loading quickly
+if has('eval') && has('autocmd')
+
+  " Threshold is 10 MB in size
+  let g:bigfilesize = 10 * 1024 * 1024
+
+  " Declare function for turning off slow options
+  function! BigFileMeasures()
+    let l:file = expand("<afile>")
+    if getfsize(l:file) > g:bigfilesize
+      setlocal nobackup
+      setlocal nowritebackup
+      setlocal noswapfile
+      if has('persistent_undo')
+        setlocal noundofile
+      endif
+      if exists('&synmaxcol')
+        setlocal synmaxcol=256
+      endif
+    endif
+  endfunction
+
+  " Define autocmd for calling to check filesize
+  augroup bigfilesize
+    autocmd!
+    autocmd BufReadPre * call BigFileMeasures()
+  augroup end
+endif
+
 
 " ----------------------------------------------------------------------
 "  Additional colours
