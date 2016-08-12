@@ -59,6 +59,7 @@ if has("gui_running")
     " set gfn=Input\ Mono\ Narrow\ Light\ Semi-Condensed\ 9
     set gfn=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ Plus\ Pomicons\ 9
     set guifontwide=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ Plus\ Pomicons\ 11
+
     set lsp=1              " number of pixels between line
     set guioptions-=T      " disable toolbard
     set guioptions-=m      " disable menu bar
@@ -159,15 +160,14 @@ set wrapmargin=2                        " Wrap 2 characters from the edge of the
 set ruler                               " display cursor position on the bottom right
 set nolist
 set bs=2                                " allow backspacing over everything in insert mode
-set smartindent
-set ai                                  " always set autoindenting on
-set viminfo='20,\"50                    " read/write a .viminfo file, don't store more than 50 lines of registers
+set autoindent                          " Retain indentation on next line
+set smartindent                         " Turn on autoindenting of blocks
 set showmode                            " show current mode?
 set showcmd                             " show currently type command?
 set scrolloff=5                         " 5 lines before and after cursor on top/bottom screen
 set mouse=a                             " mouse selection don't include number list
 set selectmode=mouse
-set undolevels=50
+set undolevels=150
 set modelines=0
 set synmaxcol=120                       " avoid slow vim when rendering syntax on long lines
 set ttyscroll=3
@@ -226,24 +226,31 @@ endfunction
 " Make naughty characters visible...
 " (uBB is right double angle, uB7 id middle dot)
 " exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
-exec "set lcs=tab:\uBB\uBB,trail:\uB7"
+exec "set lcs=tab:\uBB\uBB,trail:\uB7,nbsp:~"
 
 augroup VisibleNaughtiness
-    au!
-    au BufEnter * set list
-    au BufEnter *.txt set nolist
-    au BufEnter *.vp* set nolist
+    autocmd!
+    autocmd BufEnter  *       set list
+    autocmd BufEnter  *.txt   set nolist
+    autocmd BufEnter  *.vp*   set nolist
+    autocmd BufEnter  *       if !&modifiable
+    autocmd BufEnter  *           set nolist
+    autocmd BufEnter  *       endif
 augroup END
+
 
 " ----------------------------------------------------------------------
 " [ Set up smarter search behaviour ]
 " ----------------------------------------------------------------------
+set showmatch  " show matching parens?
+set gdefault   " Change globally in the same line
+set smartcase  "...unless uppercase letters used
 set incsearch  " Lookahead as search pattern specified
 set ignorecase " Ignore case in all searches...
-set smartcase  "...unless uppercase letters used
 set hlsearch   " Highlight all search matches
-set gdefault   " Change globally in the same line
-set showmatch  " show matching parens?
+highlight clear Search
+highlight       Search    ctermfg=White
+
 
 " ----------------------------------------------------------------------
 " [ Center the display line after searches. (This makes it *much* easier to see
@@ -292,18 +299,20 @@ set complete-=i    " Disable searching for include files, boost performance
 let xml_use_xhtml = 1
 
 " ----------------------------------------------------------------------
-" ACK integration for grep
-" ----------------------------------------------------------------------
-" set grepprg=ack
-" set grepformat=%f:%l:%m
-
-" ----------------------------------------------------------------------
 " Set default value for letter capital-K
 " ----------------------------------------------------------------------
 au BufReadPost *.pl   set keywordprg=perldoc\ -f
 au BufReadPost *.pm   set keywordprg=perldoc\ -f
 au BufReadPost *.vim  map K :exe ":help ".expand("<cword>")<CR>
 au BufReadPost .vimrc map K :exe ":help ".expand("<cword>")<CR>
+
+"====[ Jump to the last known cursor position when opening a file ]====================
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+augroup END
+
 
 " ----------------------------------------------------------------------
 " [ Make Visual modes work better ]
@@ -441,8 +450,48 @@ vmap <unique> <S-down> <Plug>SchleppIndentDown
 
 
 " ----------------------------------------------------------------------
-"  Perl specific
+"  Perl specific 
 " ----------------------------------------------------------------------
+
+"=====[ vim-perl for new sub signature ]======================
+let perl_sub_signatures = 1
+
+"=====[ .t files are perl ]======================
+autocmd BufNewFile,BufRead  *.t                     setfiletype perl
+
+"======[ Magically build interim directories if necessary ]===================
+
+function! AskQuit (msg, options, quit_option)
+    if confirm(a:msg, a:options) == a:quit_option
+        exit
+    endif
+endfunction
+
+function! EnsureDirExists ()
+    let required_dir = expand("%:h")
+    if !isdirectory(required_dir)
+        call AskQuit("Parent directory '" . required_dir . "' doesn't exist.",
+             \       "&Create it\nor &Quit?", 2)
+
+        try
+            call mkdir( required_dir, 'p' )
+        catch
+            call AskQuit("Can't create '" . required_dir . "'",
+            \            "&Quit\nor &Continue anyway?", 1)
+        endtry
+    endif
+endfunction
+
+augroup AutoMkdir
+    autocmd!
+    autocmd  BufNewFile  *  :call EnsureDirExists()
+augroup END
+
+
+"=====[ Configure % key (via matchit plugin) for Perl 6 as well ]=============
+" Match angle brackets...
+set matchpairs+=<:>,«:»
+
 
 " let perl_nofold_packages=1
 let perl_fold=1
@@ -472,9 +521,10 @@ vnoremap ,ext :!~/files/bin/extract_sub <cr>
 " Adjust keyword characters for Perlish identifiers...
 set iskeyword+=$
 set iskeyword+=%
-set iskeyword+=@
+set iskeyword+=@-@
 set iskeyword+=:
 set iskeyword-=,
+
 
 " Execute Perl file (output to pager)...
 if has("gui_running")
@@ -500,6 +550,60 @@ augroup Perl_Setup
     au BufNewFile *.p[lm] /^[ \t]*[#].*implementation[ \t]\+here/
 augroup END
 
+" =====[ Smart completion via <TAB> and <S-TAB> ]=============
+runtime plugin/smartcom.vim
+
+" Add extra completions (mainly for Perl programming)...
+
+let ANYTHING = ""
+let NOTHING  = ""
+let EOL      = '\s*$'
+
+                " Left     Right      Insert                             Reset cursor
+                " =====    =====      ===============================    ============
+call SmartcomAdd( '<<',    ANYTHING,  '>>',                              {'restore':1} )
+call SmartcomAdd( '<<',    '>>',      "\<CR>\<ESC>O\<TAB>"                             )
+call SmartcomAdd( '?',     ANYTHING,  '?',                               {'restore':1} )
+call SmartcomAdd( '?',     '?',       "\<CR>\<ESC>O\<TAB>"                             )
+call SmartcomAdd( '{{',    ANYTHING,  '}}',                              {'restore':1} )
+call SmartcomAdd( '{{',    '}}',      NOTHING,                                         )
+call SmartcomAdd( 'qr{',   ANYTHING,  '}xms',                            {'restore':1} )
+call SmartcomAdd( 'qr{',   '}xms',    "\<CR>\<C-D>\<ESC>O\<C-D>\<TAB>"                 )
+call SmartcomAdd( 'm{',    ANYTHING,  '}xms',                            {'restore':1} )
+call SmartcomAdd( 'm{',    '}xms',    "\<CR>\<C-D>\<ESC>O\<C-D>\<TAB>",                )
+call SmartcomAdd( 's{',    ANYTHING,  '}{}xms',                          {'restore':1} )
+call SmartcomAdd( 's{',    '}{}xms',  "\<CR>\<C-D>\<ESC>O\<C-D>\<TAB>",                )
+call SmartcomAdd( '\*\*',  ANYTHING,  '**',                              {'restore':1} )
+call SmartcomAdd( '\*\*',  '\*\*',    NOTHING,                                         )
+
+" Handle single : correctly...
+call SmartcomAdd( '^:\|[^:]:',  EOL,  "\<TAB>" )
+
+"After an alignable, align...
+function! AlignOnPat (pat)
+    return "\<ESC>:call EQAS_Align('nmap',{'pattern':'" . a:pat . "'})\<CR>A"
+endfunction
+                " Left         Right        Insert
+                " ==========   =====        =============================
+call SmartcomAdd( '=',         ANYTHING,    "\<ESC>:call EQAS_Align('nmap')\<CR>A")
+call SmartcomAdd( '=>',        ANYTHING,    AlignOnPat('=>') )
+call SmartcomAdd( '\s#',       ANYTHING,    AlignOnPat('\%(\S\s*\)\@<= #') )
+call SmartcomAdd( '[''"]\s*:', ANYTHING,    AlignOnPat(':'),                   {'filetype':'vim'} )
+call SmartcomAdd( ':',         ANYTHING,    "\<TAB>",                          {'filetype':'vim'} )
+
+
+" Perl keywords...
+"
+                " Left         Right   Insert                                  Where
+                " ==========   =====   =============================           ===================
+call SmartcomAdd( '^\s*for',   EOL,    " my $___ (___) {\n___\n}\n___",        {'filetype':'perl'} )
+call SmartcomAdd( '^\s*if',    EOL,    " (___) {\n___\n}\n___",                {'filetype':'perl'} )
+call SmartcomAdd( '^\s*while', EOL,    " (___) {\n___\n}\n___",                {'filetype':'perl'} )
+call SmartcomAdd( '^\s*given', EOL,    " (___) {\n___\n}\n___",                {'filetype':'perl'} )
+call SmartcomAdd( '^\s*when',  EOL,    " (___) {\n___\n}\n___",                {'filetype':'perl'} )
+
+
+
 " ----------------------------------------------------------------------
 "  PerlOmni
 " ----------------------------------------------------------------------
@@ -514,23 +618,6 @@ set omnifunc=PerlComplete
 " ----------------------------------------------------------------------
 let g:Perldoc_path='/tmp/'
 map <F8> :Perldoc<CR>
-
-
-" ----------------------------------------------------------------------
-" golang (Go) specific
-" ----------------------------------------------------------------------
-" =====[ go fmt ]===========
-function! GoFmt()
-    try
-        exe "undojoin"
-        exe "Fmt"
-    catch
-    endtry
-endfunction
-
-au BufRead,BufNewFile *.go setlocal ft=go ts=4 sw=4 expandtab
-let g:gofmt_command='gofmt -tabs=false -tabwidth=4'
-au FileType go au BufWritePre <buffer> call GoFmt()
 
 
 " ----------------------------------------------------------------------
@@ -564,7 +651,7 @@ set autoread    " Always reload buffer when external changes detected
 "           |  |      |   |      |    +---Remember last 100 commands
 "           |  |      |   |      |    |
 "           v  v      v   v      v    v
-set viminfo=h,'50,<10000,s1000,/1000,:100
+set viminfo=h,'50,<1000,s1000,/1000,:100
 
 set backspace=indent,eol,start    " BS past autoindents, line boundaries,
                                   " and even the start of insertion
@@ -683,35 +770,6 @@ let g:tagbar_type_perl     = {
     \]
 \}
 
-" =====[ gotags and tagbar ]===========
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
-
 
 " ----------------------------------------------------------------------
 "  vim-airline 
@@ -720,11 +778,7 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_powerline_fonts = 1                " use font from vim-powerline
-" let g:promptline_preset = {
-"       \'a'    : [ '\h', '\j' ],
-"       \'b'    : [ '\u' ],
-"       \'c'    : [ '\w' ]}
+let g:airline_powerline_fonts = 1                 " use font from vim-powerline
 " let g:airline#extensions#tabline#enabled = 1     " display all buffers when there is only 1 tab open
 
 
@@ -878,11 +932,11 @@ map <silent> T* :call NewTabSpacing(8)<CR>
 map <silent> TS :set expandtab<CR>:%retab!<CR>
 map <silent> TT :set noexpandtab<CR>:%retab!<CR>
 
-" ----------------------------------------------------------------------
-"  Comment
-" ----------------------------------------------------------------------
-inoremap # X<C-H>#|                            " And no magic outdent for comments
-nnoremap <silent> >> :call ShiftLine()<CR>|    " And no shift magic on comments
+" " ----------------------------------------------------------------------
+" "  Comment
+" " ----------------------------------------------------------------------
+inoremap # X<C-H>#|                              " And no magic outdent for comments
+nnoremap <silent> >> :call ShiftLine()<CR>|      "And no shift magic on comments
 
 function! ShiftLine()
     set nosmartindent
@@ -891,13 +945,15 @@ function! ShiftLine()
 endfunction
 
 
+
 "=====[ Add or subtract comments ]===============================
 
 " Work out what the comment character is, by filetype...
-autocmd BufNewFile,BufRead   *                                 let b:cmt = exists('b:cmt') ? b:cmt : ''
 autocmd FileType             *sh,awk,python,perl,perl6,ruby    let b:cmt = exists('b:cmt') ? b:cmt : '# '
 autocmd FileType             vim                               let b:cmt = exists('b:cmt') ? b:cmt : '" '
-autocmd FileType             go                                let b:cmt = exists('b:cmt') ? b:cmt : '// '
+autocmd BufNewFile,BufRead   *.vim,.vimrc                      let b:cmt = exists('b:cmt') ? b:cmt : '" '
+autocmd BufNewFile,BufRead   *                                 let b:cmt = exists('b:cmt') ? b:cmt : '# '
+autocmd BufNewFile,BufRead   *.p[lm],.t                        let b:cmt = exists('b:cmt') ? b:cmt : '# '
 
 " Work out whether the line has a comment then reverse that condition...
 function! ToggleComment ()
@@ -950,9 +1006,10 @@ endfunction
 nmap <silent> # :call ToggleComment()<CR>j0
 vmap <silent> # :call ToggleBlock()<CR>
 
-" ----------------------------------------------------------------------
-"  Sane movement using "0  ;  H/L  G/gg
-" ----------------------------------------------------------------------
+
+"=====[ Sane movement using a single key ]===============================
+
+" Sane movement using "0  ;  H/L  G/gg
 function! ToggleMovement(firstOp, thenOp)
   let pos = getpos('.')
   execute "normal! " . a:firstOp
@@ -977,6 +1034,22 @@ nnoremap <silent> G :call ToggleMovement('G', 'gg')<CR>
 nnoremap <silent> gg :call ToggleMovement('gg', 'G')<CR>
 
 
+"=====[ Smarter interstitial completions of identifiers ]=============
+"
+" When autocompleting within an identifier, prevent duplications...
+
+augroup Undouble_Completions
+    autocmd!
+    autocmd CompleteDone *  call Undouble_Completions()
+augroup None
+
+function! Undouble_Completions ()
+    let col  = getpos('.')[2]
+    let line = getline('.')
+    call setline('.', substitute(line, '\(\k\+\)\%'.col.'c\zs\1', '', ''))
+endfunction
+
+
 " ----------------------------------------------------------------------
 "  AUTOCOMMAND for each file type
 " ----------------------------------------------------------------------
@@ -999,17 +1072,11 @@ autocmd BufNewFile,BufRead *.inc setf html
 autocmd BufNewFile,BufRead *.chtml setf html
 autocmd BufNewFile,BufRead *.schtml setf html
 
-" In text files, always limit the width of text to 78 characters
+" In text files, always limit the width of text to 120 characters
 autocmd BufRead *.txt set tw=120
 
-" In email files, always limit the width of text to 64 characters
-autocmd BufRead mutt-* set tw=120
 
-autocmd BufRead *.frm set expandtab ts=8
-autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
-
-
-" When opening a large file, take some measures to keep things loading quickly
+"=====[ When opening a large file, take some measures to keep things loading quickly ]===============
 if has('eval') && has('autocmd')
 
   " Threshold is 10 MB in size
@@ -1049,6 +1116,7 @@ highlight constant ctermfg=DarkGreen
 " Color scheme must be the last line
 " colorscheme ir_black2
 " colorscheme kraihlight
+" colorscheme monochrome
 colorscheme tempire
 highlight SyntasticWarning NONE
 highlight SyntasticError NONE
