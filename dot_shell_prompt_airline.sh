@@ -1,6 +1,13 @@
 #
 # This shell prompt config file was created by promptline.vim
 #
+function __promptline_host {
+  local only_if_ssh="0"
+
+  if [ $only_if_ssh -eq 0 -o -n "${SSH_CLIENT}" ]; then
+    if [[ -n ${ZSH_VERSION-} ]]; then print %m; elif [[ -n ${FISH_VERSION-} ]]; then hostname -s; else printf "%s" \\h; fi
+  fi
+}
 
 function __promptline_last_exit_code {
 
@@ -15,7 +22,7 @@ function __promptline_ps1 {
   slice_prefix="${a_bg}${sep}${a_fg}${a_bg}${space}" slice_suffix="$space${a_sep_fg}" slice_joiner="${a_fg}${a_bg}${alt_sep}${space}" slice_empty_prefix="${a_fg}${a_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "a" slices
-  __promptline_wrapper "$([[ -n ${ZSH_VERSION-} ]] && print %m || printf "%s" \\h)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(__promptline_host)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "b" header
   slice_prefix="${b_bg}${sep}${b_fg}${b_bg}${space}" slice_suffix="$space${b_sep_fg}" slice_joiner="${b_fg}${b_bg}${alt_sep}${space}" slice_empty_prefix="${b_fg}${b_bg}${space}"
@@ -60,13 +67,14 @@ function __promptline_vcs_branch {
 }
 function __promptline_cwd {
   local dir_limit="3"
-  local truncation="…"
+  local truncation="⋯"
   local first_char
   local part_count=0
   local formatted_cwd=""
   local dir_sep="  "
+  local tilde="~"
 
-  local cwd="${PWD/#$HOME/~}"
+  local cwd="${PWD/#$HOME/$tilde}"
 
   # get first char of the path, i.e. tilde or slash
   [[ -n ${ZSH_VERSION-} ]] && first_char=$cwd[1,1] || first_char=${cwd::1}
@@ -94,7 +102,7 @@ function __promptline_left_prompt {
   slice_prefix="${a_bg}${sep}${a_fg}${a_bg}${space}" slice_suffix="$space${a_sep_fg}" slice_joiner="${a_fg}${a_bg}${alt_sep}${space}" slice_empty_prefix="${a_fg}${a_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "a" slices
-  __promptline_wrapper "$([[ -n ${ZSH_VERSION-} ]] && print %m || printf "%s" \\h)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(__promptline_host)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "b" header
   slice_prefix="${b_bg}${sep}${b_fg}${b_bg}${space}" slice_suffix="$space${b_sep_fg}" slice_joiner="${b_fg}${b_bg}${alt_sep}${space}" slice_empty_prefix="${b_fg}${b_bg}${space}"
@@ -135,11 +143,13 @@ function __promptline_right_prompt {
   printf "%s" "$reset"
 }
 function __promptline {
-  local last_exit_code="$?"
+  local last_exit_code="${PROMPTLINE_LAST_EXIT_CODE:-$?}"
 
   local esc=$'[' end_esc=m
   if [[ -n ${ZSH_VERSION-} ]]; then
     local noprint='%{' end_noprint='%}'
+  elif [[ -n ${FISH_VERSION-} ]]; then
+    local noprint='' end_noprint=''
   else
     local noprint='\[' end_noprint='\]'
   fi
@@ -151,24 +161,30 @@ function __promptline {
   local alt_rsep=""
   local reset="${wrap}0${end_wrap}"
   local reset_bg="${wrap}49${end_wrap}"
-  local a_fg="${wrap}38;5;233${end_wrap}"
-  local a_bg="${wrap}48;5;183${end_wrap}"
-  local a_sep_fg="${wrap}38;5;183${end_wrap}"
-  local b_fg="${wrap}38;5;231${end_wrap}"
-  local b_bg="${wrap}48;5;240${end_wrap}"
-  local b_sep_fg="${wrap}38;5;240${end_wrap}"
-  local c_fg="${wrap}38;5;188${end_wrap}"
+  local a_fg="${wrap}38;5;17${end_wrap}"
+  local a_bg="${wrap}48;5;190${end_wrap}"
+  local a_sep_fg="${wrap}38;5;190${end_wrap}"
+  local b_fg="${wrap}38;5;255${end_wrap}"
+  local b_bg="${wrap}48;5;238${end_wrap}"
+  local b_sep_fg="${wrap}38;5;238${end_wrap}"
+  local c_fg="${wrap}38;5;85${end_wrap}"
   local c_bg="${wrap}48;5;234${end_wrap}"
   local c_sep_fg="${wrap}38;5;234${end_wrap}"
   local warn_fg="${wrap}38;5;232${end_wrap}"
   local warn_bg="${wrap}48;5;166${end_wrap}"
   local warn_sep_fg="${wrap}38;5;166${end_wrap}"
-  local y_fg="${wrap}38;5;231${end_wrap}"
-  local y_bg="${wrap}48;5;240${end_wrap}"
-  local y_sep_fg="${wrap}38;5;240${end_wrap}"
+  local y_fg="${wrap}38;5;255${end_wrap}"
+  local y_bg="${wrap}48;5;238${end_wrap}"
+  local y_sep_fg="${wrap}38;5;238${end_wrap}"
   if [[ -n ${ZSH_VERSION-} ]]; then
     PROMPT="$(__promptline_left_prompt)"
     RPROMPT="$(__promptline_right_prompt)"
+  elif [[ -n ${FISH_VERSION-} ]]; then
+    if [[ -n "$1" ]]; then
+      [[ "$1" = "left" ]] && __promptline_left_prompt || __promptline_right_prompt
+    else
+      __promptline_ps1
+    fi
   else
     PS1="$(__promptline_ps1)"
   fi
@@ -178,6 +194,8 @@ if [[ -n ${ZSH_VERSION-} ]]; then
   if [[ ! ${precmd_functions[(r)__promptline]} == __promptline ]]; then
     precmd_functions+=(__promptline)
   fi
+elif [[ -n ${FISH_VERSION-} ]]; then
+  __promptline "$1"
 else
   if [[ ! "$PROMPT_COMMAND" == *__promptline* ]]; then
     PROMPT_COMMAND='__promptline;'$'\n'"$PROMPT_COMMAND"

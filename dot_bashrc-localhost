@@ -18,6 +18,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+
 ######################################################################
 # emacs/vi mode
 #
@@ -67,22 +68,17 @@ shopt -s no_empty_cmd_completion
 # export ftp_proxy=$http_proxy
 
 # CNTML
-export http_proxy=http://127.0.0.1:3128
-export https_proxy=http://127.0.0.1:3128
-export ftp_proxy=$http_proxy
+# export http_proxy=http://127.0.0.1:3128
+# export https_proxy=http://127.0.0.1:3128
+# export ftp_proxy=$http_proxy
 
-
-######################################################################
-# path
-#
-export PATH=/home/et6339/.vim/bin:/home/et6339/files/bin:$PATH
 
 
 ######################################################################
 # Editor
 #
-export EDITOR=vi
-export VISUAL=vi
+export EDITOR=vim
+export VISUAL=vim
 
 
 ######################################################################
@@ -98,8 +94,11 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set less to lesspipe
-export LESSOPEN='|/usr/bin/lesspipe %s'
-
+# export LESSOPEN='|/usr/bin/lesspipe %s'    # obsolete, don't use
+LESSOPEN="|lesspipe.sh %s"; export LESSOPEN  # new
+function lessc () { 
+   /usr/share/nvim/runtime/macros/less.sh "$@" 
+}
 
 ######################################################################
 # Prompt
@@ -140,6 +139,9 @@ fi
 #
 # Replace .bash_prompt with airline theme from promptline.vim
 source ~/.shell_prompt_airline.sh
+
+# more colourful man page
+[[ -s $HOME/manpage_color.source ]] && source $HOME/manpage_color.source
 
 ######################################################################
 # FUNCTIONS
@@ -216,6 +218,11 @@ function gvim {
     else
         command gvim --remote-silent "${@}" || command gvim "${@}";
     fi
+}
+
+# pandoc + lynx to read markdown
+function rmd () {
+    pandoc $1 | lynx -stdin
 }
 
 #
@@ -304,13 +311,11 @@ echo -ne "${LIGHTPURPLE}Sysinfo:";uptime ;echo ""
 
 # Colour grep
 export GREP_COLOR='1;33'
-GREP_OPTIONS='--color=auto'
 if grep --help | grep -- --exclude-dir &>/dev/null; then
     for PATTERN in .cvs .git .hg .svn; do
         GREP_OPTIONS="$GREP_OPTIONS --exclude-dir=$PATTERN"
     done
 fi
-export GREP_OPTIONS
 
 
 ######################################################################
@@ -338,33 +343,34 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias ll='ls -lp --color=tty'
-    alias l='ls++'
+    alias l='exa -l'
+    alias lb='exa -bghHliS'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
 # cvsroot alias
-#
-# ...... REMOVE on purpose .......
-#
+alias cvsclink='export CVSROOT=:pserver:et6339@vcmsd.vic.hpa:/cvsroot'
+alias cvslaptop='export CVSROOT=:pserver:et6339@localhost:/cvsroot'
+alias cvsitnew='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/cvsroot'
+alias cvsit='export CVSROOT=:pserver:taned@mel4app05pv.salmat.com.au:/prod/cvsroot'
+alias cvsedm='export CVSROOT=:pserver:taned@melapp009lx.fxdms.net:/prod2/edm/cvsroot'
 
 # Machines alias
-#
-# ...... REMOVE on purpose .......
-#
+...
 
 # ssh using peco
 function psh () {
   peco_query=$@
-  target=$(grep -iE "^^[[:space:]]+?host[[:space:]]+[^*]" /etc/ssh/ssh_config|grep -v "*"|awk "{print \$2}" | peco --query="$peco_query")
+  target=$(grep -iE "^^[[:space:]]+?host[[:space:]]+[^*]" /etc/ssh/ssh_config|grep -v "*"|awk "{print \$2}" | sort | peco --query="$peco_query")
   if [ ! -z $target ]; then
-    ssh $target
+    bcvi --wrap-ssh -- $target
   fi
 }
 
 # ack-grep alias
-alias ack='ACK_PAGER_COLOR="less -x4SRFX" /opt/perl5/bin/ack -a'
+alias ack='ACK_PAGER_COLOR="less -x4SRFX" /home/taned/.perlbrew/libs/perl-5.26.0@cpan1/bin/ack '
 
 # Colour diff
 function cvsdiff() { cvs diff $@ | colordiff;}
@@ -374,11 +380,6 @@ alias diff='colordiff -u'
 
 # Machine load sort by CPU usage
 alias pscpu='ps -eopid,ppid,pcpu,etime,vsz,args | sort -rnk 3'
-
-# CDPATH to centrelink cvs working directory
-# export CDPATH=/home/et6339/cvs/centrelink.solution-consolidation_development/bin/
-alias ..2="cd ../../"
-alias ..3="cd ../../../"
 
 # reset prompt after error
 alias c="tty -s"
@@ -401,14 +402,26 @@ alias perltags='ctags -f tags --recurse --totals --exclude=blib --exclude=.svn -
 # tree 
 alias tree="/usr/bin/tree --dirsfirst -F -I 'CVS|log|tags|*.backup'"
 
+######################################################################
+# Go environment
+#
+export PATH="$HOME/.gobrew/bin:$PATH"
+eval "$(gobrew init -)"
+# export GOROOT="/home/et6339/.gobrew/versions/1.4.2"
+
+# Perl rename
+alias rename='/home/taned/files/bin/rename'
 
 ######################################################################
 # Perl 5
 #
-
-# perlbrew - turn on in favor from plenv
+# Perlbrew
 export PERLBREW_ROOT=/opt/perl5
-source ${PERLBREW_ROOT}/etc/bashrc
+source /opt/perl5/etc/bashrc
+
+# Perlbrew complete (Bash::Completion::Plugins::perlbrew
+. setup-bash-complete
+
 
 # perl module version
 function pmver ( ) { perl -M$1 -le "print $1->VERSION"; }
@@ -422,12 +435,11 @@ complete -C perldoc-complete.pl -o nospace -o default podw
 # perltidy with Method::Signature::simple
 alias perltidy='/home/et6339/files/bin/perltidy'
 
+
 ######################################################################
-# Go environment
+# path
 #
-export PATH="$HOME/.gobrew/bin:$PATH"
-eval "$(gobrew init -)"
-export GOROOT="/home/et6339/.gobrew/versions/1.4.2"
+export PATH=/home/et6339/.vim/bin:/home/et6339/files/bin:$PATH
 
 ######################################################################
 # Node.js environment
@@ -456,7 +468,7 @@ export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk
   export BCVI_PORT=`cat $HOME/.config/bcvi/listener_port`
   export BCVI_KEY=`cat $HOME/.config/bcvi/listener_key`
   export BCVI_CONF=localhost:localhost:$BCVI_PORT:$BCVI_KEY
-  echo $PATH | grep -q /home/et6339/bin || PATH="/home/et6339/bin:$PATH"
+  echo $PATH | grep -q /home/taned/bin || PATH="/home/taned/bin:$PATH"
   test -n "$(which bcvi)" && eval "$(bcvi --unpack-term)"
   test -n "${BCVI_CONF}"  && alias bcp="bcvi -c scpd"
   test -n "${BCVI_CONF}"  && alias ssh="bcvi --wrap-ssh --"

@@ -41,7 +41,9 @@ _update_prompt () {
   local e_normal="\[\e[0;0m\]"
 
   ## Initial prompt
-  _prompt="[$e_white\h$e_normal:$e_cyan\j:$e_byellow\W$e_normal]";
+  local HOST_COLOR="\[\033[1;$((30 + $(hostname | cksum | cut -c1-3) % 6))m\]"
+  _prompt="[$HOST_COLOR\h$e_normal:$e_cyan\j:$e_byellow\W$e_normal]";
+  # _prompt="[$e_white\h$e_normal:$e_cyan\j:$e_byellow\W$e_normal]";
   
   ## Color based on exit code
   local bul="\342\200\242" # bullet character

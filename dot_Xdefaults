@@ -4,6 +4,8 @@ Xft.antialias:  1
 Xft.hinting:    1
 Xft.hintstyle: hintslight
 Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+Xft.autohint: true
 
 !COLOR
 ! *background:     #121212
@@ -54,16 +56,21 @@ xterm*highlightSelection: true
 ! xterm*cursorColor: #DCDCCC
 xterm*cursorColor: #DC74D1
 
-! Powerline setting
+! Powerline setting - "fc-match --all" shows all fonts
 ! xterm*faceName: Envy Code R for Powerline:pixelsize=10
 ! xterm*faceName: Envy Code R for Powerline:size=10
 ! xterm*faceName: Liberation Mono for Powerline:size=10
 ! xterm*faceName: Droid Sans Mono Dotted for Powerline:pixelsize=12:antialias=true:hinting=true
 ! xterm*faceName: Droid Sans Mono Dotted for Powerline:pixelsize=12
-xterm*faceName: Droid Sans Mono Dotted for Powerline:size=9
 ! xterm*faceName: Consolas for Powerline:regular:pixelsize=13
 ! xterm*faceName: PowerlineSymbols:pixelsize=12
 ! xterm*faceName: DejaVu Sans Mono for Powerline:regular:pixelsize=12
+! xterm*faceName: Droid Sans Mono Dotted for Powerline:size=9
+! XTerm*faceNameDoublesize: xft:Droid Sans Mono Dotted for Powerline:pixelsize=12 
+! xterm*faceName: Droid Sans Mono for Powerline Plus Nerd File Types Mono:size=9
+xterm*faceName: DroidSansMono Nerd Font Mono:size=11
+xterm*faceNameDoublesize: Droid Sans Mono for Powerline Plus Nerd File Types Mono Plus Pomicons:size=12
+
 xterm*boldMode: false
 XTerm*allowBoldFonts: false
 xterm*utf8: 2

@@ -266,6 +266,9 @@ function! <SID>Complete ()
             endif
 
             " Return the completion...
+            if restore_cursor < 0
+                let reversion .= repeat("\<LEFT>", -restore_cursor)
+            endif
             return completion . (restore_cursor ? reversion : "")
         endif
     endfor
